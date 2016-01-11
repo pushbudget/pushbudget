@@ -1,8 +1,80 @@
 <ion-view view-title="Push Budget" hide-nav-bar="true">
-  <ion-content class="padding">
-    <h2>home page stuff here</h2>
-    <a ui-sref="login">login page demo (ui-sref link)</a>
-    <br>
-    <a href="#/login">login page demo (href link)</a>
+  <ion-content >
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <div class="row">
+        <div id="budgetBar" class="col col90 col">
+          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
+            <div id="budgetBarRemain">
+              $650 <!-- {{budgetBarRemain}} -->
+            </div>
+            <div id="budgetBarSpent">
+              $250 <!-- {{budgetBarSpent}} -->
+            </div>
+          </div>
+        </div> <!-- /end col -->
+      </div> <!-- /end row -->
+    </a>
+
+    <div class="list" >
+      <a ui-sref="main.trans" id="home-transLink">
+        <div class="item item-divider">
+          Untagged Transactions
+        </div>
+      </a>
+      <a class="item" href="#">
+        7-11 $0.20 some date
+      </a>
+      <a class="item" href="#">
+        Wal-Mart $34.99 1/10/16
+      </a>
+      <a class="item" href="#">
+        Amazon.com $250 1/10/16
+      </a>
+      <a class="item" href="#">
+        Devmounta.in $10,000
+      </a>
+    </div>
+
+      <div id="home-budgetBox">
+        <div id="home-budgetBoxHeader">
+          Budgets
+        </div>
+        <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
+          <div class="col60" id="home-budgetBoxName">
+            Entertainment
+          </div>
+            <div id="home-budgetBoxBar" class="col40">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+        </div> <!-- /end ng-repeat -->
+
+        <!-- simulated ng-repeat here -->
+
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col60" id="home-budgetBoxName">
+            Groceries
+          </div>
+            <div id="home-budgetBoxBar" class="col40">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 20%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+        </div>
+
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col60" id="home-budgetBoxName">
+            Gas
+          </div>
+            <div id="home-budgetBoxBar" class="col40">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+        </div>
+        <!-- /end simulated ng-repeat -->
+
+      </div>
+
+
+
   </ion-content>
 </ion-view>

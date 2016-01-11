@@ -15,7 +15,11 @@ angular.module('pushbudget.controllers', [])
 
 })
 
+
 .controller('budgetCtrl', function($scope) {})
+
+.controller('budgetCtrl', function($scope) {}) //Plaid
+
 
 .controller('loginCtrl', function($scope) {})
 

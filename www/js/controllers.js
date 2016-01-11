@@ -19,6 +19,8 @@ angular.module('starter.controllers', [])
 
 .controller('loginCtrl', function($scope) {})
 
+.controller('createCtrl', function($scope) {})
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

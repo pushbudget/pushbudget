@@ -1,1 +1,9 @@
 /* Empty. Add your own CSS if you like */
+.login-logo {
+    max-width: 30%;
+    height: auto;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}

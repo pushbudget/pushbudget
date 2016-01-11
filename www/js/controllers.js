@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('pushbudget.controllers', [])
 
 .controller('homeCtrl', function($scope) {})
 
@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('budgetCtrl', function($scope, Plaid) {})
+.controller('budgetCtrl', function($scope) {})
 
 .controller('loginCtrl', function($scope) {})
 

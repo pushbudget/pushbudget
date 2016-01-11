@@ -17,6 +17,8 @@ angular.module('starter.controllers', [])
 
 .controller('budgetCtrl', function($scope) {})
 
+.controller('loginCtrl', function($scope) {})
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

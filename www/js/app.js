@@ -61,6 +61,16 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
 
     })
 
+    .state('main.newTrans', {
+        url: '/newtrans',
+        views: {
+          'transactions': {
+            templateUrl: 'templates/newtransaction.html',
+            controller: 'newTransCtrl'
+          }
+        }
+      })
+
     .state('main.budgets', {
       url: '/budgets',
       views: {

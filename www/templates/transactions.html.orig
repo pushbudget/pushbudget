@@ -1,0 +1,34 @@
+<ion-view view-title="Transactions">
+<<<<<<< HEAD
+  <ion-content class="padding">
+    <h2>transactions go here</h2>
+    <ion-nav-view name="newTrans"></ion-nav-view>
+=======
+  <ion-content>
+    <div class="row">
+      <div class="col">
+        <button class="button button-block button-balanced">All</button>
+      </div>
+      <div class="col">
+        <button class="button button-block button-assertive">Untagged</button>
+      </div>
+    </div>
+    <div class="list" id="transactionsList">
+        <div class="item item-divider">
+          <div class="row">
+              <div class="col">Business</div>
+              <div class="col">Amount</div>
+              <div class="col">Date</div>
+          </div>
+        </div>
+        <a class="item" ng-repeat="transaction in transactions">
+          <div class="row">
+              <div class="col">{{transaction.business}}</div>
+              <div class="col">{{transaction.amount}}</div>
+              <div class="col">{{transaction.date}}</div>
+          </div>
+        </a>
+    </div>
+>>>>>>> 0aa59c93c957f84aecaa2edd1efaefea0e9c58d2
+  </ion-content>
+</ion-view>

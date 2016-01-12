@@ -1,0 +1,89 @@
+<ion-view view-title="New Transaction" hide-nav-bar="true">
+  <ion-content>
+
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <div class="row">
+        <div id="budgetBar" class="col">
+          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
+            <div id="budgetBarRemain">
+              $650 <!-- {{budgetBarRemain}} -->
+            </div>
+            <div id="budgetBarSpent">
+              $250 <!-- {{budgetBarSpent}} -->
+            </div>
+          </div>
+        </div> <!-- /end col -->
+      </div> <!-- /end row -->
+    </a>
+
+    <div class="card" id="newtrans-container">
+      <div class="item item-divider">
+        <div class="row">
+          <div class="col col-60" >
+            <div id="newtrans-name">
+              Joe's Pizza
+            </div>
+            <div id="newtrans-date">
+              01/12/16 11:15am
+            </div>
+          </div>
+          <div class="col col-40 text-right">
+            <button class="button icon ion-checkmark button-balanced" ng-disabled="newCategory.$error.number"  class="center-block" ng-click=""></button>
+          </div>
+        </div>
+      </div>
+      <div class="item item-text-wrap">
+        <div class="list">
+          <label class="item item-input item-select">
+            <div class="input-label" >
+              <span id="newtrans-price">$8.47</span>
+            </div>
+            <select>
+              <option>Gas</option>
+              <option selected>Food</option>
+              <option>whatever</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!--added category, this might require a directive -->
+    <div class="card  no-margin" >
+      <div class="item item-text-wrap">
+        <div class="list">
+          <label class="item item-input item-select" id="newtrans-label">
+            $
+            <div class="input-label" >
+              <form name="newCategory" id="newtrans-newCatInput">
+                <input id="newtrans-newCatInput" type="text" ng-model="searchTerm" class="form-control" placeholder="0.00" required/>
+              </form>
+            </div>
+            <select>
+              <option >Gas</option>
+              <option >Food</option>
+              <option selected>whatever</option>
+            </select>
+          </label>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <!-- add category button -->
+    <div class="row" id="newtrans-addButton" >
+      <div class="col col-center text-right">
+        Add category
+      </div>
+      <div>
+        <button class="button icon ion-plus button-positive"></button>
+      </div>
+    </div>
+
+
+
+
+  </ion-content>
+</ion-view>

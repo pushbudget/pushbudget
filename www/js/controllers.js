@@ -43,25 +43,23 @@ angular.module('pushbudget.controllers', [])
 .controller('loginCtrl', function($scope) {})
 
 .controller('createCtrl', function($scope) {
-  var sandboxHandler = Plaid.create({
-  clientName: 'pushbudget',
-  env: 'tartan',
-  product: 'auth',
-  key: 'test_key',
-  onSuccess: function(token) {
-    window.location = '/accounts.html?public_token=' + token;
-  }
-});
 
-$scope.openLink = function() {
-  console.log('open the link modal');
-  sandboxHandler.open();
-};
 })
 
 
 .controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
+  var sandboxHandler = Plaid.create({
+    clientName: 'pushbudget',
+    env: 'tartan',
+    product: 'auth',
+    key: 'test_key',
+    onSuccess: function(token) {
+      window.location = '/accounts.html?public_token=' + token;
+    }
+  });
+
+  $scope.openLink = function() {
+    console.log('open the link modal');
+    sandboxHandler.open();
   };
 });

@@ -120,7 +120,10 @@ div {
 #newtrans-container {
 }
 
+#newtrans-label {
+  display: inline-block;
+}
+
 #newtrans-addButton {
-  position: absolute;
-  right: 30px;
+  padding-right: 30px;
 }

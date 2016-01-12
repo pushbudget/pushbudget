@@ -56,8 +56,9 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         'transactions': {
           templateUrl: 'templates/transactions.html',
           controller: 'transCtrl'
+        },
         }
-      }
+
     })
 
     .state('main.newTrans', {

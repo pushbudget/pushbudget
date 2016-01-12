@@ -1,4 +1,9 @@
 <ion-view view-title="Transactions">
+<<<<<<< HEAD
+  <ion-content class="padding">
+    <h2>transactions go here</h2>
+    <ion-nav-view name="newTrans"></ion-nav-view>
+=======
   <ion-content>
     <div class="row">
       <div class="col">
@@ -24,5 +29,6 @@
           </div>
         </a>
     </div>
+>>>>>>> 0aa59c93c957f84aecaa2edd1efaefea0e9c58d2
   </ion-content>
 </ion-view>

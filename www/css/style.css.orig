@@ -107,10 +107,7 @@ div {
   box-shadow: 1px 1px 0px #8B8B8B;
 }
 
-#transactionsList {
-  margin: 10px;
-}
-
+<<<<<<< HEAD
 /*new transactions */
 #newtrans-name {
 }
@@ -130,4 +127,8 @@ div {
 
 #newtrans-addButton {
   padding-right: 30px;
+=======
+#transactionsList {
+  margin: 10px;
+>>>>>>> 0aa59c93c957f84aecaa2edd1efaefea0e9c58d2
 }

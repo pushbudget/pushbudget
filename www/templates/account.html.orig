@@ -1,5 +1,16 @@
 <ion-view view-title="Account">
   <ion-content>
+<<<<<<< HEAD
+    <ion-list>
+    <ion-toggle  ng-model="settings.stuff">
+        Do stuff
+    </ion-toggle>
+    </ion-list>
+        <a ui-sref="login">login page demo</a>
+        <br>
+        <a ui-sref="main.newTrans">new transaction demo</a>
+        <a href="#/main/newtrans">new trans</a>
+=======
     <a ui-sref="login">login page demo</a>
     <ion-item>
       <h2>Connected Banks</h2>
@@ -29,7 +40,6 @@
     <ion-item>
       <button class="button button-block ion-plus button-balanced" ng-click="openLink()"></button>
     </ion-item>
-
-	<a ui-sref="main.newTrans">new transaction demo</a>
+>>>>>>> 0aa59c93c957f84aecaa2edd1efaefea0e9c58d2
   </ion-content>
 </ion-view>

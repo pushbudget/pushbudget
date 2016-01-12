@@ -17,7 +17,7 @@
 
 /*misc*/
 div {
-  /*border: red 1px dotted;*/
+  border: red 1px dotted;
 }
 
 /*budgetBar*/
@@ -112,11 +112,13 @@ div {
 }
 
 #newtrans-date {
-  text-align: right;
 }
 
 #newtrans-price {
 }
 
 #newtrans-container {
+}
+
+#newtrans-addButton {
 }

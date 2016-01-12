@@ -106,3 +106,17 @@ div {
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
 }
+
+/*new transactions */
+#newtrans-name {
+}
+
+#newtrans-date {
+  text-align: right;
+}
+
+#newtrans-price {
+}
+
+#newtrans-container {
+}

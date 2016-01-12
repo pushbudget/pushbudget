@@ -18,10 +18,9 @@ angular.module('pushbudget.controllers', [])
 
 .controller('budgetCtrl', function($scope) {})
 
-.controller('budgetCtrl', function($scope) {}) //Plaid
-
-
 .controller('loginCtrl', function($scope) {})
+
+.controller('newTransCtrl', function($scope) {})
 
 .controller('createCtrl', function($scope) {
   var sandboxHandler = Plaid.create({

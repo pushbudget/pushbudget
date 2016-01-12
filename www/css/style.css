@@ -17,7 +17,7 @@
 
 /*misc*/
 div {
-  border: red 1px dotted;
+  /*border: red 1px dotted;*/
 }
 
 /*budgetBar*/
@@ -121,4 +121,6 @@ div {
 }
 
 #newtrans-addButton {
+  position: absolute;
+  right: 30px;
 }

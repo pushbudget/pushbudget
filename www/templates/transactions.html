@@ -1,5 +1,22 @@
 <ion-view view-title="Transactions">
   <ion-content>
+    
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <div class="row">
+        <div id="budgetBar" class="col col90 col">
+          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
+            <div id="budgetBarRemain">
+              $650 <!-- {{budgetBarRemain}} -->
+            </div>
+            <div id="budgetBarSpent">
+              $250 <!-- {{budgetBarSpent}} -->
+            </div>
+          </div>
+        </div> <!-- /end col -->
+      </div> <!-- /end row -->
+    </a>
+
+
     <div class="row">
       <div class="col">
         <button class="button button-block button-balanced">All</button>
@@ -16,7 +33,7 @@
               <div class="col">Date</div>
           </div>
         </div>
-        <a class="item" ng-repeat="transaction in transactions">
+        <a ui-sref="main.newTrans" class="item" ng-repeat="transaction in transactions">
           <div class="row">
               <div class="col">{{transaction.business}}</div>
               <div class="col">{{transaction.amount}}</div>

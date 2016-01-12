@@ -107,10 +107,6 @@ div {
   box-shadow: 1px 1px 0px #8B8B8B;
 }
 
-#transactionsList {
-  margin: 10px;
-}
-
 /*new transactions */
 #newtrans-name {
 }
@@ -119,13 +115,6 @@ div {
 }
 
 #newtrans-price {
-}
-
-#newtrans-container {
-}
-
-#newtrans-label {
-  display: inline-block;
 }
 
 #newtrans-addButton {

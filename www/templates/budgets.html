@@ -1,5 +1,22 @@
 <ion-view view-title="Budgets">
-  <ion-content class="padding">
+  <ion-content>
+    
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <div class="row">
+        <div id="budgetBar" class="col col90 col">
+          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
+            <div id="budgetBarRemain">
+              $650 <!-- {{budgetBarRemain}} -->
+            </div>
+            <div id="budgetBarSpent">
+              $250 <!-- {{budgetBarSpent}} -->
+            </div>
+          </div>
+        </div> <!-- /end col -->
+      </div> <!-- /end row -->
+    </a>
+
+
     <h2>budgets go here</h2>
   </ion-content>
 </ion-view>

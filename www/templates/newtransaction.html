@@ -1,20 +1,8 @@
 <ion-view view-title="Update Tag">
   <ion-content>
 
-    <a ui-sref="main.budgets" id="budgetBarLink">
-      <div class="row">
-        <div id="budgetBar" class="col">
-          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
-            <div id="budgetBarRemain">
-              $650 <!-- {{budgetBarRemain}} -->
-            </div>
-            <div id="budgetBarSpent">
-              $250 <!-- {{budgetBarSpent}} -->
-            </div>
-          </div>
-        </div> <!-- /end col -->
-      </div> <!-- /end row -->
-    </a>
+    <budget-bar></budget-bar>
+
 
     <div class="card" id="newtrans-container">
       <div class="item item-divider">

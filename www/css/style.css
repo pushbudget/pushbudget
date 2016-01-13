@@ -73,14 +73,11 @@ div {
 #home-budgetBox {
   background-color: #F5F5F5;
   border: 1px solid #DDDDDD;
-  padding: 0;
 }
 
 #home-budgetBoxHeader {
   width: 100%;
   background-color: #DDDDDD;
-  font-size: 20px;
-  height: 30px;
 }
 
 #home-budgetBoxName {
@@ -97,11 +94,9 @@ div {
   padding: 0px;
   background-color: #B3B3B3;
   width: 100px;
-  position: absolute;
   right: 30px;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
-  bottom: 8px;
 }
 
 #home-budgetBoxBarFill {
@@ -109,6 +104,22 @@ div {
   width: 42%;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
+}
+
+#home-untaggedCat {
+  font-size: 12px;
+}
+
+#home-untaggedDate {
+  font-size: 12px;
+}
+
+#home-untaggedAmmount {
+  font-size: 20px;
+}
+
+#home-untaggedName {
+  font-size: 20px;
 }
 
 /*new transactions */

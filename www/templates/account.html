@@ -1,13 +1,33 @@
-<ion-view view-title="Account">
+<ion-view view-title="Profile">
   <ion-content>
-    <a ui-sref="login">login page demo</a>
+
+      <div class="list">
+
+      <div class="item item-divider text-center" id="profile-userInfo">
+        <span id="profile-username">pushbudgetuser@somewhere.com</span>
+      </div>
+
+      <div class="item" href="#" id="profile-userOptions">
+        <button class="button button-dark" id="profile-changePw">Change password</button>
+        <button class="button button-dark" id="profile-logout">logout</button>
+      </div>
+
+
+    </div>
     <ion-item>
       <h2>Connected Banks</h2>
     </ion-item>
     <div class="card">
       <div class="item item-divider">
-        Wells Fargo
+        <div class="row no-padding" >
+          <div class="col col-67 col-center no-padding">
+            Wells Fargo
+          </div>
+          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
+          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+        </div>
       </div>
+
       <div class="item item-text-wrap">
         <ul>
           <li>Checking *1234</li>
@@ -17,7 +37,13 @@
     </div>
     <div class="card">
       <div class="item item-divider">
-        Bank of America
+        <div class="row no-padding" >
+          <div class="col col-67 col-center no-padding">
+            Bank of America
+          </div>
+          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
+          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+        </div>
       </div>
       <div class="item item-text-wrap">
         <ul>
@@ -27,9 +53,9 @@
       </div>
     </div>
     <ion-item>
-      <button class="button button-block ion-plus button-balanced" ng-click="openLink()"></button>
+      <button class="button button-block button-balanced" ng-click="openLink()">Add account</button>
     </ion-item>
 
-	<a ui-sref="main.newTrans">new transaction demo</a>
+
   </ion-content>
 </ion-view>

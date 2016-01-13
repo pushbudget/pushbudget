@@ -20,6 +20,10 @@ div {
   /*border: red 1px dotted;*/
 }
 
+.no-padding {
+  padding: 0px !important;
+}
+
 /*budgetBar*/
 #budgetBarLink {
   text-decoration: none;
@@ -119,4 +123,24 @@ div {
 
 #newtrans-addButton {
   padding-right: 30px;
+}
+
+/*profile */
+#profile-userInfo {
+  width: 100%;
+}
+
+#profile-username {
+}
+
+#profile-logout {
+  font-weight: normal;
+  position: absolute;
+  right: 15px;
+}
+
+#profile-userOptions {
+}
+
+#profile-bankName {
 }

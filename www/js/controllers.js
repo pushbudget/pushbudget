@@ -2,7 +2,7 @@ angular.module('pushbudget.controllers', [])
 
 .controller('homeCtrl', function($scope) {})
 
-.controller('transCtrl', function($scope, Chats) {
+.controller('transCtrl', function($scope, $ionicSideMenuDelegate) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -10,6 +10,8 @@ angular.module('pushbudget.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+
+
   $scope.transactions = [
     {
       amount: "$0.20",

@@ -101,7 +101,6 @@ div {
 
 #home-budgetBoxBarFill {
   height: 20px;
-  width: 42%;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
 }
@@ -123,7 +122,6 @@ div {
 }
 
 /*transactions*/
-
 /*new transactions */
 #newtrans-name {
 }

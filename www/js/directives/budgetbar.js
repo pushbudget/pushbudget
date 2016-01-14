@@ -1,4 +1,4 @@
-angular.module('pushbudget').directive('budgetBar', function() {
+angular.module('pushbudget').directive('pbBudgetbar', function() {
   return {
     templateUrl: 'templates/budgetBar.html',
     scope: {

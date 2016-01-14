@@ -16,12 +16,20 @@
 }
 
 /*misc*/
+* {
+}
+
 div {
   /*border: red 1px dotted;*/
 }
 
 .no-padding {
   padding: 0px !important;
+}
+
+.rotate-90 {
+  display: inline-block;
+  transform: rotate(90deg);
 }
 
 /*budgetBar*/
@@ -142,6 +150,14 @@ div {
 
 #newtrans-addButton {
   padding-right: 30px;
+}
+
+#newtrans-newCat {
+  border-top: 1px solid #DDDDDD;
+}
+
+#newtrans-newCatPrice {
+  width: 120px;
 }
 
 /*profile */

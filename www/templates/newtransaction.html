@@ -1,10 +1,10 @@
 <ion-view view-title="Update Tag">
   <ion-content>
 
-    <budget-bar></budget-bar>
+    <pb-budgetbar></pb-budgetbar>
 
 
-    <div class="card" id="newtrans-container">
+    <div class="card" id="newtrans-container" >
       <div class="item item-divider">
         <div class="row">
           <div class="col col-60" >
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="col col-40 text-right">
-            <button class="button icon ion-checkmark button-balanced" ng-disabled="newCategory.$error.number"  class="center-block" ng-click=""></button>
+            <button class="button icon ion-checkmark button-balanced" ng-disabled="newCategory.$error.number"  class="center-block" ng-click="submit()"></button>
           </div>
         </div>
       </div>
@@ -26,38 +26,36 @@
             <div class="input-label" >
               <span id="newtrans-price">$8.47</span>
             </div>
-            <select>
-              <option>Gas</option>
-              <option selected>Food</option>
-              <option>whatever</option>
-            </select>
+            <pb-category-options></pb-category-options>
           </label>
         </div>
       </div>
-    </div>
 
-    <!--added category, this might require a directive -->
-    <div class="card  no-margin" >
-      <div class="item item-text-wrap">
-        <div class="list">
-          <label class="item item-input item-select" id="newtrans-label">
-            $
-            <div class="input-label" >
-              <form name="newCategory" id="newtrans-newCatInput">
-                <input id="newtrans-newCatInput" type="text" ng-model="searchTerm" class="form-control" placeholder="0.00" required/>
-              </form>
+      <ion-list can-swipe="listCanSwipe" ng-if="categoryArr.length">
+        <ion-item id="newtrans-newCat" ng-repeat="category in categoryArr">
+
+          <div class="row no-padding">
+            <div class="col">
+              <div id="newtrans-newCatPrice" class="no-padding">
+                id:{{category}}: $money
+              </div>
             </div>
-            <select>
-              <option >Gas</option>
-              <option >Food</option>
-              <option selected>whatever</option>
-            </select>
-          </label>
-        </div>
+            <div class="col">
+              a category
+            </div>
+          </div>
+          <ion-option-button class="button-positive" ng-click="editCat(category)">
+            <i class="icon ion-edit"></i>
+          </ion-option-button>
+          <ion-option-button class="button-assertive" ng-click="deleteCat(category)">
+            <i class="icon ion-trash-b"></i>
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
 
 
-      </div>
     </div>
+
 
 
     <!-- add category button -->
@@ -66,9 +64,12 @@
         Add category
       </div>
       <div>
-        <button class="button icon ion-plus button-positive"></button>
+        <button class="button icon ion-plus button-positive" ng-click="showPopup()"></button>
       </div>
     </div>
+
+
+
 
 
 

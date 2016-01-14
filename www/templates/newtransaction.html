@@ -24,7 +24,7 @@
         <div class="list">
           <label class="item item-input item-select">
             <div class="input-label" >
-              <span id="newtrans-price">$8.47</span>
+              <span id="newtrans-price">${{mainAmmount}}</span>
             </div>
             <pb-category-options></pb-category-options>
           </label>
@@ -32,22 +32,22 @@
       </div>
 
       <ion-list can-swipe="listCanSwipe" ng-if="categoryArr.length">
-        <ion-item id="newtrans-newCat" ng-repeat="category in categoryArr">
+        <ion-item id="newtrans-newCat" ng-repeat="item in categoryArr">
 
           <div class="row no-padding">
             <div class="col">
               <div id="newtrans-newCatPrice" class="no-padding">
-                id:{{category}}: $money
+                id:{{item.id}}: ${{item.ammount}}
               </div>
             </div>
             <div class="col">
-              a category
+              {{item.catgory}}
             </div>
           </div>
-          <ion-option-button class="button-positive" ng-click="editCat(category)">
+          <ion-option-button class="button-positive" ng-click="editCat(item.id)">
             <i class="icon ion-edit"></i>
           </ion-option-button>
-          <ion-option-button class="button-assertive" ng-click="deleteCat(category)">
+          <ion-option-button class="button-assertive" ng-click="deleteCat(item.id)">
             <i class="icon ion-trash-b"></i>
           </ion-option-button>
         </ion-item>

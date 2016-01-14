@@ -1,10 +1,14 @@
 <div class="row">
   <div class="col text-center" id="newtrans-newCatPrice">
     <label class="item item-input no-padding">
-      $<input type="tel" placeholder="0.00">
+      $<input type="tel" placeholder="0.00" ng-model="data.newPrice">
     </label>
   </div>
 </div>
 <div class="text-center">
-  <pb-category-options></pb-category-options>
+  <select>
+    <option >Gas</option>
+    <option selected >Food</option>
+    <option >whatever</option>
+  </select>
 </div>

@@ -75,6 +75,14 @@ div {
   border: 1px solid #DDDDDD;
 }
 
+#home-budgetBoxInfo {
+  width: 101%;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background-color: #FFFFFF;
+}
+
 #home-budgetBoxHeader {
   width: 100%;
   background-color: #DDDDDD;
@@ -93,7 +101,7 @@ div {
   height: 20px;
   padding: 0px;
   background-color: #B3B3B3;
-  width: 100px;
+  width: 100%;
   right: 30px;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;

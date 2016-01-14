@@ -1,7 +1,10 @@
 <ion-view view-title="Push Budget">
   <ion-content >
-    
+
     <budget-bar></budget-bar>
+    <div class="item item-divider" id="home-budgetBoxInfo">
+      You have $650 remaining
+    </div>
 
     <div class="list" >
       <a ui-sref="main.trans" id="home-transLink">
@@ -78,10 +81,10 @@
           Budgets
         </div>
         <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
-          <div class="col col-60" id="home-budgetBoxName">
+          <div class="col col-50" id="home-budgetBoxName">
             Entertainment
           </div>
-          <div class="col col-40">
+          <div class="col col-50">
             <div id="home-budgetBoxBar">
               <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
               </div>
@@ -91,10 +94,10 @@
 
         <!-- simulated ng-repeat here -->
         <div class="row" id="home-budgetBoxItem">
-          <div class="col col-60" id="home-budgetBoxName">
+          <div class="col col-50" id="home-budgetBoxName">
           Groceries
           </div>
-          <div class="col col-40">
+          <div class="col col-50">
             <div id="home-budgetBoxBar">
               <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 33%"> <!--angular variable here for width length -->
               </div>
@@ -103,10 +106,10 @@
         </div>
 
         <div class="row" id="home-budgetBoxItem">
-          <div class="col col-60" id="home-budgetBoxName">
+          <div class="col col-50" id="home-budgetBoxName">
           Gas
           </div>
-          <div class="col col-40">
+          <div class="col col-50">
             <div id="home-budgetBoxBar">
               <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%"> <!--angular variable here for width length -->
               </div>
@@ -115,10 +118,10 @@
         </div>
 
         <div class="row" id="home-budgetBoxItem">
-          <div class="col col-60" id="home-budgetBoxName">
+          <div class="col col-50" id="home-budgetBoxName">
           Groceries
           </div>
-          <div class="col col-40">
+          <div class="col col-50">
             <div id="home-budgetBoxBar">
               <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 45%"> <!--angular variable here for width length -->
               </div>

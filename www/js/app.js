@@ -80,7 +80,6 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         }
       }
     })
-
   .state('main.account', {
     url: '/account',
     views: {
@@ -90,7 +89,15 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
       }
     }
   })
-
+  .state('main.testview', {
+    url: '/test',
+    views: {
+      'test': {
+         templateUrl: 'templates/testview.html',
+         controller: 'transactionTest'
+      }
+    },
+  })
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
@@ -104,6 +111,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
     controller: 'createCtrl'
 
   });
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/home');

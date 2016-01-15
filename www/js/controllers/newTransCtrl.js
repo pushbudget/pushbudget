@@ -1,8 +1,12 @@
 angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicPopup) {
 
   var price = 10;//this is the ammount of this transaction, need to get it from a ref
-
   $scope.mainAmmount = parseFloat(price).toFixed(2);
+
+  var categoryOptions = ['Food', 'Gas', 'Entertainment']; //this will later come from a ref
+  $scope.categoryOptions = categoryOptions;
+  $scope.mainCategory = categoryOptions[0]; //this the existing category. it will later come from a ref
+
 
   //ionic stuff for lists
   $scope.shouldShowDelete = false;
@@ -52,13 +56,13 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
       console.log(res);
-      var output = {
-        id: catId,
-        ammount: parseFloat(res.newPrice),
-        category: res.newCat,
-      };
-      //if the user did not press cancel:
+        //if the user did not press cancel:
       if (res){
+        var output = {
+          id: catId,
+          ammount: parseFloat(res.newPrice).toFixed(2),
+          category: res.categoryOption,
+        };
         if(parseFloat(res.newPrice) < parseFloat($scope.mainAmmount)){
           $scope.categoryArr.push(output); //add the new category to the category array
           $scope.mainAmmount -= res.newPrice; //subtract this ammount from the main ammount
@@ -69,54 +73,10 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     });
   };
 
-  //this is incomplete
-  $scope.editPopup = function(id) {
-    $scope.data = {};
-
-    var myPopup = $ionicPopup.show({
-      templateUrl: 'templates/newtransAddCat.html',
-      title: 'Edit Caategory',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: '<b>Save</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            if (!$scope.data.newPrice) {
-              //don't allow the user to close unless he enters a new price
-              e.preventDefault();
-            } else {
-              return $scope.data;
-            }
-          }
-        }
-      ]
-    });
-
-    //after the popup is closed, this will happen:
-    myPopup.then(function(res) {
-      console.log(res);
-      var output = {
-        id: catId,
-        ammount: parseFloat(res.newPrice),
-        category: res.newCat,
-      };
-      //if the user did not press cancel:
-      if (res){
-        //add logic to edit the ammounts
-        //we need to adjust the main ammount relative to the old value and update this category, if the value has changed. also need to check that the user isnt adding a category twice
-        $scope.mainAmmount = parseFloat($scope.mainAmmount).toFixed(2); //make sure the cents are displayed
-
-      }
-    });
-  };
-
 
   //this deletes an added category given an id
   $scope.deleteCat = function(id){
     var idx = findCategory(id); //find the current index of the category with this id
-    console.log($scope.categoryArr[idx].ammount);
     //re-add this ammount back to the main ammount
     var newSum = (parseFloat($scope.mainAmmount) + parseFloat($scope.categoryArr[idx].ammount));
     $scope.mainAmmount = parseFloat(newSum).toFixed(2); //make sure the cents are displayed

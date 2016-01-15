@@ -22,33 +22,37 @@
       </div>
       <div class="item item-text-wrap">
         <div class="list">
-          <label class="item item-input item-select">
+          <label class="item item-input item-select" >
             <div class="input-label" >
-              <span id="newtrans-price">${{mainAmmount}}</span>
+              <span id="newtrans-price" >${{mainAmmount}}</span>
             </div>
-            <pb-category-options></pb-category-options>
+            <label >
+              <select id="newtrans-catName" ng-model="data.categoryOption" ng-init="data.categoryOption = mainCategory" ng-options="option for option in categoryOptions">
+              </select>
+            </label>
           </label>
         </div>
       </div>
 
       <ion-list can-swipe="listCanSwipe" ng-if="categoryArr.length">
-        <ion-item id="newtrans-newCat" ng-repeat="item in categoryArr">
+        <ion-item  id="newtrans-newCat" ng-repeat="item in categoryArr">
 
-          <div class="row no-padding">
+          <div class="row ">
             <div class="col">
               <div id="newtrans-newCatPrice" class="no-padding">
-                id:{{item.id}}: ${{item.ammount}}
+                ${{item.ammount}}
               </div>
             </div>
-            <div class="col">
-              {{item.catgory}}
+            <div class="col text-right" id="newtrans-newCatName">
+              {{item.category}}
+              <i class="icon ion-drag rotate-90" id="newtrans-drag"></i>
             </div>
           </div>
           <ion-option-button class="button-positive" ng-click="editCat(item.id)">
             <i class="icon ion-edit"></i>
           </ion-option-button>
-          <ion-option-button class="button-assertive" ng-click="deleteCat(item.id)">
-            <i class="icon ion-trash-b"></i>
+          <ion-option-button class="button-assertive" id="newtrans-trashIcon" ng-click="deleteCat(item.id)">
+             <i class="icon ion-trash-b" ></i>
           </ion-option-button>
         </ion-item>
       </ion-list>

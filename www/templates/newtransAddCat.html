@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col text-center">
+    <label class="item item-input no-padding">
+      $<input type="tel" placeholder="0.00" ng-model="data.newPrice">
+    </label>
+  </div>
+</div>
+<div class="text-center">
+  <label >
+    <select ng-model="data.categoryOption" ng-init="data.categoryOption = categoryOptions[0]" ng-options="option for option in categoryOptions">
+    </select>
+  </label>
+</div>

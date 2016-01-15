@@ -50,5 +50,5 @@ angular.module('pushbudget').controller('transactionTest', function ($scope, tra
   /*$scope.getSpecificUserTransaction(trans);*/ //WORKING
   /*$scope.editSpecificUserTransaction(trans, editedTransaction)*/ //WORKING
   /*$scope.deleteSpecificUserTransaction('56978a2478f86e102af85ba9');*/ //WORKING
-  /*$scope.getAllUserUntagged(user);*/
+  $scope.getAllUserUntagged(user);
 });

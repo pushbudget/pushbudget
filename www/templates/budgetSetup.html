@@ -1,0 +1,66 @@
+<ion-view view-title="Budget Setup">
+  <ion-content >
+    <budget-bar></budget-bar>
+    <div class="item item-divider" id="home-budgetBoxInfo">
+      
+      <div class="list">
+  <label class="item item-input">
+    <span class="input-label">Budget</span>
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Overall Budget">
+      </label>
+  </label>
+  <label class="item item-input">
+    <span class="input-label">Savings</span>
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Current savings">
+      </label>
+  </label>
+  <label class="item item-input">
+    <span class="input-label">Allocation</span>
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Current allocation">
+      </label>
+  </label>
+</div>
+
+
+    </div>
+
+    <div class="list" >
+      <a ui-sref="main.home" id="home-transLink">
+        <div class="item item-divider">
+          Budget Breakdown
+        </div>
+      </a>      
+      <br />
+      <canvas id="pie" class="chart chart-pie" chart-click="onClick"
+          chart-data="data" chart-labels="labels">
+      </canvas> 
+    </div>
+
+      <div id="home-budgetBox">
+        <div class="item item-divider" id="home-budgetBoxHeader">
+          Budget Categories
+        </div>
+
+        <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
+          <div class="col col-50" id="home-budgetBoxName">
+            Entertainment
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div> <!-- /end ng-repeat -->
+        
+
+      </div>
+  </ion-content>
+</ion-view>
+
+
+
+

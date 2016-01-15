@@ -81,6 +81,17 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
       }
     })
 
+    .state('main.budgetSetup', {
+      url: '/budget-setup',
+      views: {
+        'budgets': {
+          templateUrl: 'templates/budgetSetup.html',
+          controller: 'budgetSetupCtrl'
+        }
+      }
+    })
+
+
   .state('main.account', {
     url: '/account',
     views: {

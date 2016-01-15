@@ -1,6 +1,6 @@
 angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicPopup) {
 
-  var price = 10;//this is the ammount of this transaction, need to get it from a ref
+  var price = 10;//this is the total ammount of this transaction, need to get it from a ref
   $scope.mainAmmount = parseFloat(price).toFixed(2);
 
   var categoryOptions = ['Food', 'Gas', 'Entertainment']; //this will later come from a ref
@@ -34,7 +34,7 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/newtransAddCat.html',
       title: 'Add New Category',
-      //subTitle: 'Please use normal things',
+      subTitle: 'Split this transaction into multiple categories',
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
@@ -73,6 +73,51 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     });
   };
 
+  $scope.editPopup = function(id) {
+    $scope.data = {};
+
+    var myPopup = $ionicPopup.show({
+      templateUrl: 'templates/newtransAddCat.html',
+      title: 'Edit Category',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Save</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.newPrice) {
+              //don't allow the user to close unless he enters a new price
+              e.preventDefault();
+            } else {
+              return $scope.data;
+            }
+          }
+        }
+      ]
+    });
+//************************************************* NOT FINISHED
+    //after the popup is closed, this will happen:
+    myPopup.then(function(res) {
+      console.log(res);
+        //if the user did not press cancel:
+      if (res){
+        var output = {
+          ammount: parseFloat(res.newPrice).toFixed(2),
+          category: res.categoryOption,
+        };
+        //make sure the edited value does not exceed the total price
+        //***** need to include logic that takes into accout other sub-categories
+        if(parseFloat(res.newPrice) < parseFloat(price)){
+          var editObj = $scope.categoryArr[findCategory(id)]; //this is the element we are editing
+          var dif = editObj.ammount - res.newPrice; //the difference between the old price and the new one
+          console.log(editObj);
+          $scope.mainAmmount += dif;
+          $scope.mainAmmount = parseFloat($scope.mainAmmount).toFixed(2); //make sure the cents are displayed
+        }
+      }
+    });
+  };
 
   //this deletes an added category given an id
   $scope.deleteCat = function(id){
@@ -83,11 +128,6 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     $scope.categoryArr.splice(idx, 1); //remove that element from the array
   };
 
-  //this is incomplete
-  $scope.editCat = function(id){
-    var idx = findCategory(id); //find the current index of the category with this id
-    //add edit stuff here
-  };
 
   //this is when the user clicks the green checkbox indicating that they wish to submit their changes
   $scope.submit = function(){

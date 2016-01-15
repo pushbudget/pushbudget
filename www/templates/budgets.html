@@ -1,22 +1,74 @@
 <ion-view view-title="Budgets">
   <ion-content>
-    
-    <a ui-sref="main.budgets" id="budgetBarLink">
-      <div class="row">
-        <div id="budgetBar" class="col col90 col">
-          <div id="budgetBarFill" class="positive-bg" style="width: 65%"> <!-- // set the width to an angular variable-->
-            <div id="budgetBarRemain">
-              $650 <!-- {{budgetBarRemain}} -->
-            </div>
-            <div id="budgetBarSpent">
-              $250 <!-- {{budgetBarSpent}} -->
+
+    <pb-budgetbar></pb-budgetbar>
+
+    <div class="list" >
+      <a ui-sref="main.budgetSetup" id="home-transLink">
+        <div class="item item-divider">
+          Budget Breakdown
+        </div>
+      </a>
+      <br />
+      <canvas id="pie" class="chart chart-pie" chart-click="onClick"
+          chart-data="data" chart-labels="labels">
+      </canvas>
+    </div>
+
+      <div id="home-budgetBox">
+        <div class="item item-divider" id="home-budgetBoxHeader">
+          Budgets
+        </div>
+        <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
+          <div class="col col-50" id="home-budgetBoxName">
+            Entertainment
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
+              </div>
             </div>
           </div>
-        </div> <!-- /end col -->
-      </div> <!-- /end row -->
-    </a>
+        </div> <!-- /end ng-repeat -->
 
+        <!-- simulated ng-repeat here -->
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Groceries
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 33%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <h2>budgets go here</h2>
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Gas
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Groceries
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 45%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /end simulated ng-repeat -->
+
+      </div>
   </ion-content>
 </ion-view>

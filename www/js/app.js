@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.services'])
+angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.services', 'chart.js'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -77,6 +77,15 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         'budgets': {
           templateUrl: 'templates/budgets.html',
           controller: 'budgetCtrl'
+        }
+      }
+    })
+    .state('main.budgetSetup', {
+      url: '/budget-setup',
+      views: {
+        'budgets': {
+          templateUrl: 'templates/budgetSetup.html',
+          controller: 'budgetSetupCtrl'
         }
       }
     })

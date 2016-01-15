@@ -16,12 +16,20 @@
 }
 
 /*misc*/
+* {
+}
+
 div {
   /*border: red 1px dotted;*/
 }
 
 .no-padding {
   padding: 0px !important;
+}
+
+.rotate-90 {
+  display: inline-block;
+  transform: rotate(90deg);
 }
 
 /*budgetBar*/
@@ -73,14 +81,19 @@ div {
 #home-budgetBox {
   background-color: #F5F5F5;
   border: 1px solid #DDDDDD;
-  padding: 0;
+}
+
+#home-budgetBoxInfo {
+  width: 101%;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background-color: #FFFFFF;
 }
 
 #home-budgetBoxHeader {
   width: 100%;
   background-color: #DDDDDD;
-  font-size: 20px;
-  height: 30px;
 }
 
 #home-budgetBoxName {
@@ -96,21 +109,35 @@ div {
   height: 20px;
   padding: 0px;
   background-color: #B3B3B3;
-  width: 100px;
-  position: absolute;
+  width: 100%;
   right: 30px;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
-  bottom: 8px;
 }
 
 #home-budgetBoxBarFill {
   height: 20px;
-  width: 42%;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
 }
 
+#home-untaggedCat {
+  font-size: 12px;
+}
+
+#home-untaggedDate {
+  font-size: 12px;
+}
+
+#home-untaggedAmmount {
+  font-size: 20px;
+}
+
+#home-untaggedName {
+  font-size: 20px;
+}
+
+/*transactions*/
 /*new transactions */
 #newtrans-name {
 }
@@ -121,8 +148,33 @@ div {
 #newtrans-price {
 }
 
+#newtrans-catName {
+}
+
 #newtrans-addButton {
   padding-right: 30px;
+}
+
+#newtrans-newCat {
+  border-top: 1px solid #DDDDDD;
+}
+
+#newtrans-newCatPrice {
+  width: 120px;
+  position: absolute;
+  left: 32px;
+}
+
+#newtrans-newCatName {
+}
+
+#newtrans-drag {
+  position: absolute;
+  right: 10px;
+}
+
+#newtrans-trashIcon {
+  padding-left: 17px;
 }
 
 /*profile */

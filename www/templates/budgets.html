@@ -1,26 +1,30 @@
 <ion-view view-title="Budgets">
   <ion-content>
 
-    <budget-bar></budget-bar>
-    <div class="item item-divider" id="home-budgetBoxInfo">
-      You have $650 remaining
-    </div>
+    <pb-budgetbar></pb-budgetbar>
 
     <div class="list" >
       <a ui-sref="main.budgetSetup" id="home-transLink">
         <div class="item item-divider">
           Budget Breakdown
         </div>
-      </a>      
+      </a>
       <br />
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
           chart-data="data" chart-labels="labels">
-      </canvas> 
+      </canvas>
     </div>
 
       <div id="home-budgetBox">
         <div class="item item-divider" id="home-budgetBoxHeader">
-          Budgets
+          <div class="row no-padding">
+            <div class="col no-padding  col-center">
+              Budgets
+            </div>
+            <div class="col no-padding text-right">
+              <button class="button icon ion-gear-a button-positive" ui-sref="main.budgetSetup">
+            </div>
+          </div>
         </div>
         <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
           <div class="col col-50" id="home-budgetBoxName">

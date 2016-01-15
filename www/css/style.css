@@ -32,6 +32,10 @@ div {
   transform: rotate(90deg);
 }
 
+#add-border {
+  border: 1px solid #8B8B8B;
+}
+
 /*budgetBar*/
 #budgetBarLink {
   text-decoration: none;
@@ -195,4 +199,21 @@ div {
 }
 
 #profile-bankName {
+}
+
+/*budget setup */
+/*accordian*/
+.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+
+.item-accordion.ng-hide {
+  line-height: 0px;
+}
+
+.item-accordion.ng-hide-add, .item-accordion.ng-hide-remove {
+  display: block !important;
 }

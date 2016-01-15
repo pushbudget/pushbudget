@@ -4,6 +4,8 @@ angular.module('pushbudget').directive('pbBudgetbar', function() {
     scope: {
     },
     controller: function($scope) {
+      $scope.budgetBarPct = 54;
+      $scope.budgetBarRemain = 1;
     }
   };
 });

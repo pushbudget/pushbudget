@@ -1,21 +1,18 @@
 <ion-view view-title="Budgets">
   <ion-content>
 
-    <budget-bar></budget-bar>
-    <div class="item item-divider" id="home-budgetBoxInfo">
-      You have $650 remaining
-    </div>
+    <pb-budgetbar></pb-budgetbar>
 
     <div class="list" >
       <a ui-sref="main.budgetSetup" id="home-transLink">
         <div class="item item-divider">
           Budget Breakdown
         </div>
-      </a>      
+      </a>
       <br />
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
           chart-data="data" chart-labels="labels">
-      </canvas> 
+      </canvas>
     </div>
 
       <div id="home-budgetBox">

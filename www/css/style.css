@@ -148,6 +148,9 @@ div {
 #newtrans-price {
 }
 
+#newtrans-catName {
+}
+
 #newtrans-addButton {
   padding-right: 30px;
 }
@@ -158,6 +161,20 @@ div {
 
 #newtrans-newCatPrice {
   width: 120px;
+  position: absolute;
+  left: 32px;
+}
+
+#newtrans-newCatName {
+}
+
+#newtrans-drag {
+  position: absolute;
+  right: 10px;
+}
+
+#newtrans-trashIcon {
+  padding-left: 17px;
 }
 
 /*profile */

@@ -128,6 +128,7 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
           $scope.mainAmmount = ammount;
           $scope.mainAmmount = parseFloat($scope.mainAmmount).toFixed(2); //make sure the cents are displayed
           editObj.ammount = parseFloat(res.newPrice).toFixed(2);
+          editObj.category = res.categoryOption;
         } else {
           console.log('error:', arrSum, '+', res.newPrice, '>', totalPrice);
           //do something here

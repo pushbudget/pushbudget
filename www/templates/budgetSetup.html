@@ -1,25 +1,17 @@
 <ion-view view-title="Budget Setup">
   <ion-content >
-    <budget-bar></budget-bar>
-    <div class="item item-divider" id="home-budgetBoxInfo">
-      
-      <div class="list">
+    <pb-budgetbar total="totalBudget-savingsGoal" spent="totalSpent"></pb-budgetbar>
+
   <label class="item item-input">
-    <span class="input-label">Budget</span>
+    <span class="input-label">Total Budget</span>
       <label class="item-input-wrapper">
-        <input type="text" placeholder="Overall Budget">
+        $<input type="text" placeholder="0.00" ng-model="totalBudget">
       </label>
   </label>
   <label class="item item-input">
-    <span class="input-label">Savings</span>
+    <span class="input-label">Savings Goal</span>
       <label class="item-input-wrapper">
-        <input type="text" placeholder="Current savings">
-      </label>
-  </label>
-  <label class="item item-input">
-    <span class="input-label">Allocation</span>
-      <label class="item-input-wrapper">
-        <input type="text" placeholder="Current allocation">
+        $<input type="text" placeholder="0.00" ng-model="savingsGoal">
       </label>
   </label>
 </div>
@@ -32,11 +24,11 @@
         <div class="item item-divider">
           Budget Breakdown
         </div>
-      </a>      
+      </a>
       <br />
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
           chart-data="data" chart-labels="labels">
-      </canvas> 
+      </canvas>
     </div>
 
       <div id="home-budgetBox">
@@ -55,12 +47,8 @@
             </div>
           </div>
         </div> <!-- /end ng-repeat -->
-        
+
 
       </div>
   </ion-content>
 </ion-view>
-
-
-
-

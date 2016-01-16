@@ -7,8 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.services', 'chart.js'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -23,7 +23,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -51,27 +51,27 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
   })
 
   .state('main.trans', {
-      url: '/trans',
-      views: {
-        'transactions': {
-          templateUrl: 'templates/transactions.html',
-          controller: 'transCtrl'
-        },
-        }
+    url: '/trans',
+    views: {
+      'transactions': {
+        templateUrl: 'templates/transactions.html',
+        controller: 'transCtrl'
+      },
+    }
 
-    })
+  })
 
-    .state('main.newTrans', {
-        url: '/newtrans',
-        views: {
-          'transactions': {
-            templateUrl: 'templates/newtransaction.html',
-            controller: 'newTransCtrl'
-          }
-        }
-      })
+  .state('main.newTrans', {
+    url: '/newtrans',
+    views: {
+      'transactions': {
+        templateUrl: 'templates/newtransaction.html',
+        controller: 'newTransCtrl'
+      }
+    }
+  })
 
-    .state('main.budgets', {
+  .state('main.budgets', {
       url: '/budgets',
       views: {
         'budgets': {
@@ -80,9 +80,8 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         }
       }
     })
-
     .state('main.budgetSetup', {
-      url: '/budget-setup',
+      url: '/budgetsetup',
       views: {
         'budgets': {
           templateUrl: 'templates/budgetSetup.html',
@@ -90,24 +89,30 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         }
       }
     })
-
-
-  .state('main.account', {
-    url: '/account',
-    views: {
-      'profile': {
-        templateUrl: 'templates/account.html',
-        controller: 'AccountCtrl'
+    .state('main.account', {
+      url: '/account',
+      views: {
+        'profile': {
+          templateUrl: 'templates/account.html',
+          controller: 'AccountCtrl'
+        }
       }
-    }
-  })
+    })
+    .state('main.testview', {
+      url: '/test',
+      views: {
+        'test': {
+          templateUrl: 'templates/testview.html',
+          controller: 'subbudgetTest'
+        }
+      },
+    })
+    .state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html',
+      controller: 'loginCtrl'
 
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'loginCtrl'
-
-  })
+    })
 
   .state('create', {
     url: '/create',
@@ -115,6 +120,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
     controller: 'createCtrl'
 
   });
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/home');

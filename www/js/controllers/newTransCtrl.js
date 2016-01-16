@@ -1,7 +1,7 @@
 angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicPopup) {
 
-  var price = 10;//this is the total ammount of this transaction, need to get it from a ref
-  $scope.mainAmmount = parseFloat(price).toFixed(2);
+  var totalPrice = 10;//this is the total ammount of this transaction, need to get it from a ref
+  $scope.mainAmmount = parseFloat(totalPrice).toFixed(2);
 
   var categoryOptions = ['Food', 'Gas', 'Entertainment']; //this will later come from a ref
   $scope.categoryOptions = categoryOptions;
@@ -55,8 +55,8 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
 
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
-      console.log(res);
-        //if the user did not press cancel:
+      res.newPrice = parseFloat(res.newPrice);
+      //if the user did not press cancel:
       if (res){
         var output = {
           id: catId,
@@ -75,10 +75,13 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
 
   $scope.editPopup = function(id) {
     $scope.data = {};
+    var idx = findCategory(id); //the index of the element we are editing
+
 
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/newtransAddCat.html',
       title: 'Edit Category',
+      subTitle: 'Current ammount: $' + parseFloat($scope.categoryArr[idx].ammount).toFixed(2),
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
@@ -96,24 +99,39 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
         }
       ]
     });
-//************************************************* NOT FINISHED
+
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
-      console.log(res);
-        //if the user did not press cancel:
+
+      //if the user did not press cancel:
       if (res){
+        res.newPrice = parseFloat(res.newPrice); //convert from string to float
         var output = {
           ammount: parseFloat(res.newPrice).toFixed(2),
           category: res.categoryOption,
         };
         //make sure the edited value does not exceed the total price
         //***** need to include logic that takes into accout other sub-categories
-        if(parseFloat(res.newPrice) < parseFloat(price)){
-          var editObj = $scope.categoryArr[findCategory(id)]; //this is the element we are editing
-          var dif = editObj.ammount - res.newPrice; //the difference between the old price and the new one
-          console.log(editObj);
-          $scope.mainAmmount += dif;
+        var arrSum = 0;
+        //find the sum of all ammounts other than this one, to ensure that the user did not enter a value that exceeds the total ammount
+        for (var i = 0; i < $scope.categoryArr.length; i++){
+          if (i !== idx){
+            arrSum += parseFloat($scope.categoryArr[i].ammount);
+          }
+        }
+        //make sure the new ammount is not more than the total ammount possible
+        if (arrSum + res.newPrice < totalPrice){
+          var editObj = $scope.categoryArr[idx]; //this is the element we are editing
+          var dif = parseFloat(editObj.ammount) - res.newPrice; //the difference between the old price and the new one
+          var ammount = parseFloat($scope.mainAmmount);
+          ammount += parseFloat(dif);
+          $scope.mainAmmount = ammount;
           $scope.mainAmmount = parseFloat($scope.mainAmmount).toFixed(2); //make sure the cents are displayed
+          editObj.ammount = parseFloat(res.newPrice).toFixed(2);
+          editObj.category = res.categoryOption;
+        } else {
+          console.log('error:', arrSum, '+', res.newPrice, '>', totalPrice);
+          //do something here
         }
       }
     });

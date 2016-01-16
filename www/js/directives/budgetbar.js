@@ -6,7 +6,6 @@ angular.module('pushbudget').directive('pbBudgetbar', function() {
       total: '=',
       spent: '=',
     },
-    // incomplete **********************************************
     link: function($scope, element, attrs) {
         $scope.$watchGroup(["total", "spent"],function(newValues ,oldValues) {
           var total = parseFloat(newValues[0]);

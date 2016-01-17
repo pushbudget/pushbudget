@@ -1,0 +1,231 @@
+/* Empty. Add your own CSS if you like */
+.login-logo {
+  max-width: 30%;
+  height: auto;
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 85px;
+}
+
+.login-caption {
+  max-width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/*misc*/
+* {
+}
+
+div {
+  /*border: red 1px dotted;*/
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.rotate-90 {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
+#add-border {
+  border: 1px solid #8B8B8B;
+}
+
+/*budgetBar*/
+#budgetBarLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+#budgetBar {
+  border: 1px solid #DDDDDD;
+  height: 30px;
+  padding: 1px;
+  padding-bottom: 2px;
+  position: relative;
+  box-shadow: 1px 1px 1px #8B8B8B;
+  border-radius: 3px;
+  background-color: #F5F5F5;
+}
+
+#budgetBarFill {
+  height: 100%;
+  box-shadow: 1px 1px 0px #B3B3B3;
+  border-radius: 3px;
+}
+
+#budgetBarRemain {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  text-shadow: 1px 1px 1px #7C7C7C;
+}
+
+#budgetBarSpent {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  text-shadow: 1px 1px 1px #7C7C7C;
+}
+
+/*main.home -- dashboard*/
+#home-untaggedTrans {
+  border: 1px solid #000000;
+}
+
+#home-transLink {
+  text-decoration: none;
+}
+
+#home-budgetBox {
+  background-color: #F5F5F5;
+  border: 1px solid #DDDDDD;
+}
+
+#home-budgetBoxInfo {
+  width: 101%;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background-color: #FFFFFF;
+}
+
+#home-budgetBoxHeader {
+  width: 100%;
+  background-color: #DDDDDD;
+}
+
+#home-budgetBoxName {
+}
+
+#home-budgetBoxItem {
+  padding: 10px;
+  box-shadow: #DDDDDD 0px 1px 0px;
+  position: relative;
+}
+
+#home-budgetBoxBar {
+  height: 20px;
+  padding: 0px;
+  background-color: #B3B3B3;
+  width: 100%;
+  right: 30px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 0px #8B8B8B;
+}
+
+#home-budgetBoxBarFill {
+  height: 20px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 0px #8B8B8B;
+}
+
+#home-untaggedCat {
+  font-size: 12px;
+}
+
+#home-untaggedDate {
+  font-size: 12px;
+}
+
+#home-untaggedAmmount {
+  font-size: 20px;
+}
+
+#home-untaggedName {
+  font-size: 20px;
+}
+
+/*transactions*/
+/*new transactions */
+#newtrans-name {
+}
+
+#newtrans-date {
+}
+
+#newtrans-price {
+}
+
+#newtrans-catName {
+}
+
+#newtrans-addButton {
+  padding-right: 30px;
+}
+
+#newtrans-newCat {
+  border-top: 1px solid #DDDDDD;
+}
+
+#newtrans-newCatPrice {
+  width: 120px;
+  position: absolute;
+  left: 32px;
+}
+
+#newtrans-newCatName {
+}
+
+#newtrans-drag {
+  position: absolute;
+  right: 10px;
+}
+
+#newtrans-trashIcon {
+  padding-left: 17px;
+}
+
+/*profile */
+#profile-userInfo {
+  width: 100%;
+}
+
+#profile-username {
+}
+
+#profile-logout {
+  font-weight: normal;
+  position: absolute;
+  right: 15px;
+}
+
+#profile-userOptions {
+}
+
+#profile-bankName {
+}
+
+/*budget setup */
+#budget-budgetBoxItem {
+  padding: 10px;
+  box-shadow: #DDDDDD 0px 1px 0px;
+  position: relative;
+  border-left: 10px solid;
+}
+
+#budgetSetup-unallocated {
+  padding-left: 12px;
+  padding-top: 6px;
+}
+
+/*accordian*/
+.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+
+.item-accordion.ng-hide {
+  line-height: 0px;
+}
+
+.item-accordion.ng-hide-add, .item-accordion.ng-hide-remove {
+  display: block !important;
+}

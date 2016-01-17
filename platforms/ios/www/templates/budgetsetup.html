@@ -1,0 +1,58 @@
+<ion-view view-title="Budget Setup">
+  <ion-content >
+    <pb-budgetbar total="inputs.totalBudget-inputs.savingsGoal" spent="totalSpent"></pb-budgetbar>
+
+  <label class="item item-input">
+    <span class="input-label">Total Budget</span>
+      <label class="item-input-wrapper">
+        $<input type="text" placeholder="0.00" ng-model="inputs.totalBudget">
+      </label>
+  </label>
+  <label class="item item-input">
+    <span class="input-label">Savings Goal</span>
+      <label class="item-input-wrapper">
+        $<input type="text" placeholder="0.00" ng-model="inputs.savingsGoal">
+      </label>
+  </label>
+
+    <div class="list" >
+        <div class="item item-divider">
+          Budget Breakdown
+        </div>
+      <div ng-if="goodData">
+        <div id="budgetSetup-unallocated">
+          ${{unallocated}} Unused
+        </div>
+      </div>
+      <div ng-if="!goodData">
+        <div id="budgetSetup-unallocated">
+          <br>
+        </div>
+      </div>
+      <canvas id="pie" class="chart chart-pie" chart-click="onClick"
+          chart-data="chart.values" chart-labels="chart.labels">
+      </canvas>
+    </div>
+
+      <div id="home-budgetBox">
+        <div class="item item-divider" id="home-budgetBoxHeader">
+          <div class="row no-padding">
+            <div class="col col-67 col-center no-padding">
+              Budget Categories
+            </div>
+            <div class="col no-padding text-right">
+              <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>
+            </div>
+          </div>
+        </div>
+
+        <div ng-repeat="item in categoryArr">
+          <pb-budgetcat name="{{item.name}}" color="red" total="item.total" spent="25"></pb-budgetcat>
+        </div>
+
+
+
+
+      </div>
+  </ion-content>
+</ion-view>

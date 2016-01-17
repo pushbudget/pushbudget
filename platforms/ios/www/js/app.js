@@ -103,7 +103,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
       views: {
         'test': {
           templateUrl: 'templates/testview.html',
-          controller: 'splitTransaction'
+          controller: 'subbudgetTest'
         }
       },
     })

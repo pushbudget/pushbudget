@@ -202,6 +202,13 @@ div {
 }
 
 /*budget setup */
+#budget-budgetBoxItem {
+  padding: 10px;
+  box-shadow: #DDDDDD 0px 1px 0px;
+  position: relative;
+  border-left: 10px solid;
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

@@ -4,11 +4,11 @@ angular.module('pushbudget').service('userService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/api/user/' + userId
+      url: 'http://localhost:3001/user/' + userId + '/populate'
     }).then(function (user) {
       console.log("up in here");
       dfd.resolve(user);
-    }).catch(function () {
+    }).catch(function (user) {
       dfd.reject(user);
     });
     return dfd.promise;

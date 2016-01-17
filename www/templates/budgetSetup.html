@@ -24,23 +24,25 @@
           chart-data="data" chart-labels="labels">
       </canvas>
     </div>
+    {{lols}}
 
       <div id="home-budgetBox">
         <div class="item item-divider" id="home-budgetBoxHeader">
-          Budget Categories
-        </div>
-
-        <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
-          <div class="col col-50" id="home-budgetBoxName">
-            Entertainment
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
-              </div>
+          <div class="row no-padding">
+            <div class="col col-67 col-center no-padding">
+              Budget Categories
+            </div>
+            <div class="col no-padding text-right">
+              <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>
             </div>
           </div>
-        </div> <!-- /end ng-repeat -->
+        </div>
+
+        <div ng-repeat="item in categoryArr">
+          <pb-budgetcat name="{{item.name}}" color="red" total="item.total" spent="25"></pb-budgetcat>
+        </div>
+
+
 
 
       </div>

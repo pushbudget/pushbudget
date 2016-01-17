@@ -209,6 +209,11 @@ div {
   border-left: 10px solid;
 }
 
+#budgetSetup-unallocated {
+  padding-left: 12px;
+  padding-top: 6px;
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

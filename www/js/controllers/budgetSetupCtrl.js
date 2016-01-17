@@ -7,13 +7,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   // -right now if a user clicks cancel on the new category popup, it still tries to add it to the array with undefined values.
   // -need to add the ability to easily delete a category (swipe to delete like on newaction detail page?)
   // -maybe make clicking a category on the setup page bring up the popup to edit it?
-  // -need to display something on the screen when there is not a budget yet setup and the pie chart is hidden, or possibly just show an empty pie chart. What would be cool is that entire div collapsed until it was ready to show a pie chart, then expanded and then displayed it, but thats for later
   // -possibly add a way for the user to choose a color for the category, right now the graph library automatically assigns the first 7 then after that chooses random colors.
   // -right now a hard-coded "spent" ammount is being sent to the budgetcat directive, this will later need to be replaced with the data we get from the db, which im thinking we should put on a ref that gets passed in from the resolve block in the router
-  // -need to add the category array to the array thats passed in to the graph. first though we have to break out the names and values for each category and put each one into the respective array that the graph takes, since it works by taking both a labels array and a data array to get its name and value data
   // -we also need to make sure that a user is not adding a category with a budget ammount that exceeds the total that is unallocated
   // -it would be cool if there were sliders somewhere where a user could do on-the-fly adjustments of the ammounts of each sub-budget and see how that dynamically affects the pie chart. maybe the edit functionality of each category would bring a drop-down div out from under it to show the slider?
-  // adding budgets is still problematic, it uses $scope.data but so does the graph, and they are conflicting with eachother
+  // - weird stuff happens if the user enters negative values for budgets, we need to check for this
 
   //  dummy data
   $scope.totalSpent = 0;
@@ -63,9 +61,15 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         console.log('valueSum', valuesSum);
       }
 
-      if(totalBudget){
+      $scope.goodData = false;
+      console.log('totes:',totalBudget);
+      if(!isNaN(totalBudget) && totalBudget > 0){
         total = parseFloat(totalBudget);
-      }else total =1; //a default value of 1 shows a blank chart
+        $scope.goodData = true;
+        $scope.totalBudget = totalBudget;
+      }else{
+        total = 1; //a default value of 1 shows a blank chart
+      }
 
       //dont include savings if it is undefined (eg, the user declined to enter a value)
       if (savingsGoal){
@@ -77,13 +81,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget. Otherwise the chart seems to just take absolute values of negative numbers and the result is a mess
       }
 
+      if(totalBudget){
+        $scope.unallocated = parseFloat(unallocated).toFixed(2);
+      } else $scope.unallocated = undefined;
+
       $scope.chart.values = [savings, unallocated]; //array of chart values, the first two will always be the savings ammount and the unallocated ammount.
-      console.log('$scope.chart.values before concat',$scope.chart.values);
       $scope.chart.values = $scope.chart.values.concat(chartCatValues); //add the array of categories
-      console.log('chartcatvalues', chartCatValues);
-      console.log('$scope.chart.values after concat',$scope.chart.values);
       $scope.chart.labels = initLabelsArr.concat(chartCatLabels); //add array of labels (initial labels + category labels)
-      console.log($scope.chart.labels);
     }
   });
 

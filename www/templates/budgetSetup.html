@@ -17,9 +17,18 @@
 
     <div class="list" >
         <div class="item item-divider">
-          Budget Breakdown -put unallocated remaining here-
+          Budget Breakdown
         </div>
-      <br />
+      <div ng-if="goodData">
+        <div id="budgetSetup-unallocated">
+          ${{unallocated}} Unused
+        </div>
+      </div>
+      <div ng-if="!goodData">
+        <div id="budgetSetup-unallocated">
+          <br>
+        </div>
+      </div>
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
           chart-data="chart.values" chart-labels="chart.labels">
       </canvas>

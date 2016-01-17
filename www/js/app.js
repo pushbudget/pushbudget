@@ -66,7 +66,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
     views: {
       'transactions': {
         templateUrl: 'templates/newtransaction.html',
-        controller: 'newTransCtrl'
+        controller: 'newtransctrl'
       }
     }
   })
@@ -84,7 +84,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
       url: '/budgetsetup',
       views: {
         'budgets': {
-          templateUrl: 'templates/budgetSetup.html',
+          templateUrl: 'templates/budgetsetup.html',
           controller: 'budgetSetupCtrl'
         }
       }

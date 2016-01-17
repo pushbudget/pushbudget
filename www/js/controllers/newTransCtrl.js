@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicPopup) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup) {
 
   var totalPrice = 123;//this is the total ammount of this transaction, need to get it from a ref
   $scope.mainAmmount = parseFloat(totalPrice).toFixed(2);
@@ -32,7 +32,7 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
     $scope.data = {};
 
     var myPopup = $ionicPopup.show({
-      templateUrl: 'templates/newtransAddCat.html',
+      templateUrl: 'templates/newtrans-addcat.html',
       title: 'Add New Category',
       subTitle: 'Split this transaction into multiple categories',
       scope: $scope,
@@ -79,7 +79,7 @@ angular.module('pushbudget').controller('newTransCtrl', function($scope, $ionicP
 
 
     var myPopup = $ionicPopup.show({
-      templateUrl: 'templates/newtransAddCat.html',
+      templateUrl: 'templates/newtrans-addcat.html',
       title: 'Edit Category',
       subTitle: 'Current ammount: $' + parseFloat($scope.categoryArr[idx].ammount).toFixed(2),
       scope: $scope,

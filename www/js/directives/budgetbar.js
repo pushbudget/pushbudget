@@ -1,6 +1,6 @@
 angular.module('pushbudget').directive('pbBudgetbar', function() {
   return {
-    templateUrl: 'templates/budgetBar.html',
+    templateUrl: 'templates/budgetbar.html',
     restrict: 'E',
     scope: {
       total: '=',

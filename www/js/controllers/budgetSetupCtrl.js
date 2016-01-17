@@ -77,8 +77,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget. Otherwise the chart seems to just take absolute values of negative numbers and the result is a mess
       }
 
-
-
       $scope.chart.values = [savings, unallocated]; //array of chart values, the first two will always be the savings ammount and the unallocated ammount.
       console.log('$scope.chart.values before concat',$scope.chart.values);
       $scope.chart.values = $scope.chart.values.concat(chartCatValues); //add the array of categories

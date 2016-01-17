@@ -1,0 +1,23 @@
+angular.module('pushbudget').service('splitTransaction', function ($http, $q) {
+
+  // transaction split view, if no splits...transaction is added to bucket.
+  // if there are splits, the parent transaction is not added and 
+  // only the child transctions, aka shadow or split, are added
+  // to the subbudget splits array
+
+  this.addTransactionToBucket = function (transaction) {
+    console.log(555555, transaction);
+    var dfd = $q.defer();
+    $http({
+      method: 'POST',
+      url: 'http://localhost:3001/api/split/' + transaction.transId,
+      data: transaction
+    }).then(function (bucket) {
+      dfd.resolve(bucket)
+    }).catch(function (err) {
+      dfd.reject(err);
+    });
+    return dfd.promise;
+  }
+
+});

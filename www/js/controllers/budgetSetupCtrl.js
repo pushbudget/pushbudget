@@ -27,43 +27,72 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
 
   $scope.unallocated = 0;
+  $scope.chart = {};
 
-  var labelsArr = ['Savings', 'Unallocated'];
+  var initLabelsArr = ['Savings', 'Unallocated']; //initial labels
   var total = 0;
   var unallocated = 0;
   var savings = 0;
+  var chartCatValues = [];  //array of values for categories
+  var chartCatLabels = [];  //array of labels for categories
 
-  $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res) {
-   if(res) {
-     if(res[0]){
-       total = parseFloat(res[0]);
-     }else total = undefined; //this will make the chart go away, in this case we need something telling the user to enter a total
-     if (res[1]){ //dont include savings if it is undefined (eg, the user declined to enter a value)
-      savings = parseFloat(res[1]);
-    }else savings = 0;
-    unallocated = total - (savings ); //in the parenthesis needs to be a fn that will loop through the total of all budgets + savings and return the sum
-    if (unallocated < 0){
-      unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget
+  $scope.$watch('catId', function(nextId, thisId){
+    if($scope.categoryArr.length > 0){
+       console.log('new category added', thisId);
+       chartCatValues.push(parseFloat($scope.categoryArr[thisId].total));
+       chartCatLabels.push($scope.categoryArr[thisId].name);
+     }
+
+  });
+
+  $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal', 'catId'], function(res, prevRes) {
+    console.log('************');
+    if(res) {
+      var totalBudget = res[0];
+      var savingsGoal = res[1];
+      var catId = prevRes[2]; //the last catId to be added
+      var nextCatId = res[2];
+      var valuesSum = 0;
+
+      console.log(catId, nextCatId);
+
+      if (nextCatId > 0){
+        for (var i = 0; i < chartCatValues.length; i++){
+          valuesSum += chartCatValues[i];
+        }
+        console.log('valueSum', valuesSum);
+      }
+
+      if(totalBudget){
+        total = parseFloat(totalBudget);
+      }else total =1; //a default value of 1 shows a blank chart
+
+      //dont include savings if it is undefined (eg, the user declined to enter a value)
+      if (savingsGoal){
+        savings = parseFloat(savingsGoal);
+      }else savings = 0;
+
+      unallocated = total - (savings + valuesSum); //in the parenthesis needs to be a fn that will loop through the total of all budgets + savings and return the sum
+      if (unallocated < 0){
+        unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget. Otherwise the chart seems to just take absolute values of negative numbers and the result is a mess
+      }
+
+
+
+      $scope.chart.values = [savings, unallocated]; //array of chart values, the first two will always be the savings ammount and the unallocated ammount.
+      console.log('$scope.chart.values before concat',$scope.chart.values);
+      $scope.chart.values = $scope.chart.values.concat(chartCatValues); //add the array of categories
+      console.log('chartcatvalues', chartCatValues);
+      console.log('$scope.chart.values after concat',$scope.chart.values);
+      $scope.chart.labels = initLabelsArr.concat(chartCatLabels); //add array of labels (initial labels + category labels)
+      console.log($scope.chart.labels);
     }
-    $scope.data = [savings, unallocated]; //array of chart values
-    $scope.labels = labelsArr;
-   }
- });
-
- $scope.$watch('catId', function(nextId, thisId){
-   if($scope.categoryArr.length > 0){
-      console.log('new category added', thisId);
-      console.log($scope.data);
-      $scope.data.push($scope.categoryArr[thisId].total);
-      $scope.labels.push($scope.categoryArr[thisId].name);
-    }
-
- });
+  });
 
 
  //initial values for pie chart:
- $scope.labels = [];
- $scope.data = [0];
+ $scope.chart.labels = [];
+ $scope.chart.values = [0];
 
   $scope.onClick = function (points, evt) {
     // console.log("evt:", evt);

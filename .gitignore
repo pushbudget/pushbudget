@@ -1,0 +1,7 @@
+/platforms
+platforms
+node_modules
+bower_components 
+/node_modules
+/platforms
+/bower_components

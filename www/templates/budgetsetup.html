@@ -19,12 +19,12 @@
         <div class="item item-divider">
           Budget Breakdown
         </div>
-      <div ng-if="goodData">
+      <div ng-if="goodData && unallocated > 0">
         <div id="budgetSetup-unallocated">
-          ${{unallocated}} Unused
+          ${{unallocated}} Unbudgeted
         </div>
       </div>
-      <div ng-if="!goodData">
+      <div ng-if="!goodData || unallocated <= 0">
         <div id="budgetSetup-unallocated">
           <br>
         </div>
@@ -50,9 +50,12 @@
           <pb-budgetcat name="{{item.name}}" color="{{item.color}}" total="item.total" spent="item.spent"></pb-budgetcat>
         </div>
 
-
-
-
       </div>
+      <div class="item" id="budgetSetup-saveButtons">
+        <button class="button button-stable" id="budgetSetup-cancel" ui-sref="main.budgets">Cancel</button>
+        <button class="button button-balanced" id="budgetSetup-save" ng-click="">Save</button>
+      </div>
+
+
   </ion-content>
 </ion-view>

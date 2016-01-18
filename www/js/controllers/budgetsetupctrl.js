@@ -46,15 +46,12 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   });
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal', 'catId'], function(res, prevRes) {
-    console.log('************');
     if(res) {
       var totalBudget = res[0];
       var savingsGoal = res[1];
       var catId = prevRes[2]; //the last catId to be added
       var nextCatId = res[2];
       var valuesSum = 0;
-
-      console.log(catId, nextCatId);
 
       if (nextCatId > 0){
         for (var i = 0; i < chartCatValues.length; i++){
@@ -64,7 +61,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       }
 
       $scope.goodData = false;
-      console.log('totes:',totalBudget);
       if(!isNaN(totalBudget) && totalBudget > 0){
         total = parseFloat(totalBudget);
         $scope.goodData = true;

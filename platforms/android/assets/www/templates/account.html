@@ -1,0 +1,61 @@
+<ion-view view-title="Profile">
+  <ion-content>
+
+      <div class="list">
+
+      <div class="item item-divider text-center" id="profile-userInfo">
+        <span id="profile-username">pushbudgetuser@somewhere.com</span>
+      </div>
+
+      <div class="item" href="#" id="profile-userOptions">
+        <button class="button button-dark" id="profile-changePw ">Change password</button>
+        <button class="button button-dark" id="profile-logout">logout</button>
+      </div>
+
+
+    </div>
+    <ion-item>
+      <h2>Connected Banks</h2>
+    </ion-item>
+    <div class="card">
+      <div class="item item-divider">
+        <div class="row no-padding" >
+          <div class="col col-67 col-center no-padding">
+            Wells Fargo
+          </div>
+          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
+          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+        </div>
+      </div>
+
+      <div class="item item-text-wrap">
+        <ul>
+          <li>Checking *1234</li>
+          <li>Visa *1212 </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="item item-divider">
+        <div class="row no-padding" >
+          <div class="col col-67 col-center no-padding">
+            Bank of America
+          </div>
+          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
+          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+        </div>
+      </div>
+      <div class="item item-text-wrap">
+        <ul>
+          <li>Checking *5555</li>
+          <li>Savings *0099 </li>
+        </ul>
+      </div>
+    </div>
+    <ion-item>
+      <button class="button button-block button-balanced" ng-click="openLink()">Add account</button>
+    </ion-item>
+
+
+  </ion-content>
+</ion-view>

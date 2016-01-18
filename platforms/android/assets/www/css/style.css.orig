@@ -1,0 +1,134 @@
+/* Empty. Add your own CSS if you like */
+.login-logo {
+  max-width: 30%;
+  height: auto;
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 85px;
+}
+
+.login-caption {
+  max-width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/*misc*/
+div {
+  /*border: red 1px dotted;*/
+}
+
+/*budgetBar*/
+#budgetBarLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+#budgetBar {
+  border: 1px solid #DDDDDD;
+  height: 30px;
+  padding: 1px;
+  padding-bottom: 2px;
+  position: relative;
+  box-shadow: 1px 1px 1px #8B8B8B;
+  border-radius: 3px;
+  background-color: #F5F5F5;
+}
+
+#budgetBarFill {
+  height: 100%;
+  box-shadow: 1px 1px 0px #B3B3B3;
+  border-radius: 3px;
+}
+
+#budgetBarRemain {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  text-shadow: 1px 1px 1px #7C7C7C;
+}
+
+#budgetBarSpent {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  text-shadow: 1px 1px 1px #7C7C7C;
+}
+
+/*main.home -- dashboard*/
+#home-untaggedTrans {
+  border: 1px solid #000000;
+}
+
+#home-transLink {
+  text-decoration: none;
+}
+
+#home-budgetBox {
+  background-color: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  padding: 0;
+}
+
+#home-budgetBoxHeader {
+  width: 100%;
+  background-color: #DDDDDD;
+  font-size: 20px;
+  height: 30px;
+}
+
+#home-budgetBoxName {
+}
+
+#home-budgetBoxItem {
+  padding: 10px;
+  box-shadow: #DDDDDD 0px 1px 0px;
+  position: relative;
+}
+
+#home-budgetBoxBar {
+  height: 20px;
+  padding: 0px;
+  background-color: #B3B3B3;
+  width: 100px;
+  position: absolute;
+  right: 30px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 0px #8B8B8B;
+  bottom: 8px;
+}
+
+#home-budgetBoxBarFill {
+  height: 20px;
+  width: 42%;
+  border-radius: 3px;
+  box-shadow: 1px 1px 0px #8B8B8B;
+}
+
+<<<<<<< HEAD
+/*new transactions */
+#newtrans-name {
+}
+
+#newtrans-date {
+}
+
+#newtrans-price {
+}
+
+#newtrans-container {
+}
+
+#newtrans-label {
+  display: inline-block;
+}
+
+#newtrans-addButton {
+  padding-right: 30px;
+=======
+#transactionsList {
+  margin: 10px;
+>>>>>>> 0aa59c93c957f84aecaa2edd1efaefea0e9c58d2
+}

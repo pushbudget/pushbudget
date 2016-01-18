@@ -1,0 +1,46 @@
+<div class="row">
+  <div id="budgetBar" class="col">
+
+    <div ng-if="budgetBarPct === false">
+      <div id="budgetBarRemain">
+        $0.00
+      </div>
+      <div id="budgetBarSpent">
+      </div>
+    </div>
+
+    <!-- if above 20% -->
+    <div ng-if="budgetBarPct > 20 && budgetBarRemain >=0 " id="budgetBarFill" class="positive-bg" style="width: {{budgetBarPct}}%">
+      <div id="budgetBarRemain">
+        ${{budgetBarRemain}}
+      </div>
+      <div id="budgetBarSpent">
+      </div>
+    </div>
+    <!-- if above 10 and below 20% -->
+    <div ng-if="budgetBarPct <= 20  && budgetBarPct > 10" id="budgetBarFill" class="energized-bg" style="width: {{budgetBarPct}}%">
+      <div id="budgetBarRemain">
+        ${{budgetBarRemain}}
+      </div>
+      <div id="budgetBarSpent">
+      </div>
+    </div>
+    <!-- if above 0 and below 20% -->
+    <div ng-if="budgetBarPct <= 10  && budgetBarPct > 0" id="budgetBarFill" class="assertive-bg" style="width: {{budgetBarPct}}%">
+      <div id="budgetBarRemain">
+        ${{budgetBarRemain}}
+      </div>
+      <div id="budgetBarSpent">
+      </div>
+    </div>
+    <!-- if 0 or over budget -->
+    <div ng-if="budgetBarPct < 0 || budgetBarRemain < 0" id="budgetBarFill" class="assertive-bg"  style="width: 100%">
+      <div id="budgetBarRemain">
+        ${{budgetBarRemain}}
+      </div>
+      <div id="budgetBarSpent">
+         Over Budget!
+      </div>
+    </div>
+  </div> <!-- /end col -->
+</div> <!-- /end row -->

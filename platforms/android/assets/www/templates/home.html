@@ -1,0 +1,139 @@
+<ion-view view-title="Push Budget">
+  <ion-content >
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <pb-budgetbar></pb-budgetbar>
+    </a>
+    <div class="item item-divider" id="home-budgetBoxInfo">
+      You have $650 remaining
+    </div>
+
+    <div class="list" >
+      <a ui-sref="main.trans" id="home-transLink">
+        <div class="item item-divider">
+          Untagged Transactions
+        </div>
+      </a>
+      <a class="item" href="#">
+        <div class="row no-padding">
+          <div class="col no-padding">
+            <div class="col no-padding" id="home-untaggedName">
+              7-11
+            </div>
+            <div class="col no-padding" id="home-untaggedDate">
+              2016-01-04
+            </div>
+          </div>
+          <div class="col no-padding">
+            <div class="col no-padding text-right" id="home-untaggedAmmount">
+              $0.20
+            </div>
+            <div class="col no-padding text-right" id="home-untaggedCat">
+              Untagged
+            </div>
+          </div>
+        </div>
+      </a>
+      <a class="item" href="#">
+        <div class="row no-padding">
+          <div class="col no-padding">
+            <div class="col no-padding" id="home-untaggedName">
+              Wal-Mart
+            </div>
+            <div class="col no-padding" id="home-untaggedDate">
+              2016-01-08
+            </div>
+          </div>
+          <div class="col no-padding">
+            <div class="col no-padding text-right" id="home-untaggedAmmount">
+              $34.99
+            </div>
+            <div class="col no-padding text-right" id="home-untaggedCat">
+              Untagged
+            </div>
+          </div>
+        </div>
+      </a>
+      <a class="item" href="#">
+        <div class="row no-padding">
+          <div class="col no-padding">
+            <div class="col no-padding" id="home-untaggedName">
+              Amazon.com
+            </div>
+            <div class="col no-padding" id="home-untaggedDate">
+              2016-01-12
+            </div>
+          </div>
+          <div class="col no-padding">
+            <div class="col no-padding text-right" id="home-untaggedAmmount">
+              $250.00
+            </div>
+            <div class="col no-padding text-right" id="home-untaggedCat">
+              Untagged
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+
+
+      <div id="home-budgetBox">
+        <div class="item item-divider" id="home-budgetBoxHeader">
+          Budgets
+        </div>
+        <div class="row" id="home-budgetBoxItem"> <!-- ng-repeat here -->
+          <div class="col col-50" id="home-budgetBoxName">
+            Entertainment
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 80%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div> <!-- /end ng-repeat -->
+
+        <!-- simulated ng-repeat here -->
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Groceries
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 33%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Gas
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="home-budgetBoxItem">
+          <div class="col col-50" id="home-budgetBoxName">
+          Groceries
+          </div>
+          <div class="col col-50">
+            <div id="home-budgetBoxBar">
+              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 45%"> <!--angular variable here for width length -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /end simulated ng-repeat -->
+
+      </div>
+
+
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,62 @@
+<ion-view view-title="Transactions">
+  <ion-content>
+    <a ui-sref="main.budgets" id="budgetBarLink">
+      <pb-budgetbar></pb-budgetbar>
+    </a>
+
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Show
+        </div>
+        <select>
+          <option selected>Untagged Transactions</option>
+          <option>All Transactions</option>
+          <option>Food</option>
+          <option>Gas</option>
+          <option>Entertainment</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="list">
+        <div class="item item-divider">
+          &lt;category name&gt;
+        </div>
+
+        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in transactions">
+          <div class="row no-padding">
+            <div class="col no-padding">
+              <div class="col no-padding" id="home-untaggedName">
+                {{transaction.business}}
+              </div>
+              <div class="col no-padding" id="home-untaggedDate">
+                {{transaction.date}}
+              </div>
+            </div>
+            <div class="col no-padding">
+              <div class="col no-padding text-right" id="home-untaggedAmmount">
+                {{transaction.amount}}
+              </div>
+              <div class="col no-padding text-right" id="home-untaggedCat">
+                &lt;category&gt;
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+
+        <!-- <a ui-sref="main.newTrans" class="item" ng-repeat="transaction in transactions">
+          <div class="row">
+              <div class="col">{{transaction.business}}</div>
+              <div class="col">{{transaction.amount}}</div>
+              <div class="col">{{transaction.date}}</div>
+          </div>
+        </a> -->
+
+
+
+    </div>
+  </ion-content>
+</ion-view>

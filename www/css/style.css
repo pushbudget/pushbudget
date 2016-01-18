@@ -36,6 +36,18 @@ div {
   border: 1px solid #8B8B8B;
 }
 
+/*.center
+{
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+	position: absolute !important;
+	margin: 0 auto;
+	width: 100%;
+}*/
 /*budgetBar*/
 #budgetBarLink {
   text-decoration: none;
@@ -44,7 +56,7 @@ div {
 
 #budgetBar {
   border: 1px solid #DDDDDD;
-  height: 30px;
+  height: 40px;
   padding: 1px;
   padding-bottom: 2px;
   position: relative;
@@ -61,16 +73,18 @@ div {
 
 #budgetBarRemain {
   position: absolute;
-  bottom: 4px;
   left: 4px;
+  bottom: 10px;
   text-shadow: 1px 1px 1px #7C7C7C;
+  font-size: 20px;
 }
 
 #budgetBarSpent {
   position: absolute;
   right: 4px;
-  bottom: 4px;
+  bottom: 10px;
   text-shadow: 1px 1px 1px #7C7C7C;
+  font-size: 20px;
 }
 
 /*main.home -- dashboard*/
@@ -202,6 +216,14 @@ div {
 }
 
 /*budget setup */
+#budget-savingsLabel {
+  border-left: 10px #97BBCD solid;
+}
+
+#budget-totalLabel {
+  border-left: #DCDCDC 10px solid;
+}
+
 #budget-budgetBoxItem {
   padding: 10px;
   box-shadow: #DDDDDD 0px 1px 0px;

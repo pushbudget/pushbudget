@@ -27,6 +27,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.unallocated = 0;
   $scope.chart = {};
 
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
+  var colorCount = 0; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
   var initLabelsArr = ['Savings', 'Unallocated']; //initial labels
   var total = 0;
   var unallocated = 0;
@@ -121,6 +123,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/budgetsetup-addcat.html',
       title: 'Add A New Category',
+      subTitle: '$'+ $scope.unallocated +' remain',
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
@@ -128,8 +131,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           text: '<b>Save</b>',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.newPrice || !$scope.data.newName) {
-              //don't allow the user to close unless they enters a new price and name.
+            if (!$scope.data.newPrice || !$scope.data.newName || parseFloat($scope.data.newPrice) > $scope.unallocated || isNaN($scope.data.newPrice) || parseFloat($scope.data.newPrice) <=0) {
+              //don't allow the user to close unless they enters a new price and name. Also check that this budget does not exceed funds remaining and that it is a number > 0
               e.preventDefault();
             } else {
               return $scope.data;
@@ -148,9 +151,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           id: $scope.catId,
           total: parseFloat(res.newPrice).toFixed(2),
           name: res.newName,
+          color: chartColorsArr[colorCount],
         };
         $scope.categoryArr.push(output); //add the new category to the category array
         $scope.catId++; //increment the id for the next one
+        colorCount++;
         console.log($scope.categoryArr);
       }
     });

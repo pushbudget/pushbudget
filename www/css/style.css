@@ -236,6 +236,19 @@ div {
   padding-top: 6px;
 }
 
+#budgetSetup-save {
+}
+
+#budgetSetup-cancel {
+}
+
+#budgetSetup-saveButtons {
+  position: absolute;
+  right: 1px;
+  margin-top: 1px;
+  border: 0;
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

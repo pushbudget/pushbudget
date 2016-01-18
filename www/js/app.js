@@ -35,7 +35,16 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
     .state('main', {
     url: '/main',
     abstract: true,
-    templateUrl: 'templates/main.html'
+    templateUrl: 'templates/main.html',
+    controller: 'mainCtrl',
+    resolve: {
+      userRef: function(userService, $stateParams){
+        console.log('hitting userService');
+        userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function(res){
+          return res.data;
+        });
+      },
+    },
   })
 
   // Each tab has its own nav history stack:
@@ -47,7 +56,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
         templateUrl: 'templates/home.html',
         controller: 'homeCtrl'
       }
-    }
+    },
   })
 
   .state('main.trans', {

@@ -1,0 +1,7 @@
+platforms
+node_modules
+bower_components
+www/angular-animate
+www/angular-sanitize
+www/angular-ui-router
+www/angular

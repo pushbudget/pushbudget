@@ -249,6 +249,13 @@ div {
   border: 0;
 }
 
+#budgetSetup-catRows {
+  padding-bottom: 10px !important;
+}
+
+#budgetSetup-catName {
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

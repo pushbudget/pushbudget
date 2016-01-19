@@ -1,12 +1,21 @@
 <div class="row" id="budget-budgetBoxItem" style="border-left: 10px solid {{color}}">
-  <div class="col col-50" id="home-budgetBoxName">
-    {{name}}, val, {{value}}  max:{{max}} u:{{unallocated}}
+  <div class="col col-50 col-center">
+    <div class="row no-padding" id="budgetSetup-catRows" >
+      <div class="col no-padding" id="budgetSetup-catName">
+        {{name}}
+      </div>
+    </div>
+    <div class="row no-padding">
+      <div class="col no-padding">
+        ${{displayValue}}
+      </div>
+    </div>
   </div>
-  <div class="col col-50 no-padding">
-    <div class="item range range-assertive">
-    <input type="range" name="{{name}}", min="0" max="{{max}}" value="{{value}}"  ng-model="value">
+  <div class="col col-50 no-padding col-center">
+    <div class="item range">
 
-  </div>
+      <input type="range" name="{{name}}", min="0" max="{{max}}" value="{{value}}"  ng-model="value">
+    </div>
     <!-- <div id="home-budgetBoxBar">
       <div id="home-budgetBoxBarFill" class="positive-bg" style="width: {{budgetPct}}%">
       </div>

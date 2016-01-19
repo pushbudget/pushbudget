@@ -33,6 +33,7 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
       name: '@',
       color: '@',
       unallocated: '@',
+      id: '@',
       value: '=',
     },
     link: function($scope, element, attrs) {
@@ -40,10 +41,10 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
           var unallocated = parseFloat(newValues[0]);
           var value = parseFloat(newValues[1]);
           var max = value + unallocated;
+          $scope.displayValue = parseFloat(value).toFixed(2);
           $scope.value = String(value);
           $scope.max = String(max);
-          //$scope.max = String(parseFloat(unallocated)+parseFloat(value));
-      },true);
+      });
 
      },
     controller: function($scope) {

@@ -13,19 +13,12 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   // -it would be cool if there were sliders somewhere where a user could do on-the-fly adjustments of the ammounts of each sub-budget and see how that dynamically affects the pie chart. maybe the edit functionality of each category would bring a drop-down div out from under it to show the slider?
   // - weird stuff happens if the user enters negative values for budgets, we need to check for this
 
-  //  dummy data
-  $scope.totalSpent = 0;
 
-  // $scope.data = [300, 500, 100, 1500, 230, 56, 678];
-  // /dummy data
+  $scope.totalSpent = 0;   //  dummy data
+
 
   $scope.inputs= {};
   $scope.categoryArr = []; //this is an array of category objects
-
-  //ionic stuff for lists
-  $scope.shouldShowDelete = false;
-  $scope.shouldShowReorder = false;
-  $scope.listCanSwipe = true;
 
   $scope.catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
 
@@ -204,6 +197,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         console.log($scope.categoryArr);
       }
     });
+  };
+
+  $scope.onHold = function(id){
+    console.log('id:',id);
   };
 
 

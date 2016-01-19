@@ -50,7 +50,7 @@
           <pb-budgetcat name="{{item.name}}" color="{{item.color}}" total="item.total" spent="item.spent"></pb-budgetcat>
         </div> -->
         <div ng-repeat="item in categoryArr">
-          <pb-budgetcat name="{{item.name}}" color="{{item.color}}" max="item.max" value="item.total"></pb-budgetcat>
+          <pb-budgetcat name="{{item.name}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.total"></pb-budgetcat>
         </div>
 
       </div>

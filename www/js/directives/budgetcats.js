@@ -32,15 +32,14 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
     scope: {
       name: '@',
       color: '@',
+      unallocated: '@',
       value: '=',
-      max: '='
     },
     link: function($scope, element, attrs) {
-        $scope.$watchGroup(["max", "value"],function(newValues ,oldValues) {
-          var max = newValues[0];
+        $scope.$watchGroup(["unallocated", "value"],function(newValues ,oldValues) {
+          var unallocated = parseFloat(newValues[0]);
           var value = parseFloat(newValues[1]);
-          // var dif = parseFloat(newValues[1]) - parseFloat(oldValues[1]);
-          // $scope.unallocated = unallocated;
+          var max = value + unallocated;
           $scope.value = String(value);
           $scope.max = String(max);
           //$scope.max = String(parseFloat(unallocated)+parseFloat(value));

@@ -30,7 +30,7 @@
         </div>
       </div>
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
-          chart-data="chart.values" chart-labels="chart.labels">
+          chart-data="chart.values" chart-labels="chart.labels" chart-options="chart.options">
       </canvas>
     </div>
 
@@ -46,8 +46,9 @@
           </div>
         </div>
 
+
         <div ng-repeat="item in categoryArr">
-          <pb-budgetcat name="{{item.name}}" color="{{item.color}}" total="item.total" spent="item.spent"></pb-budgetcat>
+          <pb-budgetcat name="{{item.name}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.total" id="{{item.id}}"></pb-budgetcat>
         </div>
 
       </div>

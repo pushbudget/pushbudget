@@ -37,8 +37,11 @@
       <div id="home-budgetBox">
         <div class="item item-divider" id="home-budgetBoxHeader">
           <div class="row no-padding">
-            <div class="col col-67 col-center no-padding">
+            <div class="col col-50 col-center no-padding">
               Budget Categories
+            </div>
+            <div class="col no-padding text-right"> <!-- ng-if="categoryArr.length"> -->
+              <button class="button icon ion-edit button-positive" id="budgetSetup-editCat" ui-sref="main.budgetSetupEdit"></button>
             </div>
             <div class="col no-padding text-right">
               <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>
@@ -47,7 +50,7 @@
         </div>
 
 
-        <div ng-repeat="item in categoryArr">
+        <div ng-repeat="item in budgetCategories">
           <pb-budgetcat name="{{item.name}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.total" id="{{item.id}}"></pb-budgetcat>
         </div>
 

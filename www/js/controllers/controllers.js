@@ -47,18 +47,19 @@ angular.module('pushbudget.controllers', [])
 
 
 .controller('AccountCtrl', function($scope) {
-  var sandboxHandler = Plaid.create({
-    clientName: 'pushbudget',
-    env: 'tartan',
-    product: 'auth',
-    key: 'test_key',
-    onSuccess: function(token) {
-      window.location = '/accounts.html?public_token=' + token;
-    }
-  });
-
-  $scope.openLink = function() {
-    console.log('open the link modal');
-    sandboxHandler.open();
-  };
+  // this has to be moved to a service
+  // var sandboxHandler = Plaid.create({
+  //   clientName: 'pushbudget',
+  //   env: 'tartan',
+  //   product: 'auth',
+  //   key: 'test_key',
+  //   onSuccess: function(token) {
+  //     window.location = '/accounts.html?public_token=' + token;
+  //   }
+  // });
+  //
+  // $scope.openLink = function() {
+  //   console.log('open the link modal');
+  //   sandboxHandler.open();
+  // };
 });

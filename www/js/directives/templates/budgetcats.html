@@ -1,0 +1,15 @@
+<div class="row" id="budget-budgetBoxItem" style="border-left: 10px solid {{color}}">
+  <div class="col col-50" id="home-budgetBoxName">
+    {{name}}, val, {{value}}  max:{{max}}
+  </div>
+  <div class="col col-50 no-padding">
+    <div class="item range range-assertive">
+    <input type="range" name="{{name}}", min="0" max="{{max}}" value="{{value}}"  ng-model="value">
+
+  </div>
+    <!-- <div id="home-budgetBoxBar">
+      <div id="home-budgetBoxBarFill" class="positive-bg" style="width: {{budgetPct}}%">
+      </div>
+    </div> -->
+  </div>
+</div>

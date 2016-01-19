@@ -20,12 +20,29 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   // /dummy data
 
   $scope.inputs= {};
-  $scope.categoryArr = [];
+  $scope.categoryArr = []; //this is an array of category objects
+
+  //ionic stuff for lists
+  $scope.shouldShowDelete = false;
+  $scope.shouldShowReorder = false;
+  $scope.listCanSwipe = true;
 
   $scope.catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
 
   $scope.unallocated = 0;
   $scope.chart = {};
+  $scope.test ={
+      value: 1
+  };
+
+  chartOptions = {
+      //String - Template string for single tooltips
+      tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
+      //String - Template string for multiple tooltips
+      //multiTooltipTemplate: "<%= value + ' %' %>"
+  };
+
+  $scope.chart.options = chartOptions;
 
   var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
   var colorCount = 0; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
@@ -33,8 +50,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var total = 0;
   var unallocated = 0;
   var savings = 0;
+
+  //used for chart (chart takes two seperate arrays of data that we have to split)
   var chartCatValues = [];  //array of values for categories
   var chartCatLabels = [];  //array of labels for categories
+
 
   $scope.$watch('catId', function(nextId, thisId){
     if($scope.categoryArr.length > 0){
@@ -44,6 +64,34 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
      }
 
   });
+
+  $scope.$watch('categoryArr', function(newValue, oldValue){
+    var updatedValuesArr = [];
+    var updatedSum = 0; //sum of all categories
+    var updatedUnallocated = 0;
+    var savingsGoal = $scope.inputs.savingsGoal;
+    //build the array of updated values:
+    for (var i =0; i< $scope.categoryArr.length; i++){
+      updatedSum += parseFloat($scope.categoryArr[i].total);
+      updatedValuesArr.push(parseFloat($scope.categoryArr[i].total));
+    }
+
+    if (savingsGoal){
+      savingsGoal = parseFloat(savingsGoal);
+    }else savingsGoal = 0;
+
+    updatedUnallocated = parseFloat($scope.inputs.totalBudget) - savingsGoal - updatedSum;
+    unallocated = updatedUnallocated;
+    $scope.unallocated = unallocated;
+
+    var initArr = [savingsGoal, updatedUnallocated];
+    chartCatValues = updatedValuesArr;
+    $scope.chart.values = initArr.concat(chartCatValues);
+    console.log('1', chartCatValues);
+
+
+
+  }, true);
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal', 'catId'], function(res, prevRes) {
     if(res) {
@@ -66,7 +114,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         $scope.goodData = true;
         $scope.totalBudget = totalBudget;
       }else{
-        total = 1; //a default value of 1 shows a blank chart
+        total = 1; //a default value of 1 shows a blank chart, 0 shows no chart
       }
 
       //dont include savings if it is undefined (eg, the user declined to enter a value)
@@ -86,6 +134,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       $scope.chart.values = [savings, unallocated]; //array of chart values, the first two will always be the savings ammount and the unallocated ammount.
       $scope.chart.values = $scope.chart.values.concat(chartCatValues); //add the array of categories
       $scope.chart.labels = initLabelsArr.concat(chartCatLabels); //add array of labels (initial labels + category labels)
+
     }
   });
 

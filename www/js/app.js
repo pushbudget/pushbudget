@@ -39,7 +39,6 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'pushbudget.ser
     controller: 'mainCtrl',
     resolve: {
       userRef: function(userService, $stateParams){
-        console.log('hitting userService');
         userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function(res){
           return res.data;
         });

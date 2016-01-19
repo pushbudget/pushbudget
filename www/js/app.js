@@ -39,7 +39,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
     controller: 'mainCtrl',
     resolve: {
       userRef: function (userService, $stateParams) {
-        userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function (res) {
+        return userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function (res) {
           return res.data;
         });
       },

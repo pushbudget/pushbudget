@@ -19,7 +19,7 @@
           &lt;category name&gt;
         </div>
 
-        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in transactions | limitTo: 20">
+        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in transactions | limitTo: 20 | filter: filterOption">
           <div class="row no-padding">
             <div class="col no-padding">
               <div class="col no-padding" id="home-untaggedName">
@@ -39,18 +39,6 @@
             </div>
           </div>
         </a>
-
-
-
-        <!-- <a ui-sref="main.newTrans" class="item" ng-repeat="transaction in transactions">
-          <div class="row">
-              <div class="col">{{transaction.business}}</div>
-              <div class="col">{{transaction.amount}}</div>
-              <div class="col">{{transaction.date}}</div>
-          </div>
-        </a> -->
-
-
 
     </div>
   </ion-content>

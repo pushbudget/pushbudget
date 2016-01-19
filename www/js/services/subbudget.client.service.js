@@ -36,11 +36,13 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
   }
 
   // delete a specific bucket, tied to a user
-  this.deleteBucket = function (bucketId) {
+  // need to pass the budgetId as another paramter here
+  // to facilitate some backend logic
+  this.deleteBucket = function (bucketId, budgetId) {
     var dfd = $q.defer();
     $http({
         method: 'DELETE',
-        url: 'http://localhost:3001/api/subbudget/' + bucketId
+        url: 'http://localhost:3001/api/subbudget/' + bucketId + '/' + budgetId
       }).then(function (res) {
         dfd.resolve(res);
       })
@@ -50,11 +52,13 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
     return dfd.promise;
   }
 
+  // need to pass the budgetID on the bucketObj in order to 
+  // do some work on the backend, adding bucket to budget
   this.createBucket = function (bucketObj) {
     var dfd = $q.defer();
     $http({
         method: 'POST',
-        url: 'http://localhost:3001/api/subbudget',
+        url: 'http://localhost:3001/api/subbudget/' + bucketObj._id,
         data: bucketObj
       }).then(function (res) {
         dfd.resolve(res);

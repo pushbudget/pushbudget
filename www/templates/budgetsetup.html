@@ -41,7 +41,7 @@
               Budget Categories
             </div>
             <div class="col no-padding text-right"> <!-- ng-if="categoryArr.length"> -->
-              <button class="button icon ion-edit button-positive" id="budgetSetup-editCat" ui-sref="main.budgetSetupEdit"></button>
+              <button class="button icon ion-edit button-positive" id="budgetSetup-editCat" ng-click="openModal()"></button>
             </div>
             <div class="col no-padding text-right">
               <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>

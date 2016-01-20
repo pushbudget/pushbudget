@@ -252,6 +252,16 @@ div {
 #budgetSetup-catName {
 }
 
+#budgetSetup-drag {
+  position: absolute;
+  right: 10px;
+  bottom: 35%;
+}
+
+#budgetSetup-editName {
+  display: inline-block;
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

@@ -63,8 +63,8 @@
         <button ng-if="budgetCategories.length" class="button icon ion-edit button-positive" ng-click="openModal()"> Edit</button>
       </div>
       <div class="col text-right" id="budgetSetup-saveButtons">
-        <button class="button button-stable" id="budgetSetup-cancel" ui-sref="main.budgets">Cancel</button>
-        <button class="button button-balanced" id="budgetSetup-save" ng-click="">Save</button>
+        <button class="button button-stable" id="budgetSetup-cancel" ng-click="cancel()">Cancel</button>
+        <button class="button button-balanced" id="budgetSetup-save" ng-click="save()">Save</button>
       </div>
     </div>
 

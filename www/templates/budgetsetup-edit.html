@@ -2,11 +2,11 @@
   <ion-header-bar class="bar-positive">
       <div class="buttons">
         <button class="button button-icon icon ion-ios-minus-outline"
-          ng-click="data.showDelete = !data.showDelete"></button>
+          ng-click="data.showDelete = !data.showDelete; data.showReorder = false "></button>
       </div>
-      <h1 class="title">Edit Categories</h1>
+        <h1 class="title" ng-click="closeModal()">Edit Categories</h1>
       <div class="buttons">
-        <button class="button button-icon icon ion-ios-close-outline" ng-click="closeModal()">
+        <button class="button button-icon icon ion-arrow-swap rotate-90" ng-click=" data.showDelete = false; data.showReorder = !data.showReorder">
 
         </button>
       </div>
@@ -14,25 +14,17 @@
 
     <ion-content>
 
-      <ion-list show-delete="data.showDelete" show-reorder="true">
-
-        <ion-item ng-repeat="item in budgetCategories"
-                  item="item"
-                  href="#/item/{{item.id}}" class="item-remove-animate">
-
-            {{ item.name }}
-
-          <ion-delete-button class="ion-minus-circled"
-                             ng-click="deleteCategory(item)">
+      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+        <ion-item ng-repeat="item in budgetCategories" item="item" href="#/item/{{item.id}}" class="item-remove-animate" >
+          <input type="text" placeholder="{{item.name}}" ng-model="item.name" id="budgetSetup-editName">
+          <i class="icon ion-drag rotate-90" id="budgetSetup-drag"></i>
+          <ion-delete-button class="ion-minus-circled" ng-click="deleteCategory(item)">
           </ion-delete-button>
-          <ion-option-button class="button-positive"
-                             ng-click="editCategory(item)">
-            Edit
+          <ion-option-button ng-click="changeColor(item)" style="background-color: {{item.color}}" >
+            <i class="icon ion-paintbrush" ></i>
           </ion-option-button>
-
-          <ion-reorder-button class="ion-navicon" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+          <ion-reorder-button class="ion-navicon no-padding" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
         </ion-item>
-
       </ion-list>
 
     </ion-content>

@@ -51,7 +51,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   ];
 
-
+  var deletedCats = [];
   $scope.inputs= {};
 
   $scope.totalSpent = initSpent;
@@ -169,8 +169,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       $scope.goodData = false;
       newUnallocated = 0; //the graph uses absolute values, so a negative value causes many problems
     }
-
-
     updateInitGroup(currentSavings, newUnallocated);
     chartUpdate();
   };
@@ -260,8 +258,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           id: $scope.catId,
           total: parseFloat(res.newPrice).toFixed(2),
           name: res.newName,
-          //color: chartColorsArr[colorCount],
-          color: getColor()
+          color: getColor(),
+          new: true,
         };
         categories.push(output); //add the new category to the category array
         $scope.budgetCategories.push(output);
@@ -273,26 +271,66 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     });
   };
 
+  $scope.saveConfirmPopup = function() {
+    $scope.data = {};
+
+    var myPopup = $ionicPopup.show({
+      template: '<div ng-repeat="category in deletedCats">category.name</div>',
+      title: 'Save Changes?',
+      subTitle: $scope.deletedCats.length + ' categories will be deleted:',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Ok</b>',
+          type: 'button-assertive',
+          onTap: function(e) {
+            $scope.data.ok = true;
+            return $scope.data;
+          }
+        }
+      ]
+    });
+
+    //after the popup is closed, this will happen:
+    myPopup.then(function(res) {
+      //if the user did not press cancel:
+      if (res){
+        console.log(res);
+        //code here to do stuff to the database
+      }
+    });
+  };
+
+  $scope.cancel = function(){
+
+  };
+
   $scope.showDelete = false;
-  $scope.showReorder = true;
+  $scope.showReorder = false;
   $scope.listCanSwipe = true;
 
   $scope.deleteCategory = function(item){
-    console.log(item);
     var idx = findIndex(item.id);
-    console.log(idx);
+    if (!item.new){
+      deletedCats.push(item);
+    }
+    console.log(deletedCats);
     categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
-
-    console.log('inside:', categories);
-    console.log('scope:', $scope.budgetCategories);
-      //put in some array or object that is then passed upon pressing save which will then trigger the back end to do some delete stuff
-    //some logic that determines if this category was orginally passed in from the data base, then if so store it somewhere, and then on save remove it.
   };
 
-  $scope.editCategory = function(item){
-    console.log(item);
-    //edit stuff
+  $scope.save = function(){
+    if (deletedCats.length > 0){
+
+    }
+  };
+
+  $scope.changeColor = function(item){
+    item.color = getRandomColor();
+  };
+  $scope.stuff = function(){
+    console.log('stuff');
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {
@@ -303,28 +341,28 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $ionicModal.fromTemplateUrl('templates/budgetsetup-edit.html', {
-   scope: $scope,
-   animation: 'slide-in-up'
-   }).then(function(modal) {
-     $scope.modal = modal;
-   });
-   $scope.openModal = function() {
-     $scope.modal.show();
-   };
-   $scope.closeModal = function() {
-     $scope.modal.hide();
-   };
-   //Cleanup the modal when we're done with it!
-   $scope.$on('$destroy', function() {
-     $scope.modal.remove();
-   });
-   // Execute action on hide modal
-   $scope.$on('modal.hidden', function() {
-     // Execute action
-   });
-   // Execute action on remove modal
-   $scope.$on('modal.removed', function() {
-     // Execute action
-   });
+  scope: $scope,
+  animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+  $scope.modal.remove();
+  });
+  // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+  // Execute action
+  });
+  // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+  // Execute action
+  });
 
 });

@@ -51,6 +51,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   ];
 
+  $scope.shouldShowDelete = true;
+  $scope.shouldShowReorder = true;
+  $scope.listCanSwipe = true;
+
   $scope.totalSpent = dummySpent;   //  dummy data
 
   $scope.inputs= {};
@@ -150,7 +154,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         valuesSum += chartCatValues[i];
       }
       console.log('valuesSum', valuesSum);
-      
+
       $scope.goodData = false;
       if(!isNaN(totalBudget) && totalBudget > 0){
         total = parseFloat(totalBudget);
@@ -211,6 +215,15 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.addCatPopup = function() {
     $scope.data = {};
 
+    var isEmpty = function(obj) {
+      for(var prop in obj) {
+        if(obj.hasOwnProperty(prop)){
+          return false;
+        }
+      }
+      return true;
+    };
+
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/budgetsetup-addcat.html',
       title: 'Add A New Category',
@@ -233,23 +246,24 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       ]
     });
 
-    //after the popup is closed, this will happen:
-    myPopup.then(function(res) {
-      res.newPrice = parseFloat(res.newPrice);
-      //if the user did not press cancel:
-      if (res){
-        var output = {
-          id: $scope.catId,
-          total: parseFloat(res.newPrice).toFixed(2),
-          name: res.newName,
-          color: chartColorsArr[colorCount],
-        };
-        $scope.categoryArr.push(output); //add the new category to the category array
-        $scope.catId++; //increment the id for the next one
-        colorCount++;
-        console.log($scope.categoryArr);
-      }
-    });
+      //after the popup is closed, this will happen:
+    if(!isEmpty($scope.data)){
+      myPopup.then(function(res) {
+        res.newPrice = parseFloat(res.newPrice);
+        //if the user did not press cancel:
+        if (res){
+          var output = {
+            id: $scope.catId,
+            total: parseFloat(res.newPrice).toFixed(2),
+            name: res.newName,
+            color: chartColorsArr[colorCount],
+          };
+          $scope.categoryArr.push(output); //add the new category to the category array
+          $scope.catId++; //increment the id for the next one
+          colorCount++;
+        }
+      });
+    }
   };
 
 

@@ -8,7 +8,7 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, userServic
   $scope.currentUser = userRef;
 
   transactionService.getAllUserTransactions(userRef._id).then(function(res){
-    console.log(res);
+    // console.log(res);
     $scope.transactions = res;
   });
 

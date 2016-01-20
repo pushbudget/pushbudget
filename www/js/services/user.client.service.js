@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('userService', function ($http, $q) {
+angular.module('pushbudget').service('userService', function ($http, $q, $state) {
   console.log("up in here");
   this.getUserFromDb = function (userId) {
     var dfd = $q.defer();
@@ -35,4 +35,20 @@ angular.module('pushbudget').service('userService', function ($http, $q) {
       //return res.data;
     });
   };
+
+  this.loginUser = function(user){
+    var dfd = $q.defer();
+    $http({
+      method: 'POST',
+      url: 'http://localhost:3001/login',
+      data: user
+    }).then(function (res) {
+      console.log("user service: ",res);
+      dfd.resolve(user);
+      $state.go('main.home', user);
+    }).catch(function (user) {
+      dfd.reject(user);
+    });
+    return dfd.promise;
+  }
 });

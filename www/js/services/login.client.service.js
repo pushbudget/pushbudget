@@ -10,7 +10,7 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
       url: 'http://localhost:3001/login',
       data: user
     }).then(function (user) {
-      that.currentUser = user.data;
+      currentUser = user.data;
       dfd.resolve(user);
     }).catch(function (err) {
       dfd.reject(err);
@@ -18,7 +18,7 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
     return dfd.promise;
   }
 
-  this.getCurrentUser() {
+  this.getCurrentUser = function() {
     return currentUser
   }
 

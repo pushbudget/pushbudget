@@ -16,11 +16,11 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
       dfd.reject(err);
     });
     return dfd.promise;
-  }
+  };
 
-  this.getCurrentUser() {
-    return currentUser
-  }
+  this.getCurrentUser = function() {
+    return currentUser;
+  };
 
   /*
     this.getCurrentUser = function () {

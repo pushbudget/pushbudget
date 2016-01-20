@@ -21,13 +21,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     {
       color: '#F7464A',
       id: 432,
-      name: 'tacos',
+      name: 'cat 1',
       total: '10'
     },
     {
       color: '#46BFBD',
       id: 143,
-      name: 'pizza',
+      name: 'cat 2',
       total: '5',
     },
     // {
@@ -69,11 +69,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var initGroup = [
     {
       name: 'Savings',
-      total: 0
+      total: 0,
+      color: '#97BBCD'
     },
     {
       name: 'Unbudgeted',
-      total: 0
+      total: 0,
+      color: '#DCDCDC'
     }
   ];
   var updateInitGroup = function(savings, unallocated){
@@ -84,6 +86,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.goodData = true;
   $scope.chart = {};
+  $scope.chart.colors = [];
   $scope.chart.labels = [];
   $scope.chart.values = [];
   chartOptions = {
@@ -91,25 +94,47 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
     //multiTooltipTemplate: "<%= value + ' %' %>"
+    // animation: false,
   };
   $scope.chart.options = chartOptions;
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart
   var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
+  var getRandomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  var getRandomColor = function(){
+    var color = '#' + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16);
+    return color;
+  };
+  var getColor = function(){
+    if (colorCount <= chartColorsArr.length-1){
+      console.log(chartColorsArr[colorCount]);
+      console.log(chartColorsArr);
+      return chartColorsArr[colorCount];
+    }else{
+      console.log('rand color');
+      return getRandomColor(); //if we are out of pre-defined colors, provide a random color
+    }
+  };
 
   var chartUpdate = function(){
     //used for chart (chart takes two seperate arrays of data that we have to split)
     var chartValues = [];  //array of values for categories
     var chartLabels = [];  //array of labels for categories
+    var chartColors = [];  //array of colors for categories
     for (var i = 0; i < initGroup.length; i++ ){
       chartValues.push(parseFloat(initGroup[i].total));
       chartLabels.push(initGroup[i].name);
+      chartColors.push(initGroup[i].color);
     }
     for (i = 0; i < categories.length; i++){
       chartValues.push(parseFloat(categories[i].total));
       chartLabels.push(categories[i].name);
+      chartColors.push(categories[i].color);
     }
     $scope.chart.values = chartValues.slice();
     $scope.chart.labels = chartLabels.slice();
+    $scope.chart.colors = chartColors.slice();
 
     //console.log('chart values:', chartValues);
   };
@@ -163,15 +188,16 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   });
 
- var findIndex = function(id){
-   var arr = $scope.budgetCategories.slice();
-   for (var i = 0; i < arr.length; i++){
-     if (arr[i].id === id){
-       return i;
-     }
-   }
-   return false; //something is broken
- };
+
+  var findIndex = function(id){
+    var arr = $scope.budgetCategories.slice();
+    for (var i = 0; i < arr.length; i++){
+      if (arr[i].id === id){
+        return i;
+      }
+    }
+    return false; //something is broken
+  };
 
   $scope.onClick = function (points, evt) {
     // console.log("evt:", evt);
@@ -234,7 +260,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           id: $scope.catId,
           total: parseFloat(res.newPrice).toFixed(2),
           name: res.newName,
-          color: chartColorsArr[colorCount],
+          //color: chartColorsArr[colorCount],
+          color: getColor()
         };
         categories.push(output); //add the new category to the category array
         $scope.budgetCategories.push(output);
@@ -256,17 +283,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     console.log(idx);
     categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
-    chartColorsArr.splice(idx,0,item.color); //put this color back into the pool
-    //re-assign colors:
-    var colorArrMax = chartColorsArr.length-1;
-    for (var i = 0; i < categories.length; i++){
-      //***** as it stands now, there is no logic for supporting extended colors passed the colorarray range, so this needs to be addressed in the future
-      if (i <= colorArrMax){
-        categories[i].color = chartColorsArr[i];
-      }
-    }
 
-    //put in some array or object that is then passed upon pressing save which will then trigger the back end to do some delete stuff
+    console.log('inside:', categories);
+    console.log('scope:', $scope.budgetCategories);
+      //put in some array or object that is then passed upon pressing save which will then trigger the back end to do some delete stuff
     //some logic that determines if this category was orginally passed in from the data base, then if so store it somewhere, and then on save remove it.
   };
 
@@ -276,8 +296,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {
-    $scope.items.splice(fromIndex, 1);
-    $scope.items.splice(toIndex, 0, item);
+    $scope.budgetCategories.splice(fromIndex, 1);
+    $scope.budgetCategories.splice(toIndex, 0, item);
+    categories.splice(fromIndex, 1);
+    categories.splice(toIndex, 0 , item);
   };
 
   $ionicModal.fromTemplateUrl('templates/budgetsetup-edit.html', {

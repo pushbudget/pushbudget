@@ -2,7 +2,7 @@
   <ion-header-bar class="bar-positive">
       <div class="buttons">
         <button class="button button-icon icon ion-ios-minus-outline"
-          ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
+          ng-click="data.showDelete = !data.showDelete"></button>
       </div>
       <h1 class="title">Edit Categories</h1>
       <div class="buttons">
@@ -14,7 +14,7 @@
 
     <ion-content>
 
-      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+      <ion-list show-delete="data.showDelete" show-reorder="true">
 
         <ion-item ng-repeat="item in budgetCategories"
                   item="item"

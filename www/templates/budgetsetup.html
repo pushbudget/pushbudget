@@ -1,6 +1,6 @@
 <ion-view view-title="Budget Setup">
   <ion-content >
-    <pb-budgetbar total="inputs.totalBudget-inputs.savingsGoal" spent="totalSpent"></pb-budgetbar>
+    <pb-budgetbar total="inputs.totalBudget-savingsAmt" spent="totalSpent"></pb-budgetbar>
 
   <label class="item item-input" id="budget-totalLabel">
     <span class="input-label">Total Budget</span>
@@ -24,9 +24,14 @@
           ${{unallocated}} Unbudgeted
         </div>
       </div>
-      <div ng-if="!goodData || unallocated <= 0">
+      <div ng-if="(!goodData || unallocated <= 0) && !savingsOverBudget">
         <div id="budgetSetup-unallocated">
           <br>
+        </div>
+      </div>
+      <div ng-if="savingsOverBudget">
+        <div id="budgetSetup-unallocated">
+          ${{overBudgetAmt}} Over Budget
         </div>
       </div>
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"

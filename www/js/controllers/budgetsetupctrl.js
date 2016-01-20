@@ -82,6 +82,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
   updateInitGroup(savings, unallocated);
 
+  $scope.goodData = true;
   $scope.chart = {};
   $scope.chart.labels = [];
   $scope.chart.values = [];
@@ -114,6 +115,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var budgetUpdate = function(){
+    $scope.goodData = true;
+    $scope.savingsOverBudget = false;
     var newSum = 0;
     for (var i = 0; i < categories.length; i ++){
       newSum += parseFloat(categories[i].total);
@@ -123,11 +126,26 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       currentTotal = 1; //must have at least 1 to have the chart showup
     }
     var currentSavings = parseFloat($scope.inputs.savingsGoal);
-    if (isNaN(currentSavings)){
+    if (isNaN(currentSavings) || currentSavings < 0){
       currentSavings = 0;
     }
+    console.log(currentSavings);
+    if (newSum + currentSavings > currentTotal){
+      $scope.goodData = false;
+      var overBudgetSavings = currentSavings;
+      currentSavings = currentTotal - newSum;
+      $scope.savingsOverBudget = true;
+      $scope.overBudgetAmt = parseFloat(overBudgetSavings - currentSavings).toFixed(2);
+    }
+
     var newUnallocated = currentTotal - currentSavings - newSum;
     $scope.unallocated = parseFloat(newUnallocated).toFixed(2);
+    if (newUnallocated < 0){
+      $scope.goodData = false;
+      newUnallocated = 0; //the graph uses absolute values, so a negative value causes many problems
+    }
+
+
     updateInitGroup(currentSavings, newUnallocated);
     chartUpdate();
   };
@@ -138,9 +156,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
     if(res) {
-      if(isNaN(res[1]) || res[1] < 0){
-        savings = 0;
-      }
+      if (isNaN(parseFloat(res[1])) || (res[1]) < 0){
+        $scope.savingsAmt = 0;
+      }else $scope.savingsAmt = parseFloat(res[1]);
       budgetUpdate();
     }
   });
@@ -236,9 +254,20 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     console.log(item);
     var idx = findIndex(item.id);
     console.log(idx);
+    categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
-    console.log($scope.budgetCategories);
+    chartColorsArr.splice(idx,0,item.color); //put this color back into the pool
+    //re-assign colors:
+    var colorArrMax = chartColorsArr.length-1;
+    for (var i = 0; i < categories.length; i++){
+      //***** as it stands now, there is no logic for supporting extended colors passed the colorarray range, so this needs to be addressed in the future
+      if (i <= colorArrMax){
+        categories[i].color = chartColorsArr[i];
+      }
+    }
+
     //put in some array or object that is then passed upon pressing save which will then trigger the back end to do some delete stuff
+    //some logic that determines if this category was orginally passed in from the data base, then if so store it somewhere, and then on save remove it.
   };
 
   $scope.editCategory = function(item){

@@ -19,7 +19,9 @@
         <ion-item ng-repeat="item in budgetCategories"
                   item="item"
                   href="#/item/{{item.id}}" class="item-remove-animate">
-          {{ item.name }}
+
+            {{ item.name }}
+
           <ion-delete-button class="ion-minus-circled"
                              ng-click="deleteCategory(item)">
           </ion-delete-button>

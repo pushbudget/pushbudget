@@ -1,7 +1,8 @@
 angular.module('pushbudget').service('loginService', function ($http, $q) {
+
   var that = this;
-  this.currentUser = 'JA MONEY';
-  console.log('HALP', this);
+  var currentUser = null;
+
   this.login = function (user) {
     var dfd = $q.defer();
     $http({
@@ -9,13 +10,16 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
       url: 'http://localhost:3001/login',
       data: user
     }).then(function (user) {
-      console.log('LOGGED IN USER', user);
       that.currentUser = user.data;
       dfd.resolve(user);
     }).catch(function (err) {
       dfd.reject(err);
     });
     return dfd.promise;
+  }
+
+  this.getCurrentUser() {
+    return currentUser
   }
 
   /*

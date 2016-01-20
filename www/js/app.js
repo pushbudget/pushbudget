@@ -97,6 +97,15 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
         }
       }
     })
+    .state('main.budgetSetupEdit', {
+      url: '/budgetsetupedit',
+      views: {
+        'budgets': {
+          templateUrl: 'templates/budgetsetup-edit.html',
+          controller: 'budgetSetupCtrl'
+        }
+      }
+    })
     .state('main.account', {
       url: '/account',
       views: {

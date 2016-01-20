@@ -12,7 +12,7 @@ angular.module('pushbudget.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope, $ionicPopup, $ionicLoading) {
+.controller('AccountCtrl', function($scope, $ionicPopup, $ionicLoading, userProfile) {
   // this has to be moved to a service
   // var sandboxHandler = Plaid.create({
   //   clientName: 'pushbudget',
@@ -38,7 +38,7 @@ angular.module('pushbudget.controllers', [])
     {        
         InstitutionType: "bofa",
         InstitutionLogoURL: "http://placehold.it/25x25",
-        AccessToken: "User's access token for bofa",
+        AccessToken: "User's access token for bofa",        
         Active: true,
         InstitutionName: "Bank Of America",
         Accounts: ["Checking *1234", "Savings *4563", "Credit *2234"]
@@ -54,7 +54,7 @@ angular.module('pushbudget.controllers', [])
     {
         InstitutionType: "chase",
         InstitutionLogoURL: "http://placehold.it/25x25",
-        AccessToken: "User's access token for chase",
+        AccessToken: "test_chase",
         Active: false,
         InstitutionName: "Chase",
         Accounts: ["Credit *2144"]
@@ -81,7 +81,7 @@ angular.module('pushbudget.controllers', [])
 
       if (isAnyInstitutionInactive) {
           //alert("found an inactive account");
-          $ionicLoading.show({ template: 'One of more of your accounts need attention!', duration: 2500});
+          $ionicLoading.show({ template: 'One or more of your accounts need attention!', duration: 2500});
       }
   }
 
@@ -177,15 +177,18 @@ angular.module('pushbudget.controllers', [])
   $scope.openPlaidLink = function() {
     console.log("Open Plaid Link: This will open up the Plaid link drop in module...");
 
+    var userId = 'testUserID123'; //get userid from scope
+
     var sandboxHandler = Plaid.create({
      clientName: 'pushbudget',
      env: 'tartan',
      product: 'connect',
      key: 'test_key',
-     onSuccess: function(token) {
+     onSuccess: function(publicToken) {
        //window.location = '/accounts.html?public_token=' + token;
        //sandboxHandler.open();
-       console.log("Plaid create successful with token: ", token);
+       userProfile.addInstitution(userId, publicToken);
+       console.log("Plaid create successful with token: ", publicToken);
      }
     });
 
@@ -199,9 +202,42 @@ angular.module('pushbudget.controllers', [])
 
   $scope.refreshAccount = function(accessToken) {
     console.log("Refresh Account: Process to refresh account for access token:", accessToken);
+    var userId = 'testUserID123'; //get userid from scope
+
+    userProfile.refreshInstitution(userId, accessToken).then(function(res) {
+
+            var refreshHandler = Plaid.create({
+             clientName: 'pushbudget',
+             env: 'tartan',
+             product: 'connect',
+             key: 'test_key',
+             token: res.data.public_token,
+             onSuccess: function(newPublicToken, metadata) {   
+
+               console.log("metadata:", metadata)  ;
+               //userProfile.addInstitution(userId, publicToken);
+               console.log("Plaid create successful with new public token for the user which is : ", metadata.public_token);
+
+               //call our server endpoint to update the user's record with the new publicToken
+               userProfile.updateUserPublicTokenUponRefresh(userId, accessToken, metadata.public_token).then(function(res){ console.log("Result from controller userprofile.updateUserPublicTokenUponRefresh", res)})
+
+             }
+            });
+
+            refreshHandler.open();
+
+    });
   }
 
   $scope.deleteAccount = function(institutionName, accessToken) {
+
+    var userId = 'testUserID123'; 
+    var serverResponseMessage= "";
+
+
+
+    
+
     console.log("Delete Account: Process to delete account for access token:", accessToken);
 
 
@@ -221,6 +257,31 @@ angular.module('pushbudget.controllers', [])
           onTap: function(e) {
               console.log("Call the process to delete account for access token:", accessToken);
               console.log("Only delete it from here once we get a success from Plaid on deregistration:", accessToken);
+
+                        userProfile.deleteInstitution(userId, accessToken).then(function(res) {
+                            serverResponseMessage= res.data.message;
+                            console.log("From deleteAccount, server returned the message: ", res);
+
+                            if (serverResponseMessage.toUpperCase() === "SUCCESS") {
+
+                                                for (var i = 0; i < User.institutions.length; i++) {
+                                                    if (User.institutions[i].AccessToken === accessToken) {
+                                                          User.institutions.splice(i, 1);
+                                                    }
+                                                }
+
+                                                if (User.institutions.length === 0) {
+                                                    $scope.noLinkedInstitutions = true; 
+                                                }
+
+
+                                          }
+                            
+                        });
+
+              
+
+
               return $scope.data;            
           }
         }

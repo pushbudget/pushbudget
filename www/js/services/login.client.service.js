@@ -18,8 +18,8 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
     return dfd.promise;
   }
 
-  this.getCurrentUser() {
-    return currentUser
+  this.getCurrentUser = function() {
+    return currentUser;
   }
 
   /*

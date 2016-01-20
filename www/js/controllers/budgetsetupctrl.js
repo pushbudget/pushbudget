@@ -13,11 +13,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   // -it would be cool if there were sliders somewhere where a user could do on-the-fly adjustments of the ammounts of each sub-budget and see how that dynamically affects the pie chart. maybe the edit functionality of each category would bring a drop-down div out from under it to show the slider?
   // - weird stuff happens if the user enters negative values for budgets, we need to check for this
   //dummy data ************************************
-  var dummyBudget = 100;
-  var dummySavings = 0;
-  var dummySpent = 0;
+  var initBudget = 100;
+  var initSavings = 0;
+  var initSpent = 0;
 
-  var dummyCats = [
+  var initCats = [
     {
       color: '#F7464A',
       id: 432,
@@ -51,157 +51,115 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   ];
 
-  $scope.showDelete = false;
-  $scope.showReorder = true;
-  $scope.listCanSwipe = true;
-
-  $scope.totalSpent = dummySpent;   //  dummy data
 
   $scope.inputs= {};
-  $scope.inputs.totalBudget = dummyBudget;
 
-  $scope.categoryArr = []; //this is an array of new category objects
-  // $scope.categoryArr = dummyCats.slice();
-  var existingCats = dummyCats.slice(); //array of passed in categories
-
-
-  $scope.catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
-  $scope.unallocated = 0;
-  $scope.chart = {};
-
-  chartOptions = {
-      //String - Template string for single tooltips
-      tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
-      //String - Template string for multiple tooltips
-      //multiTooltipTemplate: "<%= value + ' %' %>"
-  };
-
-  $scope.chart.options = chartOptions;
-
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
-  var colorCount = existingCats.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
-  var initLabelsArr = ['Savings', 'Unallocated']; //initial labels
-  var total = 0;
-  var unallocated = 0;
-  var savings = 0;
-
-  //used for chart (chart takes two seperate arrays of data that we have to split)
-  var chartCatValues = [];  //array of values for categories
-  var chartCatLabels = [];  //array of labels for categories
-  //populate arrays with passed in values:
-  for (var i = 0; i < existingCats.length; i++){
-      chartCatValues.push(existingCats[i].total);
-      chartCatLabels.push(existingCats[i].name);
+  $scope.totalSpent = initSpent;
+  $scope.inputs.totalBudget = initBudget;
+  var categories = initCats.slice();
+  $scope.budgetCategories = categories.slice();
+  var budgetSum = 0;
+  var savings = initSavings;
+  for (var j = 0; j < categories.length; j++){
+    budgetSum += categories[j].total;
   }
+  var unallocated = parseFloat($scope.inputs.totalBudget) - savings - budgetSum;
+  $scope.unallocated = parseFloat(unallocated).toFixed(2);
 
-  var findIndex = function(id){
-    var arr = $scope.budgetCategories.slice();
-    for (var i = 0; i < arr.length; i++){
-      if (arr[i].id === id){
-        return i;
-      }
+  var initGroup = [
+    {
+      name: 'Savings',
+      total: 0
+    },
+    {
+      name: 'Unbudgeted',
+      total: 0
     }
-    return false; //something is broken
+  ];
+  var updateInitGroup = function(savings, unallocated){
+    initGroup[0].total = savings;
+    initGroup[1].total = unallocated;
+  };
+  updateInitGroup(savings, unallocated);
+
+  $scope.chart = {};
+  $scope.chart.labels = [];
+  $scope.chart.values = [];
+  chartOptions = {
+    //String - Template string for single tooltips
+    tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
+    //String - Template string for multiple tooltips
+    //multiTooltipTemplate: "<%= value + ' %' %>"
+  };
+  $scope.chart.options = chartOptions;
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
+  var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
+
+  var chartUpdate = function(){
+    //used for chart (chart takes two seperate arrays of data that we have to split)
+    var chartValues = [];  //array of values for categories
+    var chartLabels = [];  //array of labels for categories
+    for (var i = 0; i < initGroup.length; i++ ){
+      chartValues.push(parseFloat(initGroup[i].total));
+      chartLabels.push(initGroup[i].name);
+    }
+    for (i = 0; i < categories.length; i++){
+      chartValues.push(parseFloat(categories[i].total));
+      chartLabels.push(categories[i].name);
+    }
+    $scope.chart.values = chartValues.slice();
+    $scope.chart.labels = chartLabels.slice();
+
+    //console.log('chart values:', chartValues);
   };
 
-  $scope.$watch('catId', function(nextId, thisId){
-    if($scope.categoryArr.length > 0){
-       console.log('new category added', thisId);
-       chartCatValues.push(parseFloat($scope.categoryArr[thisId].total));
-       chartCatLabels.push($scope.categoryArr[thisId].name);
-     }
-     $scope.budgetCategories = existingCats.concat($scope.categoryArr).slice();
-
-  });
+  var budgetUpdate = function(){
+    var newSum = 0;
+    for (var i = 0; i < categories.length; i ++){
+      newSum += parseFloat(categories[i].total);
+    }
+    var currentTotal = parseFloat($scope.inputs.totalBudget);
+    if (isNaN(currentTotal) || currentTotal <=0){
+      currentTotal = 1; //must have at least 1 to have the chart showup
+    }
+    var currentSavings = parseFloat($scope.inputs.savingsGoal);
+    if (isNaN(currentSavings)){
+      currentSavings = 0;
+    }
+    var newUnallocated = currentTotal - currentSavings - newSum;
+    $scope.unallocated = parseFloat(newUnallocated).toFixed(2);
+    updateInitGroup(currentSavings, newUnallocated);
+    chartUpdate();
+  };
 
   $scope.$watch('budgetCategories', function(newValue, oldValue){
-    var updatedValuesArr = [];
-    var updatedSum = 0; //sum of all categories
-    var updatedUnallocated = 0;
-    var savingsGoal = $scope.inputs.savingsGoal;
-    //build the array of updated values:
-    //the categories that were passed in:
-    for (var i = 0; i < existingCats.length; i++){
-      updatedSum += parseFloat(existingCats[i].total);
-      updatedValuesArr.push(parseFloat(existingCats[i].total));
-    }
-    //the new ones we have created:
-    for (i =0; i< $scope.categoryArr.length; i++){
-      updatedSum += parseFloat($scope.categoryArr[i].total);
-      updatedValuesArr.push(parseFloat($scope.categoryArr[i].total));
-    }
-
-    if (savingsGoal){
-      savingsGoal = parseFloat(savingsGoal);
-    }else savingsGoal = 0;
-
-    updatedUnallocated = parseFloat($scope.inputs.totalBudget) - savingsGoal - updatedSum;
-    unallocated = updatedUnallocated;
-    $scope.unallocated = unallocated;
-
-    var initArr = [savingsGoal, updatedUnallocated];
-    chartCatValues = updatedValuesArr;
-    $scope.chart.values = initArr.concat(chartCatValues);
-    console.log('slider:', chartCatValues);
-    $scope.budgetCategories = existingCats.concat($scope.categoryArr).slice();
-
-
-
+    budgetUpdate();
   }, true);
 
-  $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal', 'catId'], function(res, prevRes) {
+  $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
     if(res) {
-      var totalBudget = res[0];
-      var savingsGoal = res[1];
-      var catId = prevRes[2]; //the last catId to be added
-      var nextCatId = res[2];
-      var valuesSum = 0;
-
-      for (var i = 0; i < chartCatValues.length; i++){
-        valuesSum += chartCatValues[i];
+      if(isNaN(res[1]) || res[1] < 0){
+        savings = 0;
       }
-
-      $scope.goodData = false;
-      if(!isNaN(totalBudget) && totalBudget > 0){
-        total = parseFloat(totalBudget);
-        $scope.goodData = true;
-        $scope.totalBudget = totalBudget;
-      }else{
-        total = 1; //a default value of 1 shows a blank chart, 0 shows no chart
-      }
-
-      //dont include savings if it is undefined (eg, the user declined to enter a value)
-      if (savingsGoal){
-        savings = parseFloat(savingsGoal);
-      }else savings = 0;
-
-      unallocated = total - (savings + valuesSum); //in the parenthesis needs to be a fn that will loop through the total of all budgets + savings and return the sum
-      if (unallocated < 0){
-        unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget. Otherwise the chart seems to just take absolute values of negative numbers and the result is a mess
-      }
-
-      if(totalBudget){
-        $scope.unallocated = parseFloat(unallocated).toFixed(2);
-      } else $scope.unallocated = undefined;
-
-      $scope.chart.values = [savings, unallocated]; //array of chart values, the first two will always be the savings ammount and the unallocated ammount.
-      $scope.chart.values = $scope.chart.values.concat(chartCatValues); //add the array of categories
-      $scope.chart.labels = initLabelsArr.concat(chartCatLabels); //add array of labels (initial labels + category labels)
-
+      budgetUpdate();
     }
   });
 
-
- //initial values for pie chart:
- $scope.chart.labels = [];
- $scope.chart.values = [];
+ var findIndex = function(id){
+   var arr = $scope.budgetCategories.slice();
+   for (var i = 0; i < arr.length; i++){
+     if (arr[i].id === id){
+       return i;
+     }
+   }
+   return false; //something is broken
+ };
 
   $scope.onClick = function (points, evt) {
     // console.log("evt:", evt);
     // console.log("points:", points);
     // console.log("Label: ", points[0].label, " Value: ", points[0].value);
   };
-
 
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
@@ -260,13 +218,19 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           name: res.newName,
           color: chartColorsArr[colorCount],
         };
-        $scope.categoryArr.push(output); //add the new category to the category array
+        categories.push(output); //add the new category to the category array
+        $scope.budgetCategories.push(output);
+        budgetUpdate();
+        chartUpdate();
         $scope.catId++; //increment the id for the next one
         colorCount++;
       }
     });
   };
 
+  $scope.showDelete = false;
+  $scope.showReorder = true;
+  $scope.listCanSwipe = true;
 
   $scope.deleteCategory = function(item){
     console.log(item);
@@ -286,7 +250,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.items.splice(fromIndex, 1);
     $scope.items.splice(toIndex, 0, item);
   };
-
 
   $ionicModal.fromTemplateUrl('templates/budgetsetup-edit.html', {
    scope: $scope,
@@ -312,6 +275,5 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
    $scope.$on('modal.removed', function() {
      // Execute action
    });
-
 
 });

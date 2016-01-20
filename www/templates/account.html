@@ -8,8 +8,8 @@
       </div>
 
       <div class="item" href="#" id="profile-userOptions">
-        <button class="button button-dark" id="profile-changePw ">Change password</button>
-        <button class="button button-dark" id="profile-logout">logout</button>
+        <button class="button button-dark" id="profile-changePw" ng-click="changePassword()">Change password</button>
+        <button class="button button-dark" id="profile-logout" ng-click="logout()">logout</button>
       </div>
 
 
@@ -17,43 +17,59 @@
     <ion-item>
       <h2>Connected Banks</h2>
     </ion-item>
-    <div class="card">
+
+    <div class="card" ng-repeat = "institution in institutions" >
+
+      <!--div ng-if=!institution.Active class="item item-divider account-attention">
+        <marquee>This "{{institution.InstitutionName}}" account is inactive, please refresh...</marquee>
+      </div-->
+      
       <div class="item item-divider">
         <div class="row no-padding" >
+          <img src={{institution.InstitutionLogoURL}}>&nbsp;
           <div class="col col-67 col-center no-padding">
-            Wells Fargo
+            {{institution.InstitutionName}}
           </div>
-          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
-          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+          <div class="col no-padding text-right" ng-if=!institution.Active>
+            <button class="button icon ion-loop button-energized button-small inactive-account-blink" id="account-refresh" ng-click="refreshAccount(institution.AccessToken)" ></button>
+          </div>
+          <div class="col no-padding text-right">
+            <button class="button icon ion-minus button-assertive button-small" id="account-delete" ng-click="deleteAccount(institution.InstitutionName, institution.AccessToken)"></button>
+          </div>
         </div>
       </div>
 
       <div class="item item-text-wrap">
         <ul>
-          <li>Checking *1234</li>
-          <li>Visa *1212 </li>
+          <li ng-repeat = "account in institution.Accounts">{{account}}</li>          
         </ul>
       </div>
     </div>
-    <div class="card">
+
+
+
+
+    <div class="card" ng-if=noLinkedInstitutions>
       <div class="item item-divider">
         <div class="row no-padding" >
           <div class="col col-67 col-center no-padding">
-            Bank of America
+            No Banks Linked Yet
           </div>
-          <div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
-          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div>
+          <!--div class="col no-padding text-right"><button class="button icon ion-loop button-energized button-small"></div>
+          <div class="col no-padding text-right"><button class="button icon ion-minus button-assertive button-small"></div-->
         </div>
       </div>
       <div class="item item-text-wrap">
         <ul>
-          <li>Checking *5555</li>
-          <li>Savings *0099 </li>
+          <li>You currently do not have any of your bank accounts linked with pushbudget. Please click the "Add account" button below to begin linking your accounts...</li>          
         </ul>
       </div>
     </div>
+
+
+
     <ion-item>
-      <button class="button button-block button-balanced" ng-click="openLink()">Add account</button>
+      <button class="button button-block button-balanced" id="profile-add-account" ng-click="openPlaidLink()">Add account</button>
     </ion-item>
 
 

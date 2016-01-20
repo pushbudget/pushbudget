@@ -132,5 +132,6 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/home');
+  //$urlRouterProvider.otherwise('/main/account');
 
 });

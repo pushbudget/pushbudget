@@ -62,10 +62,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
 
   $scope.catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
-  console.log($scope.catId);
   $scope.unallocated = 0;
   $scope.chart = {};
-
 
   chartOptions = {
       //String - Template string for single tooltips
@@ -126,12 +124,14 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
     updatedUnallocated = parseFloat($scope.inputs.totalBudget) - savingsGoal - updatedSum;
     unallocated = updatedUnallocated;
+    console.log(unallocated);
     $scope.unallocated = unallocated;
 
     var initArr = [savingsGoal, updatedUnallocated];
     chartCatValues = updatedValuesArr;
     $scope.chart.values = initArr.concat(chartCatValues);
-    console.log('1', chartCatValues);
+    console.log($scope.chart.values);
+    console.log('slider:', chartCatValues);
     $scope.budgetCategories = existingCats.concat($scope.categoryArr).slice();
 
 
@@ -146,13 +146,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       var nextCatId = res[2];
       var valuesSum = 0;
 
-      if (nextCatId > 0){
-        for (var i = 0; i < chartCatValues.length; i++){
-          valuesSum += chartCatValues[i];
-        }
-        console.log('valueSum', valuesSum);
+      for (var i = 0; i < chartCatValues.length; i++){
+        valuesSum += chartCatValues[i];
       }
-
+      console.log('valuesSum', valuesSum);
+      
       $scope.goodData = false;
       if(!isNaN(totalBudget) && totalBudget > 0){
         total = parseFloat(totalBudget);
@@ -161,16 +159,19 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       }else{
         total = 1; //a default value of 1 shows a blank chart, 0 shows no chart
       }
+      console.log('total:',total);
 
       //dont include savings if it is undefined (eg, the user declined to enter a value)
       if (savingsGoal){
         savings = parseFloat(savingsGoal);
       }else savings = 0;
 
+      console.log(savings, valuesSum);
       unallocated = total - (savings + valuesSum); //in the parenthesis needs to be a fn that will loop through the total of all budgets + savings and return the sum
       if (unallocated < 0){
         unallocated = undefined; //this will make the chart go away, in this case we need to display something else signifiying that the user is overbudget. Otherwise the chart seems to just take absolute values of negative numbers and the result is a mess
       }
+      console.log('unallocated:', unallocated);
 
       if(totalBudget){
         $scope.unallocated = parseFloat(unallocated).toFixed(2);
@@ -249,10 +250,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         console.log($scope.categoryArr);
       }
     });
-  };
-
-  $scope.onHold = function(id){
-    console.log('id:',id);
   };
 
 

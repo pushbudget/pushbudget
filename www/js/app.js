@@ -29,6 +29,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+  $urlRouterProvider.otherwise('/login');
   $stateProvider
 
   // setup an abstract state for the tabs directive
@@ -38,8 +39,10 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
     templateUrl: 'templates/main.html',
     controller: 'mainCtrl',
     resolve: {
-      userRef: function (userService, $stateParams) {
-        return userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function (res) {
+      userRef: function (loginService, userService, $stateParams) {
+        var userId = loginService.getCurrentUser()._id;
+        console.log(userId);
+        return userService.getUserFromDb(userId).then(function (res) {
           return res.data;
         });
       },
@@ -127,7 +130,14 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
     .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
-      controller: 'loginCtrl'
+      controller: 'loginCtrl',
+      resolve: {
+        user: function(loginService){
+          if(loginService.getCurrentUser() !== null){
+            $state.go('home')
+          }
+        }
+      }
 
     })
 
@@ -140,7 +150,7 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
 
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/main/home');
+
   //$urlRouterProvider.otherwise('/main/account');
 
 });

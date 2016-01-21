@@ -1,12 +1,11 @@
-angular.module("pushbudget").controller('signupCtrl', function ($scope, signupService, $ionicPush, registerPush) {
+angular.module("pushbudget").controller('signupCtrl', function ($scope, $state, authService, $ionicPush, registerPush) {
 
   $scope.signup = function (user) {
-    signupService.signup(user).then(function (user) {
-      console.log('currently logged in user session', user);
-      console.log(user._id);
+    authService.signup(user).then(function (user) {
       device.user = user._id;
       $scope.registerDevice();
       $ionicPush.register();
+      $state.go('main.home');
     });
   };
 

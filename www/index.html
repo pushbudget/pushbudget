@@ -15,9 +15,13 @@
 
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+  <script src="lib/ionic-service-core/ionic-core.js"></script>
+
 
   <!-- cordova script (this will be a 404 during development) -->
-  <script src="cordova.js"></script>
+  <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+  <!-- <script src="cordova.js"></script> -->
 
   <!-- script inclusion for angular-chart.js -->
   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> -->
@@ -41,6 +45,7 @@
   <script src="js/controllers/newtransctrl.js"></script>
   <script src="js/controllers/transactionsCtrl.js"></script>
   <script src="js/controllers/splittransaction.client.testcontroller.js"></script>
+  <script src="js/controllers/signup.client.controller.js"></script>
 
   <!-- services  -->
   <script src="js/services/transaction.client.service.js"></script>
@@ -48,7 +53,8 @@
   <script src="js/services/splittransaction.client.service.js"></script>
   <script src="js/services/user.client.service.js"></script>
   <script src="js/services/budget.client.service.js"></script>
-  <script src="js/services/login.client.service.js"></script>
+  <script src="js/services/auth.client.service.js"></script>
+  <script src="js/services/registerpush.client.service.js"></script>
 
   <!-- directives -->
   <script src="js/directives/budgetbar.js"></script>

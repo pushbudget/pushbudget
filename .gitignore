@@ -6,5 +6,7 @@ www/angular-animate
 www/angular-sanitize
 www/angular-ui-router
 www/angular
+www/lib/ionic-platform-web-client/
+www/lib/ionic-service-core/
 .io-config.json
 .jshintrc

@@ -22,6 +22,7 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
     return currentUser
   }
 
+
   /*
     this.getCurrentUser = function () {
       var dfd = $q.defer();

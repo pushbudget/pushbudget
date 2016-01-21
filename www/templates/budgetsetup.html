@@ -35,7 +35,7 @@
         </div>
       </div>
       <canvas id="pie" class="chart chart-pie" chart-click="onClick"
-          chart-data="chart.values" chart-labels="chart.labels" chart-options="chart.options">
+          chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
     </div>
 
@@ -45,9 +45,7 @@
             <div class="col col-50 col-center no-padding">
               Budget Categories
             </div>
-            <div class="col no-padding text-right"> <!-- ng-if="categoryArr.length"> -->
-              <button class="button icon ion-edit button-positive" id="budgetSetup-editCat" ng-click="openModal()"></button>
-            </div>
+
             <div class="col no-padding text-right">
               <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>
             </div>
@@ -60,10 +58,15 @@
         </div>
 
       </div>
-      <div class="item" id="budgetSetup-saveButtons">
-        <button class="button button-stable" id="budgetSetup-cancel" ui-sref="main.budgets">Cancel</button>
-        <button class="button button-balanced" id="budgetSetup-save" ng-click="">Save</button>
+      <div class="row">
+      <div class="col col-50"  id="budgetSetup-editCat">
+        <button ng-if="budgetCategories.length" class="button icon ion-edit button-positive" ng-click="openModal()"> Edit</button>
       </div>
+      <div class="col text-right" id="budgetSetup-saveButtons">
+        <button class="button button-stable" id="budgetSetup-cancel" ng-click="cancel()">Cancel</button>
+        <button class="button button-balanced" id="budgetSetup-save" ng-click="save()">Save</button>
+      </div>
+    </div>
 
 
   </ion-content>

@@ -1,35 +1,23 @@
-angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal) {
+angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state) {
 
-  // TODO:
-  //
-  // -need to find a way to assign a new category a color, and then map that color onto the pie chart
-  // -right now there is not really any checking for good/bad data on new category input. need to ensure that only a number is entered into the ammount field, and not let the use click ok until that has happened. Also need to make sure that the user has entered a name as well before allowing the ok button to be enabled
-  // -right now if a user clicks cancel on the new category popup, it still tries to add it to the array with undefined values.
-  // -need to add the ability to easily delete a category (swipe to delete like on newaction detail page?)
-  // -maybe make clicking a category on the setup page bring up the popup to edit it?
-  // -possibly add a way for the user to choose a color for the category, right now the graph library automatically assigns the first 7 then after that chooses random colors.
-  // -right now a hard-coded "spent" ammount is being sent to the budgetcat directive, this will later need to be replaced with the data we get from the db, which im thinking we should put on a ref that gets passed in from the resolve block in the router
-  // -we also need to make sure that a user is not adding a category with a budget ammount that exceeds the total that is unallocated
-  // -it would be cool if there were sliders somewhere where a user could do on-the-fly adjustments of the ammounts of each sub-budget and see how that dynamically affects the pie chart. maybe the edit functionality of each category would bring a drop-down div out from under it to show the slider?
-  // - weird stuff happens if the user enters negative values for budgets, we need to check for this
-  //dummy data ************************************
-  var initBudget = 100;
+  //hook these init values up to the user data from the backend:
+  var initBudget = 0;
   var initSavings = 0;
   var initSpent = 0;
-
   var initCats = [
-    {
-      color: '#F7464A',
-      id: 432,
-      name: 'tacos',
-      total: '10'
-    },
-    {
-      color: '#46BFBD',
-      id: 143,
-      name: 'pizza',
-      total: '5',
-    },
+    //dummy data for testing:
+    // {
+    //   color: '#F7464A',
+    //   id: 432,
+    //   name: 'cat 1',
+    //   total: '10'
+    // },
+    // {
+    //   color: '#46BFBD',
+    //   id: 143,
+    //   name: 'cat 2',
+    //   total: '5',
+    // },
     // {
     //   color: '#FDB45C',
     //   id: 4322,
@@ -48,18 +36,17 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     //   name: 'falafel',
     //   total: '9'
     // }
-
   ];
 
-
+  $scope.deletedCats = [];
   $scope.inputs= {};
-
   $scope.totalSpent = initSpent;
   $scope.inputs.totalBudget = initBudget;
   var categories = initCats.slice();
   $scope.budgetCategories = categories.slice();
-  var budgetSum = 0;
   var savings = initSavings;
+  var budgetSum = 0;
+
   for (var j = 0; j < categories.length; j++){
     budgetSum += categories[j].total;
   }
@@ -69,11 +56,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var initGroup = [
     {
       name: 'Savings',
-      total: 0
+      total: 0,
+      color: '#97BBCD'
     },
     {
       name: 'Unbudgeted',
-      total: 0
+      total: 0,
+      color: '#DCDCDC'
     }
   ];
   var updateInitGroup = function(savings, unallocated){
@@ -84,6 +73,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.goodData = true;
   $scope.chart = {};
+  $scope.chart.colors = [];
   $scope.chart.labels = [];
   $scope.chart.values = [];
   chartOptions = {
@@ -91,25 +81,47 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
     //multiTooltipTemplate: "<%= value + ' %' %>"
+    // animation: false,
   };
   $scope.chart.options = chartOptions;
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']; //these are taken from angular-chart.js Chart.defaults.global.colours
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated
   var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
+  var getRandomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  var getRandomColor = function(){
+    var color = '#' + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16);
+    return color;
+  };
+  var getColor = function(){
+    if (colorCount <= chartColorsArr.length-1){
+      console.log(chartColorsArr[colorCount]);
+      console.log(chartColorsArr);
+      return chartColorsArr[colorCount];
+    }else{
+      console.log('rand color');
+      return getRandomColor(); //if we are out of pre-defined colors, provide a random color
+    }
+  };
 
   var chartUpdate = function(){
     //used for chart (chart takes two seperate arrays of data that we have to split)
     var chartValues = [];  //array of values for categories
     var chartLabels = [];  //array of labels for categories
+    var chartColors = [];  //array of colors for categories
     for (var i = 0; i < initGroup.length; i++ ){
       chartValues.push(parseFloat(initGroup[i].total));
       chartLabels.push(initGroup[i].name);
+      chartColors.push(initGroup[i].color);
     }
     for (i = 0; i < categories.length; i++){
       chartValues.push(parseFloat(categories[i].total));
       chartLabels.push(categories[i].name);
+      chartColors.push(categories[i].color);
     }
     $scope.chart.values = chartValues.slice();
     $scope.chart.labels = chartLabels.slice();
+    $scope.chart.colors = chartColors.slice();
 
     //console.log('chart values:', chartValues);
   };
@@ -129,7 +141,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     if (isNaN(currentSavings) || currentSavings < 0){
       currentSavings = 0;
     }
-    console.log(currentSavings);
     if (newSum + currentSavings > currentTotal){
       $scope.goodData = false;
       var overBudgetSavings = currentSavings;
@@ -144,8 +155,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       $scope.goodData = false;
       newUnallocated = 0; //the graph uses absolute values, so a negative value causes many problems
     }
-
-
     updateInitGroup(currentSavings, newUnallocated);
     chartUpdate();
   };
@@ -163,15 +172,16 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   });
 
- var findIndex = function(id){
-   var arr = $scope.budgetCategories.slice();
-   for (var i = 0; i < arr.length; i++){
-     if (arr[i].id === id){
-       return i;
-     }
-   }
-   return false; //something is broken
- };
+
+  var findIndex = function(id){
+    var arr = $scope.budgetCategories.slice();
+    for (var i = 0; i < arr.length; i++){
+      if (arr[i].id === id){
+        return i;
+      }
+    }
+    return false; //something is broken
+  };
 
   $scope.onClick = function (points, evt) {
     // console.log("evt:", evt);
@@ -234,7 +244,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           id: $scope.catId,
           total: parseFloat(res.newPrice).toFixed(2),
           name: res.newName,
-          color: chartColorsArr[colorCount],
+          color: getColor(),
+          new: true,
         };
         categories.push(output); //add the new category to the category array
         $scope.budgetCategories.push(output);
@@ -246,63 +257,118 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     });
   };
 
+  var saveConfirmPopup = function() {
+    $scope.data = {};
+
+    var myPopup = $ionicPopup.show({
+      template: '<div ng-repeat="category in deletedCats" style="text-align: center; width:100%">{{category.name}}</div>',
+      title: 'Save Changes?',
+      subTitle: $scope.deletedCats.length + ' existing categories will be deleted:',
+      scope: $scope,
+      buttons: [
+        {
+          text: 'Cancel',
+          type: 'button-positive'
+        },
+        {
+          text: 'Delete',
+          onTap: function(e) {
+            $scope.data.ok = true;
+            return $scope.data;
+          }
+        }
+      ]
+    });
+
+    //after the popup is closed, this will happen:
+    myPopup.then(function(res) {
+      //if the user did not press cancel:
+      if (res){
+        writeChangesToDb();
+        $state.go('main.budgets');
+      }
+    });
+  };
+
+  var writeChangesToDb = function(){
+    console.log('savings to db!');
+    //code here to do stuff to the database *************************************************
+
+  };
+
+  $scope.save = function(){
+    if ($scope.deletedCats.length > 0){
+      saveConfirmPopup();
+    }else{
+      writeChangesToDb();
+      $state.go('main.budgets');
+    }
+  };
+
+  $scope.cancel = function(){
+    //reset all values to initial states:
+    $scope.deletedCats = [];
+    $scope.inputs= {};
+    $scope.totalSpent = initSpent;
+    $scope.inputs.totalBudget = initBudget;
+    categories = initCats.slice();
+    $scope.budgetCategories = categories.slice();
+    savings = initSavings;
+    budgetSum = 0;
+    unallocated = 0;
+    $state.go('main.budgets');
+  };
+
   $scope.showDelete = false;
-  $scope.showReorder = true;
+  $scope.showReorder = false;
   $scope.listCanSwipe = true;
 
   $scope.deleteCategory = function(item){
-    console.log(item);
     var idx = findIndex(item.id);
-    console.log(idx);
+    if (!item.new){
+      $scope.deletedCats.push(item);
+    }
     categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
-    chartColorsArr.splice(idx,0,item.color); //put this color back into the pool
-    //re-assign colors:
-    var colorArrMax = chartColorsArr.length-1;
-    for (var i = 0; i < categories.length; i++){
-      //***** as it stands now, there is no logic for supporting extended colors passed the colorarray range, so this needs to be addressed in the future
-      if (i <= colorArrMax){
-        categories[i].color = chartColorsArr[i];
-      }
-    }
-
-    //put in some array or object that is then passed upon pressing save which will then trigger the back end to do some delete stuff
-    //some logic that determines if this category was orginally passed in from the data base, then if so store it somewhere, and then on save remove it.
   };
 
-  $scope.editCategory = function(item){
-    console.log(item);
-    //edit stuff
+  $scope.changeColor = function(item){
+    item.color = getRandomColor();
+  };
+  $scope.stuff = function(){
+    console.log('stuff');
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {
-    $scope.items.splice(fromIndex, 1);
-    $scope.items.splice(toIndex, 0, item);
+    $scope.budgetCategories.splice(fromIndex, 1);
+    $scope.budgetCategories.splice(toIndex, 0, item);
+    categories.splice(fromIndex, 1);
+    categories.splice(toIndex, 0 , item);
   };
 
   $ionicModal.fromTemplateUrl('templates/budgetsetup-edit.html', {
-   scope: $scope,
-   animation: 'slide-in-up'
-   }).then(function(modal) {
-     $scope.modal = modal;
-   });
-   $scope.openModal = function() {
-     $scope.modal.show();
-   };
-   $scope.closeModal = function() {
-     $scope.modal.hide();
-   };
-   //Cleanup the modal when we're done with it!
-   $scope.$on('$destroy', function() {
-     $scope.modal.remove();
-   });
-   // Execute action on hide modal
-   $scope.$on('modal.hidden', function() {
-     // Execute action
-   });
-   // Execute action on remove modal
-   $scope.$on('modal.removed', function() {
-     // Execute action
-   });
+  scope: $scope,
+  animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+  $scope.modal.remove();
+  });
+  // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+  // Execute action
+  });
+  // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+  // Execute action
+  });
 
 });

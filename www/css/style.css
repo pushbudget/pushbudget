@@ -243,10 +243,6 @@ div {
 }
 
 #budgetSetup-saveButtons {
-  position: absolute;
-  right: 1px;
-  margin-top: 1px;
-  border: 0;
 }
 
 #budgetSetup-catRows {
@@ -254,6 +250,21 @@ div {
 }
 
 #budgetSetup-catName {
+}
+
+#budgetSetup-drag {
+  position: absolute;
+  right: 10px;
+  bottom: 35%;
+}
+
+#budgetSetup-editName {
+  display: inline-block;
+}
+
+#budgetSetup-editNameInput {
+  border: none;
+  
 }
 
 /*accordian*/
@@ -281,33 +292,34 @@ div {
     box-sizing: border-box;
     animation: marquee 50s linear infinite;
 } */
-
 /* The below CSS code is to make the refresh button change background color for inactive accounts on user profile */
-
 @keyframes blink {
   0% {
     color: black;
     background-color: white;
   }
+  
   100% {
-    color: black;    
+    color: black;
     background-color: orange;
   }
 }
+
 @-webkit-keyframes blink {
   0% {
     color: black;
     background-color: white;
   }
+  
   100% {
-    color: black;    
+    color: black;
     background-color: orange;
   }
 }
+
 .inactive-account-blink {
   -webkit-animation: blink 1s linear infinite;
   -moz-animation: blink 1s linear infinite;
   animation: blink 1s linear infinite;
 }
-
 /* End of CSS code to make the refresh button change background color for inactive accounts on user profile */

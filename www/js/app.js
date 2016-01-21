@@ -61,6 +61,25 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
     },
   })
 
+  .state('main.toTrans', {
+    url: '/toTrans/:id',
+    views: {
+      'home': {
+        templateUrl: '/templates/homeTrans.html',
+        controller: 'newtransctrl'
+      }
+    },
+    resolve: {
+      transaction: function($stateParams, transactionService){
+        console.log($stateParams.id);
+        return transactionService.getSpecificUserTransaction($stateParams.id).then(function(res){
+          console.log(res.data);
+          return res.data[0];
+        });
+      }
+    }
+  })
+
   .state('main.trans', {
     url: '/trans',
     views: {
@@ -73,11 +92,20 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
   })
 
   .state('main.newTrans', {
-    url: '/newtrans',
+    url: '/newtrans/:id',
     views: {
       'transactions': {
         templateUrl: 'templates/newtransaction.html',
         controller: 'newtransctrl'
+      }
+    },
+    resolve: {
+      transaction: function($stateParams, transactionService){
+        console.log($stateParams.id);
+        return transactionService.getSpecificUserTransaction($stateParams.id).then(function(res){
+          console.log(res.data);
+          return res.data[0];
+        });
       }
     }
   })

@@ -16,7 +16,8 @@
     </div>
 
     <div class="list">
-        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
+      <div ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
+        <a class="item" ui-sref="main.newTrans({id: transaction._id})">
           <div class="row no-padding">
             <div class="col no-padding">
               <div class="col no-padding" id="home-untaggedName">
@@ -36,6 +37,7 @@
             </div>
           </div>
         </a>
+      </div>
 
     </div>
   </ion-content>

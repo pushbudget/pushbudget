@@ -1,6 +1,8 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction) {
 
-  var totalPrice = 123;//this is the total ammount of this transaction, need to get it from a ref
+  $scope.transaction = transaction;
+  console.log($scope.transaction);
+  var totalPrice = transaction.amount;//this is the total ammount of this transaction, need to get it from a ref
   $scope.mainAmmount = parseFloat(totalPrice).toFixed(2);
 
   var categoryOptions = ['Food', 'Gas', 'Entertainment']; //this will later come from a ref

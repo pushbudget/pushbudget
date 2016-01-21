@@ -9,13 +9,13 @@
         <div class="row">
           <div class="col col-60" >
             <div id="newtrans-name">
-              Joe's Pizza...
+              {{transaction.name}}
             </div>
             <div id="newtrans-date">
-              01/12/16 11:15am
+              {{transaction.created}}
             </div>
             <div id="newtrans-totalamount">
-              ${{mainAmmount}}
+              ${{transaction.amount}}
             </div>
           </div>
           <div class="col col-40 text-right">
@@ -43,7 +43,7 @@
           <div class="row ">
             <div class="col">
               <div id="newtrans-newCatPrice" class="no-padding">
-                ${{item.ammount}}
+                ${{transaction.amount}}
               </div>
             </div>
             <div class="col text-right" id="newtrans-newCatName">

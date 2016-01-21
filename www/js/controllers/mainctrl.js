@@ -12,12 +12,12 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, userServic
     $scope.transactions = res;
   });
 
-  $scope.updateUser = function (args) {
-    //stuff
-    userService.getUserFromDb().then(function (res) {
-      $scope.currentUser = res.data;
-    })
-  };
+  // $scope.updateUser = function (args) {
+  //   //stuff
+  //   userService.getUserFromDb().then(function (res) {
+  //     $scope.currentUser = res.data;
+  //   })
+  // };
 
 
 });

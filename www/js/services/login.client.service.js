@@ -10,17 +10,17 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
       url: 'http://localhost:3001/login',
       data: user
     }).then(function (user) {
-      that.currentUser = user.data;
+      currentUser = user.data;
       dfd.resolve(user);
     }).catch(function (err) {
       dfd.reject(err);
     });
     return dfd.promise;
-  };
+  }
 
   this.getCurrentUser = function() {
-    return currentUser;
-  };
+    return currentUser
+  }
 
   /*
     this.getCurrentUser = function () {

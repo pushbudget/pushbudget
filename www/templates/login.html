@@ -11,14 +11,14 @@
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Email Address</span>
-        <input type="text" placeholder="johndoe@email.com">
+        <input type="text" placeholder="johndoe@email.com" ng-model="user.username">
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Password</span>
-        <input type="password" placeholder="Password">
+        <input type="password" placeholder="Password" ng-model="user.password">
       </label>
     </div>
-    <button class="button button-block button-balanced">
+    <button class="button button-block button-balanced" ng-click="login(user)">
       Login
     </button>
     <button class="button button-block button-balanced" ui-sref="create">

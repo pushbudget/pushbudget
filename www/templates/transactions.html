@@ -9,13 +9,14 @@
         <div class="input-label">
           Show
         </div>
-        <select ng-model="filterOption" ng-options="option for option in transactionsOptions">
+        <select ng-model="selectedSub" ng-options="subbudget as subbudget.category for subbudget in budget.subbudgets">
+
         </select>
       </label>
     </div>
 
     <div class="list">
-        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in transactions | limitTo: 20 | filter: filterOption">
+        <a class="item" ui-sref="main.newTrans" ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
           <div class="row no-padding">
             <div class="col no-padding">
               <div class="col no-padding" id="home-untaggedName">

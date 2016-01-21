@@ -35,14 +35,14 @@ angular.module('pushbudget.controllers', [])
   var isAnyInstitutionInactive = false;
 
   User.institutions = [
-    {        
+    {
         InstitutionType: "bofa",
         InstitutionLogoURL: "http://placehold.it/25x25",
         AccessToken: "User's access token for bofa",
         Active: true,
         InstitutionName: "Bank Of America",
         Accounts: ["Checking *1234", "Savings *4563", "Credit *2234"]
-    }, 
+    },
     {
         InstitutionType: "wells",
         InstitutionLogoURL: "http://placehold.it/25x25",
@@ -50,7 +50,7 @@ angular.module('pushbudget.controllers', [])
         Active: true,
         InstitutionName: "Wells Fargo",
         Accounts: ["Checking *1234", "Savings *4563"]
-    }, 
+    },
     {
         InstitutionType: "chase",
         InstitutionLogoURL: "http://placehold.it/25x25",
@@ -68,7 +68,7 @@ angular.module('pushbudget.controllers', [])
 
 
   if (User.institutions.length === 0) {
-    $scope.noLinkedInstitutions = true; 
+    $scope.noLinkedInstitutions = true;
   }
   else
   {
@@ -100,10 +100,10 @@ angular.module('pushbudget.controllers', [])
         { text: 'Cancel', type: 'button-positive' },
         {
           text: '<b>Logout</b>',
-          
+
           onTap: function(e) {
               console.log("Here purge the user object in the Localstorage and then call the login screen...");
-              return $scope.data;            
+              return $scope.data;
           }
         }
       ]
@@ -111,7 +111,7 @@ angular.module('pushbudget.controllers', [])
 
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
-    });  
+    });
   }
 
   $scope.changePassword = function() {
@@ -134,35 +134,35 @@ angular.module('pushbudget.controllers', [])
               console.log("Confirm password: ", $scope.profile.confirmNewPassword);
               if (!$scope.profile.currentPassword || !$scope.profile.newPassword || !$scope.profile.confirmNewPassword) {
                 $ionicLoading.show({ template: 'Please enter all the fields!', duration: 1500})
-                e.preventDefault();  
-              } 
+                e.preventDefault();
+              }
 
               if ($scope.profile.currentPassword && $scope.profile.newPassword && $scope.profile.confirmNewPassword) {
                 //alert("comes here");
                 if ($scope.profile.currentPassword.indexOf(' ') >= 0) {
                   $ionicLoading.show({ template: 'Current Password cannot contain space(s)!', duration: 1500})
-                  e.preventDefault();  
+                  e.preventDefault();
                 }
                 else if ($scope.profile.newPassword.indexOf(' ') >= 0) {
                   $ionicLoading.show({ template: 'New Password cannot space(s)!', duration: 1500})
-                  e.preventDefault();  
+                  e.preventDefault();
                 }
                 else if ($scope.profile.confirmNewPassword.indexOf(' ') >= 0) {
                   $ionicLoading.show({ template: 'Confirmed Password cannot space(s)!', duration: 1500})
-                  e.preventDefault();  
+                  e.preventDefault();
                 }
 
               }
 
-              
+
 
 
               if ($scope.profile.newPassword !== $scope.profile.confirmNewPassword) {
                 $ionicLoading.show({ template: 'New Passwords do not match!', duration: 1500})
-                e.preventDefault();  
-              }              
+                e.preventDefault();
+              }
               console.log("Here call the api to update password and pass on the user id, current password and the new password. On .then of the API call, trap any errors if the current password is incorrect and such...");
-              return $scope.profile;            
+              return $scope.profile;
           }
         }
       ]
@@ -170,7 +170,7 @@ angular.module('pushbudget.controllers', [])
 
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
-    });  
+    });
 
   }
 
@@ -190,7 +190,7 @@ angular.module('pushbudget.controllers', [])
     });
 
     sandboxHandler.open();
-  
+
    //$scope.openLink = function() {
    //  console.log('open the link modal');
     // //sandboxHandler.open();
@@ -205,7 +205,7 @@ angular.module('pushbudget.controllers', [])
     console.log("Delete Account: Process to delete account for access token:", accessToken);
 
 
-  
+
     $scope.data = {};
     $scope.institutionNameForDeletion = institutionName;
     var myPopup = $ionicPopup.show({
@@ -217,11 +217,11 @@ angular.module('pushbudget.controllers', [])
         { text: 'No', type: 'button-positive' },
         {
           text: '<b>Yes</b>',
-          
+
           onTap: function(e) {
               console.log("Call the process to delete account for access token:", accessToken);
               console.log("Only delete it from here once we get a success from Plaid on deregistration:", accessToken);
-              return $scope.data;            
+              return $scope.data;
           }
         }
       ]
@@ -229,8 +229,8 @@ angular.module('pushbudget.controllers', [])
 
     //after the popup is closed, this will happen:
     myPopup.then(function(res) {
-    });  
-  
+    });
+
   }
 
 

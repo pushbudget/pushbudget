@@ -10,13 +10,15 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     //   color: '#F7464A',
     //   id: 432,
     //   name: 'cat 1',
-    //   total: '10'
+    //   total: '10',
+    //   totalDisplay: '10.00',
     // },
     // {
     //   color: '#46BFBD',
     //   id: 143,
     //   name: 'cat 2',
     //   total: '5',
+    //   totalDisplay: '5.00'
     // },
     // {
     //   color: '#FDB45C',
@@ -86,11 +88,18 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.chart.options = chartOptions;
   var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated
   var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
-  var getRandomInt = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  var getRandomRGB = function () {
+    var rand = Math.floor(Math.random() * (256)).toString(16);
+    if (rand.length < 2){
+      rand = '0' + rand;
+    }
+    return rand;
   };
   var getRandomColor = function(){
-    var color = '#' + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16) + getRandomInt(0, 255).toString(16);
+    var r = getRandomRGB();
+    var g = getRandomRGB();
+    var b = getRandomRGB();
+    var color = '#' + r + g + b;
     return color;
   };
   var getColor = function(){
@@ -173,6 +182,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   });
 
 
+
   var findIndex = function(id){
     var arr = $scope.budgetCategories.slice();
     for (var i = 0; i < arr.length; i++){
@@ -246,6 +256,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           name: res.newName,
           color: getColor(),
           new: true,
+          totalDisplay: String(parseFloat(res.newPrice).toFixed(2)),
+          goodData: true,
         };
         categories.push(output); //add the new category to the category array
         $scope.budgetCategories.push(output);
@@ -333,10 +345,23 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.changeColor = function(item){
-    item.color = getRandomColor();
+    item.newColor = getRandomColor();
   };
-  $scope.stuff = function(){
-    console.log('stuff');
+
+  $scope.saveEdit = function(item){
+    item.goodData = true;
+    item.name = item.newName;
+    item.newTotal = parseFloat(item.newTotal);
+    console.log((item.newTotal - item.total), parseFloat($scope.unallocated));
+
+    if ((item.newTotal - item.total) <= parseFloat($scope.unallocated)){
+      item.total= item.newTotal;
+      item.totalDisplay = String(parseFloat(item.total).toFixed(2));
+    }else
+    {
+      item.goodData = false;
+    }
+    item.color = item.newColor;
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {

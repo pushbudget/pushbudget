@@ -6,75 +6,37 @@
     <div class="item item-divider" id="home-budgetBoxInfo">
       You have $650 remaining
     </div>
-
-    <div class="list" >
-      <a ui-sref="main.trans" id="home-transLink">
-        <div class="item item-divider">
-          Untagged Transactions
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="row no-padding">
-          <div class="col no-padding">
-            <div class="col no-padding" id="home-untaggedName">
-              7-11
-            </div>
-            <div class="col no-padding" id="home-untaggedDate">
-              2016-01-04
-            </div>
-          </div>
-          <div class="col no-padding">
-            <div class="col no-padding text-right" id="home-untaggedAmmount">
-              $0.20
-            </div>
-            <div class="col no-padding text-right" id="home-untaggedCat">
-              Untagged
-            </div>
-          </div>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="row no-padding">
-          <div class="col no-padding">
-            <div class="col no-padding" id="home-untaggedName">
-              Wal-Mart
-            </div>
-            <div class="col no-padding" id="home-untaggedDate">
-              2016-01-08
-            </div>
-          </div>
-          <div class="col no-padding">
-            <div class="col no-padding text-right" id="home-untaggedAmmount">
-              $34.99
-            </div>
-            <div class="col no-padding text-right" id="home-untaggedCat">
-              Untagged
-            </div>
-          </div>
-        </div>
-      </a>
-      <a class="item" href="#">
-        <div class="row no-padding">
-          <div class="col no-padding">
-            <div class="col no-padding" id="home-untaggedName">
-              Amazon.com
-            </div>
-            <div class="col no-padding" id="home-untaggedDate">
-              2016-01-12
-            </div>
-          </div>
-          <div class="col no-padding">
-            <div class="col no-padding text-right" id="home-untaggedAmmount">
-              $250.00
-            </div>
-            <div class="col no-padding text-right" id="home-untaggedCat">
-              Untagged
-            </div>
-          </div>
-        </div>
-      </a>
+    <div id="home-transLink">
+      <div class="item item-divider">
+        Untagged Transactions
+      </div>
     </div>
-
+    <ion-scroll direction="y" style="height: 235px">
+      <div class="list" style="height: 235px">
+        <div ng-repeat="transaction in transactions | limitTo: 50">
+          <a class="item" ui-sref="main.toTrans({id: transaction._id})">
+            <div class="row no-padding">
+              <div class="col no-padding">
+                <div class="col no-padding" id="home-untaggedName">
+                  {{transaction.name}}
+                </div>
+                <div class="col no-padding" id="home-untaggedDate">
+                  {{transaction.posted | date : short}}
+                </div>
+              </div>
+              <div class="col no-padding">
+                <div class="col no-padding text-right" id="home-untaggedAmmount">
+                  ${{transaction.amount}}
+                </div>
+                <div class="col no-padding text-right" id="home-untaggedCat">
+                  {{transaction.category}}
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ion-scroll>
 
 
       <div id="home-budgetBox">

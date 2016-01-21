@@ -56,33 +56,65 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   // Each tab has its own nav history stack:
 
   .state('main.home', {
-      url: '/home',
-      views: {
-        'home': {
-          templateUrl: 'templates/home.html',
-          controller: 'homeCtrl'
-        }
+    url: '/home',
+    views: {
+      'home': {
+        templateUrl: 'templates/home.html',
+        controller: 'homeCtrl'
+      }
+    },
+  })
+
+  .state('main.toTrans', {
+    url: '/toTrans/:id',
+    views: {
+      'home': {
+        templateUrl: '/templates/homeTrans.html',
+        controller: 'newtransctrl'
+      }
+    },
+    resolve: {
+      transaction: function ($stateParams, transactionService) {
+        console.log($stateParams.id);
+        return transactionService.getSpecificUserTransaction($stateParams.id).then(function (res) {
+          console.log(res.data);
+          return res.data[0];
+        });
+      }
+    }
+  })
+
+  .state('main.trans', {
+    url: '/trans',
+    views: {
+      'transactions': {
+        templateUrl: 'templates/transactions.html',
+        controller: 'transCtrl'
       },
-    })
-    .state('main.trans', {
-      url: '/trans',
-      views: {
-        'transactions': {
-          templateUrl: 'templates/transactions.html',
-          controller: 'transCtrl'
-        },
+    }
+
+  })
+
+  .state('main.newTrans', {
+    url: '/newtrans/:id',
+    views: {
+      'transactions': {
+        templateUrl: 'templates/newtransaction.html',
+        controller: 'newtransctrl'
       }
-    })
-    .state('main.newTrans', {
-      url: '/newtrans',
-      views: {
-        'transactions': {
-          templateUrl: 'templates/newtransaction.html',
-          controller: 'newtransctrl'
-        }
+    },
+    resolve: {
+      transaction: function ($stateParams, transactionService) {
+        console.log($stateParams.id);
+        return transactionService.getSpecificUserTransaction($stateParams.id).then(function (res) {
+          console.log(res.data);
+          return res.data[0];
+        });
       }
-    })
-    .state('main.budgets', {
+    }
+  })
+
+  .state('main.budgets', {
       url: '/budgets',
       views: {
         'budgets': {

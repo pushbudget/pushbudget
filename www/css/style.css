@@ -262,6 +262,11 @@ div {
   display: inline-block;
 }
 
+#budgetSetup-editNameInput {
+  border: none;
+  
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;

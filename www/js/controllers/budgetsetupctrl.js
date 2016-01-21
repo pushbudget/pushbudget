@@ -1,35 +1,23 @@
-angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal) {
+angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state) {
 
-  // TODO:
-  //
-  // -need to find a way to assign a new category a color, and then map that color onto the pie chart
-  // -right now there is not really any checking for good/bad data on new category input. need to ensure that only a number is entered into the ammount field, and not let the use click ok until that has happened. Also need to make sure that the user has entered a name as well before allowing the ok button to be enabled
-  // -right now if a user clicks cancel on the new category popup, it still tries to add it to the array with undefined values.
-  // -need to add the ability to easily delete a category (swipe to delete like on newaction detail page?)
-  // -maybe make clicking a category on the setup page bring up the popup to edit it?
-  // -possibly add a way for the user to choose a color for the category, right now the graph library automatically assigns the first 7 then after that chooses random colors.
-  // -right now a hard-coded "spent" ammount is being sent to the budgetcat directive, this will later need to be replaced with the data we get from the db, which im thinking we should put on a ref that gets passed in from the resolve block in the router
-  // -we also need to make sure that a user is not adding a category with a budget ammount that exceeds the total that is unallocated
-  // -it would be cool if there were sliders somewhere where a user could do on-the-fly adjustments of the ammounts of each sub-budget and see how that dynamically affects the pie chart. maybe the edit functionality of each category would bring a drop-down div out from under it to show the slider?
-  // - weird stuff happens if the user enters negative values for budgets, we need to check for this
-  //dummy data ************************************
-  var initBudget = 100;
+  //hook these init values up to the user data from the backend:
+  var initBudget = 0;
   var initSavings = 0;
   var initSpent = 0;
-
   var initCats = [
-    {
-      color: '#F7464A',
-      id: 432,
-      name: 'cat 1',
-      total: '10'
-    },
-    {
-      color: '#46BFBD',
-      id: 143,
-      name: 'cat 2',
-      total: '5',
-    },
+    //dummy data for testing:
+    // {
+    //   color: '#F7464A',
+    //   id: 432,
+    //   name: 'cat 1',
+    //   total: '10'
+    // },
+    // {
+    //   color: '#46BFBD',
+    //   id: 143,
+    //   name: 'cat 2',
+    //   total: '5',
+    // },
     // {
     //   color: '#FDB45C',
     //   id: 4322,
@@ -48,18 +36,17 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     //   name: 'falafel',
     //   total: '9'
     // }
-
   ];
 
-  var deletedCats = [];
+  $scope.deletedCats = [];
   $scope.inputs= {};
-
   $scope.totalSpent = initSpent;
   $scope.inputs.totalBudget = initBudget;
   var categories = initCats.slice();
   $scope.budgetCategories = categories.slice();
-  var budgetSum = 0;
   var savings = initSavings;
+  var budgetSum = 0;
+
   for (var j = 0; j < categories.length; j++){
     budgetSum += categories[j].total;
   }
@@ -97,7 +84,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     // animation: false,
   };
   $scope.chart.options = chartOptions;
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated
   var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
   var getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -154,7 +141,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     if (isNaN(currentSavings) || currentSavings < 0){
       currentSavings = 0;
     }
-    console.log(currentSavings);
     if (newSum + currentSavings > currentTotal){
       $scope.goodData = false;
       var overBudgetSavings = currentSavings;
@@ -271,19 +257,21 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     });
   };
 
-  $scope.saveConfirmPopup = function() {
+  var saveConfirmPopup = function() {
     $scope.data = {};
 
     var myPopup = $ionicPopup.show({
-      template: '<div ng-repeat="category in deletedCats">category.name</div>',
+      template: '<div ng-repeat="category in deletedCats" style="text-align: center; width:100%">{{category.name}}</div>',
       title: 'Save Changes?',
-      subTitle: $scope.deletedCats.length + ' categories will be deleted:',
+      subTitle: $scope.deletedCats.length + ' existing categories will be deleted:',
       scope: $scope,
       buttons: [
-        { text: 'Cancel' },
         {
-          text: '<b>Ok</b>',
-          type: 'button-assertive',
+          text: 'Cancel',
+          type: 'button-positive'
+        },
+        {
+          text: 'Delete',
           onTap: function(e) {
             $scope.data.ok = true;
             return $scope.data;
@@ -296,14 +284,39 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     myPopup.then(function(res) {
       //if the user did not press cancel:
       if (res){
-        console.log(res);
-        //code here to do stuff to the database
+        writeChangesToDb();
+        $state.go('main.budgets');
       }
     });
   };
 
-  $scope.cancel = function(){
+  var writeChangesToDb = function(){
+    console.log('savings to db!');
+    //code here to do stuff to the database *************************************************
 
+  };
+
+  $scope.save = function(){
+    if ($scope.deletedCats.length > 0){
+      saveConfirmPopup();
+    }else{
+      writeChangesToDb();
+      $state.go('main.budgets');
+    }
+  };
+
+  $scope.cancel = function(){
+    //reset all values to initial states:
+    $scope.deletedCats = [];
+    $scope.inputs= {};
+    $scope.totalSpent = initSpent;
+    $scope.inputs.totalBudget = initBudget;
+    categories = initCats.slice();
+    $scope.budgetCategories = categories.slice();
+    savings = initSavings;
+    budgetSum = 0;
+    unallocated = 0;
+    $state.go('main.budgets');
   };
 
   $scope.showDelete = false;
@@ -313,17 +326,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.deleteCategory = function(item){
     var idx = findIndex(item.id);
     if (!item.new){
-      deletedCats.push(item);
+      $scope.deletedCats.push(item);
     }
-    console.log(deletedCats);
     categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
-  };
-
-  $scope.save = function(){
-    if (deletedCats.length > 0){
-
-    }
   };
 
   $scope.changeColor = function(item){

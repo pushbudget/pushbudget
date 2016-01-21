@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
+angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.controllers', 'chart.js', 'ionic.service.push'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
@@ -29,9 +29,10 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $urlRouterProvider.otherwise('/login');
-  $stateProvider
 
+  $urlRouterProvider.otherwise('/login');
+
+  $stateProvider
   // setup an abstract state for the tabs directive
     .state('main', {
     url: '/main',
@@ -132,25 +133,25 @@ angular.module('pushbudget', ['ionic', 'pushbudget.controllers', 'chart.js'])
       templateUrl: 'templates/login.html',
       controller: 'loginCtrl',
       resolve: {
-        user: function(loginService){
-          if(loginService.getCurrentUser() !== null){
+        user: function (loginService) {
+          if (loginService.getCurrentUser() !== null) {
             $state.go('home')
           }
         }
       }
 
     })
-
-  .state('create', {
-    url: '/create',
-    templateUrl: 'templates/create.html',
-    controller: 'createCtrl'
-
-  });
-
-
-  // if none of the above states are matched, use this as the fallback
-
-  //$urlRouterProvider.otherwise('/main/account');
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html',
+      controller: 'signupCtrl',
+      resolve: {
+        user: function (loginService) {
+          if (loginService.getCurrentUser() !== null) {
+            $state.go('home')
+          }
+        }
+      }
+    })
 
 });

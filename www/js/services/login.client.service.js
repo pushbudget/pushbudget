@@ -18,27 +18,23 @@ angular.module('pushbudget').service('loginService', function ($http, $q) {
     return dfd.promise;
   }
 
-  this.getCurrentUser = function() {
+  this.getCurrentUser = function () {
     return currentUser
   }
 
-
-  /*
-    this.getCurrentUser = function () {
-      var dfd = $q.defer();
-      $http({
-        method: 'GET',
-        url: 'http://localhost:3001/currentuser',
-        data: ''
-      }).then(function (user) {
-        console.log('THIS IS A BAD USER', user);
-        that.currentUser = user.data;
-        dfd.resolve(user);
-      }).catch(function (err) {
-        dfd.reject(err);
-      });
-      return dfd.promise;
-    }
-  */
+  this.getSessionUser = function () {
+    var dfd = $q.defer();
+    $http({
+      method: 'GET',
+      url: 'http://localhost:3001/currentuser',
+      data: ''
+    }).then(function (user) {
+      currentUser = user.data;
+      dfd.resolve(user);
+    }).catch(function (err) {
+      dfd.reject(err);
+    });
+    return dfd.promise;
+  }
 
 });

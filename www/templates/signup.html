@@ -2,27 +2,27 @@
   <ion-content class="padding">
     <div class="container">
       <div>
-        <img class="login-logo" src="https://gistnetwork.files.wordpress.com/2015/07/wpid-lil-wayne-money1.jpg">
+
       </div>
     </div>
     <div class="container login-caption">
-        <h4>Push Budget</h4>
+      <h4>Push Budget</h4>
     </div>
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Email Address</span>
-        <input type="text" placeholder="johndoe@email.com" required>
+        <input type="text" placeholder="johndoe@email.com" ng-model="newUser.username" required>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Password</span>
-        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Password" ng-model="newUser.password" required>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Re-enter Password</span>
-        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Password" ng-model="check" required>
       </label>
     </div>
-    <button class="button button-block button-balanced">
+    <button ng-disabled="check !== newUser.password" class="button button-block button-balanced" ng-click="signup(newUser)">
       Create
     </button>
   </ion-content>

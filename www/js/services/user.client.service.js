@@ -29,10 +29,4 @@ angular.module('pushbudget').service('userService', function ($http, $q, absolut
     return dfd.promise;
   };
 
-  this.getCurrentUser = function (userId) {
-    getUserFromDb(userId).then(function (res) {
-      console.log(res.data);
-      //return res.data;
-    });
-  };
 });

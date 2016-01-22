@@ -50,6 +50,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
         var userId = authService.getCurrentUser()._id;
         console.log(userId);
         return userService.getUserFromDb(userId).then(function (res) {
+          console.log(res.data);
           return res.data;
         });
       },

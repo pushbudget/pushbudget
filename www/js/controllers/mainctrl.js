@@ -15,18 +15,9 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
 
   $scope.userEmail = userRef.email;
 
-  $scope.getUntagged = function () {
-    transactionService.getAllUserUntagged(userRef._id).then(function (transactions) {
-      var obj = {
-        transactions: transactions.data,
-        category: 'Untagged'
-      }
-      $scope.budget.subbudgets.unshift(obj);
-      $scope.selectedSub = $scope.budget.subbudgets[0];
-    })
-  }
 
-  $scope.getUntagged();
+
+
 
   console.log('userRef', userRef);
 

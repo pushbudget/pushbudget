@@ -337,3 +337,13 @@ div {
   animation: blink 1s linear infinite;
 }
 /* End of CSS code to make the refresh button change background color for inactive accounts on user profile */
+
+.institutionAttentionMessage {
+    color: red;
+}
+
+/* The below css code is necessary to render the subheader bar on android platform, else it just shows the  
+header bar with no content inside of it! */
+.platform-android .bar-subheader  {
+    top: 93px;
+}

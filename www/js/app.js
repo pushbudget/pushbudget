@@ -69,7 +69,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
     url: '/toTrans/:id',
     views: {
       'home': {
-        templateUrl: '/templates/homeTrans.html',
+        templateUrl: 'templates/newtransaction.html',
         controller: 'newtransctrl'
       }
     },
@@ -166,7 +166,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       resolve: {
         user: function (authService, $state) {
           if (authService.getCurrentUser() !== null) {
-            $state.go('main.home');
+            $state.go('main');
           }
         }
       }
@@ -178,10 +178,10 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       resolve: {
         user: function (authService, $state) {
           if (authService.getCurrentUser() !== null) {
-            $state.go('home')
+            $state.go('main.home');
           }
         }
       }
-    })
+    });
 
 });

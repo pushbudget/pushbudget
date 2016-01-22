@@ -5,24 +5,24 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var initSavings = $scope.totalUserSavings;
   var initSpent = $scope.totalUserSpent;
   var initCats = $scope.userSubBudgets;
-  //[
-    //dummy data for testing:
-    // {
-    //   color: '#F7464A',
-    //   id: 432,
-    //   category: 'cat 1',
-    //   total: '10',
-    //   totalDisplay: '10.00',
-    //   goodData: true,
-    // },
-    // {
-    //   color: '#46BFBD',
-    //   id: 143,
-    //   category: 'cat 2',
-    //   total: '5',
-    //   totalDisplay: '5.00',
-    //   goodData: true,
-    // },
+  //dummy data for testing:
+  // [
+  //   {
+  //     color: '#F7464A',
+  //     id: 432,
+  //     category: 'cat 1',
+  //     allocated: '10',
+  //     totalDisplay: '10.00',
+  //     goodData: true,
+  //   },
+  //   {
+  //     color: '#46BFBD',
+  //     id: 143,
+  //     category: 'cat 2',
+  //     allocated: '5',
+  //     totalDisplay: '5.00',
+  //     goodData: true,
+  //   },
     // {
     //   color: '#FDB45C',
     //   id: 4322,
@@ -33,13 +33,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     //   color: '#949FB1',
     //   id: 873,
     //   category: 'burgers',
-    //   total: '6',
+    //   allocated: '6',
     // },
     // {
     //   color: '#4D5360',
     //   id: 461,
     //   category: 'falafel',
-    //   total: '9'
+    //   allocated: '9'
     // }
   //];
 
@@ -86,7 +86,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
     //multiTooltipTemplate: "<%= value + ' %' %>"
-    // animation: false,
+    animation: $scope.userOptions.animateChart,
   };
   $scope.chart.options = chartOptions;
   var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated
@@ -114,24 +114,32 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   };
 
-  var chartUpdate = function(){
+  var chartUpdate = function(deficit){
     //used for chart (chart takes two seperate arrays of data that we have to split)
     var chartValues = [];  //array of values for categories
     var chartLabels = [];  //array of labels for categories
     var chartColors = [];  //array of colors for categories
-    for (var i = 0; i < initGroup.length; i++ ){
-      chartValues.push(parseFloat(initGroup[i].allocated));
-      chartLabels.push(initGroup[i].category);
-      chartColors.push(initGroup[i].color);
-    }
-    for (i = 0; i < categories.length; i++){
-      chartValues.push(parseFloat(categories[i].allocated));
-      chartLabels.push(categories[i].category);
-      chartColors.push(categories[i].color);
+
+    if (deficit > 0){
+      chartValues.push(deficit);
+      chartLabels.push('Over Budget');
+      chartColors.push('#ef4e3a');
+    }else{
+      for (var i = 0; i < initGroup.length; i++ ){
+        chartValues.push(parseFloat(initGroup[i].allocated));
+        chartLabels.push(initGroup[i].category);
+        chartColors.push(initGroup[i].color);
+      }
+      for (i = 0; i < categories.length; i++){
+        chartValues.push(parseFloat(categories[i].allocated));
+        chartLabels.push(categories[i].category);
+        chartColors.push(categories[i].color);
+      }
     }
     $scope.chart.values = chartValues.slice();
     $scope.chart.labels = chartLabels.slice();
     $scope.chart.colors = chartColors.slice();
+
 
     //console.log('chart values:', chartValues);
   };
@@ -145,14 +153,16 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
     var currentTotal = parseFloat($scope.inputs.totalBudget);
     if (isNaN(currentTotal) || currentTotal <=0){
-      currentTotal = 1; //must have at least 1 to have the chart showup
+      currentTotal = 0;
     }
     var currentSavings = parseFloat($scope.inputs.savingsGoal);
     if (isNaN(currentSavings) || currentSavings < 0){
       currentSavings = 0;
     }
+    var deficit = 0;
     if (newSum + currentSavings > currentTotal){
       $scope.goodData = false;
+      deficit = (currentTotal - (newSum + currentSavings))*-1;
       var overBudgetSavings = currentSavings;
       currentSavings = currentTotal - newSum;
       $scope.savingsOverBudget = true;
@@ -166,7 +176,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       newUnallocated = 0; //the graph uses absolute values, so a negative value causes many problems
     }
     updateInitGroup(currentSavings, newUnallocated);
-    chartUpdate();
+    chartUpdate(deficit);
   };
 
   $scope.$watch('budgetCategories', function(newValue, oldValue){
@@ -178,6 +188,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       if (isNaN(parseFloat(res[1])) || (res[1]) < 0){
         $scope.savingsAmt = 0;
       }else $scope.savingsAmt = parseFloat(res[1]);
+      if (parseFloat(res[0]) > 0){
+        $scope.noBudget = false;
+      }else $scope.noBudget = true;
       budgetUpdate();
     }
   });
@@ -263,7 +276,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         categories.push(output); //add the new category to the category array
         $scope.budgetCategories.push(output);
         budgetUpdate();
-        chartUpdate();
         $scope.catId++; //increment the id for the next one
         colorCount++;
       }

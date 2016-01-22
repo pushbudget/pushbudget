@@ -12,6 +12,8 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   $scope.totalUserSavings = 0;
   $scope.totalUserRemain = parseFloat($scope.totalUserBudget - $scope.totalUserSpent).toFixed(2);
   $scope.userSubBudgets = budget.subbudgets;
+  $scope.userOptions = {};
+  $scope.userOptions.animateChart = false;
 
   $scope.userEmail = userRef.email;
 

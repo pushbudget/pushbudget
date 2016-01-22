@@ -36,6 +36,10 @@ div {
   border:non;
 }
 
+.input-needed {
+  border: 1px solid #387EF5;
+}
+
 #add-border {
   border: 1px solid #8B8B8B;
 }
@@ -67,6 +71,8 @@ div {
   box-shadow: 1px 1px 1px #8B8B8B;
   border-radius: 3px;
   background-color: #F5F5F5;
+  margin: 0px;
+  margin-bottom: 2px;
 }
 
 #budgetBarFill {
@@ -222,6 +228,8 @@ div {
 /*budget setup */
 #budget-savingsLabel {
   border-left: 10px #97BBCD solid;
+  border-right: none;
+  margin-right: 8px;
 }
 
 #budget-totalLabel {
@@ -279,6 +287,10 @@ div {
 
 #budgetSetup-editRow {
   padding: 0px !important;
+}
+
+#budgetSetup-inputField {
+  margin-right: 8px;
 }
 
 /*accordian*/

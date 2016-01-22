@@ -1,5 +1,5 @@
 angular.module('pushbudget').service('authService', function ($http, $q) {
-
+  console.log('auth service');
   var that = this;
   var currentUser = null;
 

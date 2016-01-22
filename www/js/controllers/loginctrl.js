@@ -9,4 +9,4 @@ angular.module('pushbudget').controller('loginCtrl', function ($scope, $state, a
       }
     });
   };
-})
+});

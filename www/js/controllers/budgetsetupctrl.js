@@ -352,8 +352,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     item.goodData = true;
     item.name = item.newName;
     item.newTotal = parseFloat(item.newTotal);
-    console.log((item.newTotal - item.total), parseFloat($scope.unallocated));
-
     if ((item.newTotal - item.total) <= parseFloat($scope.unallocated)){
       item.total= item.newTotal;
       item.totalDisplay = String(parseFloat(item.total).toFixed(2));

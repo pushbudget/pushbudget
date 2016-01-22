@@ -19,9 +19,9 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   //   })
   // };
 
-  $scope.$on('logout', function () {
-    console.log('REALLY TRYING TO LOGOUT NOW');
-    $state.go('login');
-  });
+  // $scope.$on('logout', function () {
+  //   console.log('REALLY TRYING TO LOGOUT NOW');
+  //   $state.go('login');
+  // });
 
 });

@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('splitTransaction', function ($http, $q) {
+angular.module('pushbudget').service('splitTransaction', function ($http, $q, absoluteUrl) {
 
   // transaction split view, if no splits...transaction is added to bucket.
   // if there are splits, the parent transaction is not added and 
@@ -10,7 +10,7 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/api/split/' + transaction.transId,
+      url: absoluteUrl + 'api/split/' + transaction.transId,
       data: transaction
     }).then(function (bucket) {
       dfd.resolve(bucket)

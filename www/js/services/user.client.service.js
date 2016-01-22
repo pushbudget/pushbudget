@@ -1,10 +1,10 @@
-angular.module('pushbudget').service('userService', function ($http, $q) {
+angular.module('pushbudget').service('userService', function ($http, $q, absoluteUrl) {
   console.log("user service");
   this.getUserFromDb = function (userId) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/user/' + userId + '/populate'
+      url: absoluteUrl.url + 'user/' + userId + '/populate'
     }).then(function (user) {
       console.log("up in here");
       dfd.resolve(user);
@@ -19,7 +19,7 @@ angular.module('pushbudget').service('userService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/user/' + userId + '/populate'
+      url: absoluteUrl.url + 'user/' + userId + '/populate'
     }).then(function (user) {
       console.log("up in here");
       dfd.resolve(user);
@@ -29,8 +29,8 @@ angular.module('pushbudget').service('userService', function ($http, $q) {
     return dfd.promise;
   };
 
-  this.getCurrentUser = function(){
-    getUserFromDb('5696bd87e4b07f04a7491c6b').then(function(res){
+  this.getCurrentUser = function (userId) {
+    getUserFromDb(userId).then(function (res) {
       console.log(res.data);
       //return res.data;
     });

@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('transactionService', function ($http, $q) {
+angular.module('pushbudget').service('transactionService', function ($http, $q, absoluteUrl) {
 
   console.log('hey im in here');
 
@@ -9,7 +9,7 @@ angular.module('pushbudget').service('transactionService', function ($http, $q) 
     var dfd = $q.defer();
     $http({
         method: 'GET',
-        url: 'http://localhost:3001/api/transactions/user/' + userId
+        url: absoluteUrl.url + 'api/transactions/user/' + userId
       }).then(function (res) {
         console.log(res.data);
         dfd.resolve(res.data);
@@ -25,7 +25,7 @@ angular.module('pushbudget').service('transactionService', function ($http, $q) 
     var dfd = $q.defer();
     $http({
         method: 'GET',
-        url: 'http://localhost:3001/api/transactions/' + transId
+        url: absoluteUrl.url + 'api/transactions/' + transId
       }).then(function (res) {
         dfd.resolve(res);
       })
@@ -40,7 +40,7 @@ angular.module('pushbudget').service('transactionService', function ($http, $q) 
     var dfd = $q.defer();
     $http({
         method: 'PATCH',
-        url: 'http://localhost:3001/api/transactions/' + transId,
+        url: absoluteUrl.url + 'api/transactions/' + transId,
         data: editedTransaction
       }).then(function (res) {
         dfd.resolve(res);
@@ -55,7 +55,7 @@ angular.module('pushbudget').service('transactionService', function ($http, $q) 
     var dfd = $q.defer();
     $http({
         method: 'DELETE',
-        url: 'http://localhost:3001/api/transactions/' + transId
+        url: absoluteUrl.url + '/api/transactions/' + transId
       }).then(function (res) {
         dfd.resolve(res);
       })
@@ -69,7 +69,7 @@ angular.module('pushbudget').service('transactionService', function ($http, $q) 
     var dfd = $q.defer();
     $http({
         method: 'GET',
-        url: 'http://localhost:3001/api/transactions/untagged/' + userId
+        url: absoluteUrl.url + 'api/transactions/untagged/' + userId
       }).then(function (res) {
         dfd.resolve(res);
       })

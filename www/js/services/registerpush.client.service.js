@@ -1,11 +1,11 @@
-angular.module('pushbudget').service('registerPush', function ($q, $http) {
+angular.module('pushbudget').service('registerPush', function ($q, $http, absoluteUrl) {
 
   this.registerDevice = function (device) {
 
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/api/device',
+      url: absoluteUrl.url + 'api/device',
       data: device
     }).then(function (res) {
       dfd.resolve(res);
@@ -20,7 +20,7 @@ angular.module('pushbudget').service('registerPush', function ($q, $http) {
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/api/registerToken',
+      url: absoluteUrl.url + 'api/registerToken',
       data: token
     }).then(function (res) {
       dfd.resolve(res);

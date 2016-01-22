@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('homeCtrl', function($scope, userRef) {
+angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, transactionService) {
 
   $scope.getUntagged = function(){
     transactionService.getAllUserUntagged(userRef._id).then(function(transactions){
@@ -6,5 +6,6 @@ angular.module('pushbudget').controller('homeCtrl', function($scope, userRef) {
     })
   }
   $scope.getUntagged();
+  console.log($scope.userRef);
 
 })

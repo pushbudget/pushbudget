@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('splitTransaction', function ($scope, splitTransaction, userService, loginService) {
+angular.module('pushbudget').controller('splitTransaction', function ($scope, splitTransaction, userService) {
   console.log('test');
   var testTransaction = {
     transId: "56978a2578f86e102af85bb2",

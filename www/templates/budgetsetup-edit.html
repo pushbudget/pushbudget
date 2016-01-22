@@ -32,22 +32,21 @@
             <div class="col col-25" id="budgetSetup-editValueInput">
               <div class="item item-input-inset no-padding">
                 <label class="item-input-wrapper no-padding" >
-                  $<input type="text" placeholder="{{item.totalDisplay}}" ng-init="newTotal=item.totalDisplay" ng-model="newTotal">
+                  $<input type="text" placeholder="{{item.totalDisplay}}"  ng-model="item.newTotal">
                 </label>
               </div>
             </div>
 
             <div class="col" id="budgetSetup-editSave" ng-if="item.goodData">
-              <button class="button button-small" id="add-border"  ng-click="item.newName = newName; item.newTotal = newTotal; saveEdit(item)">
+              <button class="button button-small" id="add-border"  ng-click="item.newName = newName;  saveEdit(item)">
                   Save
               </button>
             </div>
             <div class="col" id="budgetSetup-editSave" ng-if="!item.goodData">
-              <button class="button button-small button-assertive" id="add-border"  ng-click="item.newName = newName; item.newTotal = newTotal; saveEdit(item)">
+              <button class="button button-small button-assertive" id="add-border"  ng-click="item.newName = newName; saveEdit(item)">
                   Save
               </button>
             </div>
-
 
           </div>
 

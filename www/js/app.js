@@ -8,7 +8,8 @@
 angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.controllers', 'chart.js', 'ionic.service.push', 'ui.router'])
 
 .constant("absoluteUrl", {
-    "url": 'http://localhost:3001/'
+    //"url": 'http://localhost:3001/'
+    "url": 'http://3c541816.ngrok.io/'
   })
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

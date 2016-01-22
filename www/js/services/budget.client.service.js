@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('budgetTransaction', function ($http, $q) {
+angular.module('pushbudget').service('budgetTransaction', function ($http, $q, absoluteUrl) {
 
   // attach userId to the budget object from controller
   // need the userId for express endpoints
@@ -9,7 +9,7 @@ angular.module('pushbudget').service('budgetTransaction', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/api/budget/' + budget.userId,
+      url: absoluteUrl.url + 'api/budget/' + budget.userId,
       data: budget
     }).then(function (budget) {
       dfd.resolve(budget);
@@ -23,7 +23,7 @@ angular.module('pushbudget').service('budgetTransaction', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'PATCH',
-      url: 'http://localhost:3001/api/budget/' + budget._id,
+      url: absoluteUrl.url + 'api/budget/' + budget._id,
       data: budget
     }).then(function (budget) {
       dfd.resolve(budget);
@@ -37,7 +37,7 @@ angular.module('pushbudget').service('budgetTransaction', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3001/api/budget/' + budget._id + '/' + budget.userId,
+      url: absoluteUrl.url + budget._id + '/' + budget.userId,
       data: budget
     }).then(function (budget) {
       dfd.resolve(budget);
@@ -51,7 +51,7 @@ angular.module('pushbudget').service('budgetTransaction', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/api/budget/' + budget.userId,
+      url: absoluteUrl.url + 'api/budget/' + budget.userId,
       data: budget
     }).then(function (budget) {
       dfd.resolve(budget);

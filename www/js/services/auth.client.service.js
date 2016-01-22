@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('authService', function ($http, $q) {
+angular.module('pushbudget').service('authService', function ($http, $q, absoluteUrl) {
   console.log('auth service');
   var that = this;
   var currentUser = null;
@@ -7,7 +7,7 @@ angular.module('pushbudget').service('authService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/login',
+      url: absoluteUrl.url + 'login',
       data: user
     }).then(function (user) {
       currentUser = user.data;
@@ -26,7 +26,7 @@ angular.module('pushbudget').service('authService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/currentuser',
+      url: absoluteUrl.url + 'currentuser',
       data: ''
     }).then(function (user) {
       currentUser = user.data;
@@ -41,12 +41,10 @@ angular.module('pushbudget').service('authService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://localhost:3001/logout',
+      url: absoluteUrl.url + 'logout',
       data: ''
     }).then(function (res) {
-      console.log(currentUser);
       currentUser = null;
-      console.log(currentUser);
       dfd.resolve(res);
     }).catch(function (err) {
       dfd.reject(err);
@@ -58,15 +56,11 @@ angular.module('pushbudget').service('authService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: 'http://localhost:3001/signup',
+      url: absoluteUrl.url + 'signup',
       data: user
     }).then(function (user) {
-      console.log(user);
-      console.log('')
-      console.log('SHALLOW COPY', user.data);
       currentUser = user.data;
       dfd.resolve(user);
-
     }).catch(function (err) {
       dfd.reject(err);
     });

@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
+angular.module('pushbudget').service('subbudgetService', function ($http, $q, absoluteUrl) {
 
   console.log('we are in the subbudget service');
 
@@ -9,7 +9,7 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
         method: 'GET',
-        url: 'http://localhost:3001/api/subbudget/' + bucketId
+        url: absoluteUrl.url + 'api/subbudget/' + bucketId
       }).then(function (res) {
         dfd.resolve(res);
       })
@@ -24,7 +24,7 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
         method: 'PATCH',
-        url: 'http://localhost:3001/api/subbudget/' + bucketId,
+        url: absoluteUrl.url + 'api/subbudget/' + bucketId,
         data: editedBucket
       }).then(function (res) {
         dfd.resolve(res);
@@ -42,7 +42,7 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
         method: 'DELETE',
-        url: 'http://localhost:3001/api/subbudget/' + bucketId + '/' + budgetId
+        url: absoluteUrl.url + 'api/subbudget/' + bucketId + '/' + budgetId
       }).then(function (res) {
         dfd.resolve(res);
       })
@@ -58,7 +58,7 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q) {
     var dfd = $q.defer();
     $http({
         method: 'POST',
-        url: 'http://localhost:3001/api/subbudget/' + bucketObj._id,
+        url: absoluteUrl.url + 'api/subbudget/' + bucketObj._id,
         data: bucketObj
       }).then(function (res) {
         dfd.resolve(res);

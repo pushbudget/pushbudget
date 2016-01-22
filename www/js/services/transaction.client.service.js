@@ -11,7 +11,6 @@ angular.module('pushbudget').service('transactionService', function ($http, $q, 
         method: 'GET',
         url: absoluteUrl.url + 'api/transactions/user/' + userId
       }).then(function (res) {
-        console.log(res.data);
         dfd.resolve(res.data);
       })
       .catch(function (err) {

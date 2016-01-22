@@ -16,7 +16,7 @@ angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, tr
       return {width: '0%'};
     }
     var pct = ((1 - totalSpent/subbudget.allocated)*100).toString() + '%';
-    console.log(pct);
+    // console.log(pct);
     return {width: pct};
   }
   console.log('im in the home controller');

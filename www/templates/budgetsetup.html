@@ -2,9 +2,12 @@
   <ion-content >
     <pb-budgetbar total="inputs.totalBudget-savingsAmt" spent="totalUserSpent"></pb-budgetbar>
 
-  <label class="item item-input" id="budget-totalLabel">
+  <label class="item item-input" id="budget-totalLabel" >
     <span class="input-label">Total Budget</span>
-      <label class="item-input-wrapper">
+      <label class="item-input-wrapper input-needed" id="budgetSetup-inputField" ng-if="noBudget">
+        $<input type="text" placeholder="0.00" ng-model="inputs.totalBudget">
+      </label>
+      <label class="item-input-wrapper" id="budgetSetup-inputField" ng-if="!noBudget">
         $<input type="text" placeholder="0.00" ng-model="inputs.totalBudget">
       </label>
   </label>
@@ -34,9 +37,10 @@
           ${{overBudgetAmt}} Over Budget
         </div>
       </div>
-      <canvas id="pie" class="chart chart-pie" chart-click="onClick"
+      <canvas  id="pie" class="chart chart-pie" chart-click="onClick"
           chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
+      
     </div>
 
       <div id="home-budgetBox">
@@ -46,9 +50,14 @@
               Budget Categories
             </div>
 
-            <div class="col no-padding text-right">
+            <div class="col no-padding text-right" ng-if="!noBudget && unallocated >0">
               <button class="button icon ion-plus button-positive" ng-click="addCatPopup()"></button>
             </div>
+
+            <div class="col no-padding text-right" ng-if="noBudget || unallocated <=0">
+              <button class="button icon ion-plus button-stable" ng-disabled="noBudget || unallocated <=0" ng-click=""></button>
+            </div>
+
           </div>
         </div>
 

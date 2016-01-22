@@ -12,13 +12,15 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     //   name: 'cat 1',
     //   total: '10',
     //   totalDisplay: '10.00',
+    //   goodData: true,
     // },
     // {
     //   color: '#46BFBD',
     //   id: 143,
     //   name: 'cat 2',
     //   total: '5',
-    //   totalDisplay: '5.00'
+    //   totalDisplay: '5.00',
+    //   goodData: true,
     // },
     // {
     //   color: '#FDB45C',
@@ -104,8 +106,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
   var getColor = function(){
     if (colorCount <= chartColorsArr.length-1){
-      console.log(chartColorsArr[colorCount]);
-      console.log(chartColorsArr);
       return chartColorsArr[colorCount];
     }else{
       console.log('rand color');
@@ -349,17 +349,19 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.saveEdit = function(item){
-    item.goodData = true;
     item.name = item.newName;
-    item.newTotal = parseFloat(item.newTotal);
-    if ((item.newTotal - item.total) <= parseFloat($scope.unallocated)){
+    item.color = item.newColor;
+
+    item.goodData = true;
+    console.log(item.newTotal, item.total);
+    var inputNum = parseFloat(item.newTotal).toFixed(2);
+    if (!isNaN(inputNum) && (inputNum - item.total) <= parseFloat($scope.unallocated)){
       item.total= item.newTotal;
       item.totalDisplay = String(parseFloat(item.total).toFixed(2));
     }else
     {
       item.goodData = false;
     }
-    item.color = item.newColor;
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {
@@ -376,6 +378,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.modal = modal;
   });
   $scope.openModal = function() {
+    for (var i = 0; i < categories.length; i ++){
+      categories[i].newTotal = parseFloat(categories[i].total).toFixed(2);
+      categories[i].totalDisplay = String(parseFloat(categories[i].total).toFixed(2));
+    }
     $scope.modal.show();
   };
   $scope.closeModal = function() {

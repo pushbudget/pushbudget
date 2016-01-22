@@ -1,12 +1,12 @@
 <ion-modal-view>
-  <ion-header-bar class="bar-positive">
+  <ion-header-bar class="bar-positive" >
       <div class="buttons">
         <button class="button button-icon icon ion-ios-minus-outline"
           ng-click="data.showDelete = !data.showDelete; data.showReorder = false "></button>
       </div>
         <h1 class="title">Edit Categories</h1>
       <div class="buttons">
-        <button class="button button-icon icon ion-navicon" ng-click=" data.showDelete = false; data.showReorder = !data.showReorder">
+        <button class="button button-icon icon ion-navicon"  ng-click=" data.showDelete = false; data.showReorder = !data.showReorder">
         </button>
       </div>
     </ion-header-bar>
@@ -62,7 +62,7 @@
       </ion-list>
       <div class="row">
         <div class="col">
-          <button class="button icon-left ion-chevron-down button-clear button-dark" ng-click="closeModal()">Back</button>
+          <button class="button icon-left ion-chevron-down button-clear button-dark" ng-click="data.showDelete = false; data.showReorder = false; closeModal()">Back</button>
         </div>
         <div class="col col-center text-right" id="budgetSetup-editUnallocated">
           ${{unallocated}} Unbudgeted

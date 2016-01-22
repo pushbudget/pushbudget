@@ -1,5 +1,5 @@
 
-angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPopup, $ionicLoading, userProfile) {
+angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPopup, $ionicLoading, userProfile, $ionicModal) {
     // this has to be moved to a service
     // var sandboxHandler = Plaid.create({
     //   clientName: 'pushbudget',
@@ -16,7 +16,6 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
     //   sandboxHandler.open();
     // };
 
-    console.log("Comes to the User profile screen...");
 
     var User = {};
     var isAnyInstitutionInactive = false;
@@ -66,7 +65,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
         if (isAnyInstitutionInactive) {
             //alert("found an inactive account");
             $scope.institutionNeedsAttention = true;
-            $scope.institutionAttentionMessage = "One or more of your institutions need attention!";
+            $scope.institutionAttentionMessage = "You have unlinked accounts!";
 
             //$ionicLoading.show({ template: 'One or more of your accounts need attention!', duration: 2500});
         }

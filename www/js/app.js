@@ -48,12 +48,17 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
           $state.go('login');
         }
         var userId = authService.getCurrentUser()._id;
-        console.log(userId);
         return userService.getUserFromDb(userId).then(function (res) {
-          console.log(res.data);
           return res.data;
         });
       },
+      untaggedRef: function(authService, transactionService){
+        var id = authService.getCurrentUser()._id;
+        return transactionService.getAllUserUntagged(id)
+        .then(function(transactions){
+          return transactions.data;
+        });
+      }
     },
   })
 

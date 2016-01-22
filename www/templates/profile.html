@@ -4,7 +4,7 @@
       <div class="list">
 
       <div class="item item-divider text-center" id="profile-userInfo">
-        <span id="profile-username">pushbudgetuser@somewhere.com</span>
+        <span id="profile-username">{{userEmail}}</span>
       </div>
 
       <div class="item" href="#" id="profile-userOptions">
@@ -23,7 +23,7 @@
       <!--div ng-if=!institution.Active class="item item-divider account-attention">
         <marquee>This "{{institution.InstitutionName}}" account is inactive, please refresh...</marquee>
       </div-->
-      
+
       <div class="item item-divider">
         <div class="row no-padding" >
           <img src={{institution.InstitutionLogoURL}}>&nbsp;
@@ -41,7 +41,7 @@
 
       <div class="item item-text-wrap">
         <ul>
-          <li ng-repeat = "account in institution.Accounts">{{account}}</li>          
+          <li ng-repeat = "account in institution.Accounts">{{account}}</li>
         </ul>
       </div>
     </div>
@@ -61,7 +61,7 @@
       </div>
       <div class="item item-text-wrap">
         <ul>
-          <li>You currently do not have any of your bank accounts linked with pushbudget. Please click the "Add account" button below to begin linking your accounts...</li>          
+          <li>You currently do not have any of your bank accounts linked with pushbudget. Please click the "Add account" button below to begin linking your accounts...</li>
         </ul>
       </div>
     </div>

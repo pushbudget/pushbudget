@@ -1,15 +1,16 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state) {
 
   //hook these init values up to the user data from the backend:
-  var initBudget = 0;
-  var initSavings = 0;
-  var initSpent = 0;
-  var initCats = [
+  var initBudget = $scope.totalUserBudget;
+  var initSavings = $scope.totalUserSavings;
+  var initSpent = $scope.totalUserSpent;
+  var initCats = $scope.userSubBudgets;
+  //[
     //dummy data for testing:
     // {
     //   color: '#F7464A',
     //   id: 432,
-    //   name: 'cat 1',
+    //   category: 'cat 1',
     //   total: '10',
     //   totalDisplay: '10.00',
     //   goodData: true,
@@ -17,7 +18,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     // {
     //   color: '#46BFBD',
     //   id: 143,
-    //   name: 'cat 2',
+    //   category: 'cat 2',
     //   total: '5',
     //   totalDisplay: '5.00',
     //   goodData: true,
@@ -25,22 +26,22 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     // {
     //   color: '#FDB45C',
     //   id: 4322,
-    //   name: 'nachos',
+    //   category: 'nachos',
     //   total: '2'
     // },
     // {
     //   color: '#949FB1',
     //   id: 873,
-    //   name: 'burgers',
+    //   category: 'burgers',
     //   total: '6',
     // },
     // {
     //   color: '#4D5360',
     //   id: 461,
-    //   name: 'falafel',
+    //   category: 'falafel',
     //   total: '9'
     // }
-  ];
+  //];
 
   $scope.deletedCats = [];
   $scope.inputs= {};
@@ -52,26 +53,26 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var budgetSum = 0;
 
   for (var j = 0; j < categories.length; j++){
-    budgetSum += categories[j].total;
+    budgetSum += categories[j].allocated;
   }
   var unallocated = parseFloat($scope.inputs.totalBudget) - savings - budgetSum;
   $scope.unallocated = parseFloat(unallocated).toFixed(2);
 
   var initGroup = [
     {
-      name: 'Savings',
-      total: 0,
+      category: 'Savings',
+      allocated: 0,
       color: '#97BBCD'
     },
     {
-      name: 'Unbudgeted',
-      total: 0,
+      category: 'Unbudgeted',
+      allocated: 0,
       color: '#DCDCDC'
     }
   ];
   var updateInitGroup = function(savings, unallocated){
-    initGroup[0].total = savings;
-    initGroup[1].total = unallocated;
+    initGroup[0].allocated = savings;
+    initGroup[1].allocated = unallocated;
   };
   updateInitGroup(savings, unallocated);
 
@@ -119,13 +120,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     var chartLabels = [];  //array of labels for categories
     var chartColors = [];  //array of colors for categories
     for (var i = 0; i < initGroup.length; i++ ){
-      chartValues.push(parseFloat(initGroup[i].total));
-      chartLabels.push(initGroup[i].name);
+      chartValues.push(parseFloat(initGroup[i].allocated));
+      chartLabels.push(initGroup[i].category);
       chartColors.push(initGroup[i].color);
     }
     for (i = 0; i < categories.length; i++){
-      chartValues.push(parseFloat(categories[i].total));
-      chartLabels.push(categories[i].name);
+      chartValues.push(parseFloat(categories[i].allocated));
+      chartLabels.push(categories[i].category);
       chartColors.push(categories[i].color);
     }
     $scope.chart.values = chartValues.slice();
@@ -140,7 +141,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.savingsOverBudget = false;
     var newSum = 0;
     for (var i = 0; i < categories.length; i ++){
-      newSum += parseFloat(categories[i].total);
+      newSum += parseFloat(categories[i].allocated);
     }
     var currentTotal = parseFloat($scope.inputs.totalBudget);
     if (isNaN(currentTotal) || currentTotal <=0){
@@ -252,8 +253,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         res.newPrice = parseFloat(res.newPrice);
         var output = {
           id: $scope.catId,
-          total: parseFloat(res.newPrice).toFixed(2),
-          name: res.newName,
+          allocated: parseFloat(res.newPrice).toFixed(2),
+          category: res.newName,
           color: getColor(),
           new: true,
           totalDisplay: String(parseFloat(res.newPrice).toFixed(2)),
@@ -273,7 +274,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.data = {};
 
     var myPopup = $ionicPopup.show({
-      template: '<div ng-repeat="category in deletedCats" style="text-align: center; width:100%">{{category.name}}</div>',
+      template: '<div ng-repeat="category in deletedCats" style="text-align: center; width:100%">{{category.category}}</div>',
       title: 'Save Changes?',
       subTitle: $scope.deletedCats.length + ' existing categories will be deleted:',
       scope: $scope,
@@ -349,15 +350,15 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.saveEdit = function(item){
-    item.name = item.newName;
+    item.category = item.newName;
     item.color = item.newColor;
 
     item.goodData = true;
-    console.log(item.newTotal, item.total);
+    console.log(item.newTotal, item.allocated);
     var inputNum = parseFloat(item.newTotal).toFixed(2);
-    if (!isNaN(inputNum) && (inputNum - item.total) <= parseFloat($scope.unallocated)){
-      item.total= item.newTotal;
-      item.totalDisplay = String(parseFloat(item.total).toFixed(2));
+    if (!isNaN(inputNum) && (inputNum - item.allocated) <= parseFloat($scope.unallocated)){
+      item.allocated= item.newTotal;
+      item.totalDisplay = String(parseFloat(item.allocated).toFixed(2));
     }else
     {
       item.goodData = false;
@@ -379,8 +380,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   });
   $scope.openModal = function() {
     for (var i = 0; i < categories.length; i ++){
-      categories[i].newTotal = parseFloat(categories[i].total).toFixed(2);
-      categories[i].totalDisplay = String(parseFloat(categories[i].total).toFixed(2));
+      categories[i].newTotal = parseFloat(categories[i].allocated).toFixed(2);
+      categories[i].totalDisplay = String(parseFloat(categories[i].allocated).toFixed(2));
     }
     $scope.modal.show();
   };

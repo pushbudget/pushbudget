@@ -6,6 +6,17 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   //   console.log($scope.currentUser);
   // });
   $scope.currentUser = userRef;
+  var budget = userRef.budget;
+  $scope.totalUserBudget = parseFloat(budget.amount).toFixed(2);
+  $scope.totalUserSpent = 0; //budget.spent; **********change this once its implemented on the backend!!
+  $scope.totalUserSavings = 0;
+  $scope.totalUserRemain = parseFloat($scope.totalUserBudget - $scope.totalUserSpent).toFixed(2);
+  $scope.userSubBudgets = budget.subbudgets;
+
+  $scope.userEmail = userRef.email;
+
+
+  console.log('userRef', userRef);
 
   transactionService.getAllUserTransactions(userRef._id).then(function (res) {
     console.log(res);
@@ -19,9 +30,9 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   //   })
   // };
 
-  // $scope.$on('logout', function () {
-  //   console.log('REALLY TRYING TO LOGOUT NOW');
-  //   $state.go('login');
-  // });
+  $scope.$on('logout', function () {
+    console.log('REALLY TRYING TO LOGOUT NOW');
+    $state.go('login');
+  });
 
 });

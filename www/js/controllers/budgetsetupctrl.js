@@ -5,43 +5,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var initSavings = $scope.totalUserSavings;
   var initSpent = $scope.totalUserSpent;
   var initCats = $scope.userSubBudgets;
-  //dummy data for testing:
-  // [
-  //   {
-  //     color: '#F7464A',
-  //     id: 432,
-  //     category: 'cat 1',
-  //     allocated: '10',
-  //     totalDisplay: '10.00',
-  //     goodData: true,
-  //   },
-  //   {
-  //     color: '#46BFBD',
-  //     id: 143,
-  //     category: 'cat 2',
-  //     allocated: '5',
-  //     totalDisplay: '5.00',
-  //     goodData: true,
-  //   },
-    // {
-    //   color: '#FDB45C',
-    //   id: 4322,
-    //   category: 'nachos',
-    //   total: '2'
-    // },
-    // {
-    //   color: '#949FB1',
-    //   id: 873,
-    //   category: 'burgers',
-    //   allocated: '6',
-    // },
-    // {
-    //   color: '#4D5360',
-    //   id: 461,
-    //   category: 'falafel',
-    //   allocated: '9'
-    // }
-  //];
 
   $scope.deletedCats = [];
   $scope.inputs= {};
@@ -54,6 +17,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   for (var j = 0; j < categories.length; j++){
     budgetSum += categories[j].allocated;
+    categories[j].goodData = true; //initialize goodData tracking variable
   }
   var unallocated = parseFloat($scope.inputs.totalBudget) - savings - budgetSum;
   $scope.unallocated = parseFloat(unallocated).toFixed(2);
@@ -209,11 +173,11 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     return false; //something is broken
   };
 
-  $scope.onClick = function (points, evt) {
-    // console.log("evt:", evt);
-    // console.log("points:", points);
-    // console.log("Label: ", points[0].label, " Value: ", points[0].value);
-  };
+  // $scope.onClick = function (points, evt) {
+  //   // console.log("evt:", evt);
+  //   // console.log("points:", points);
+  //   // console.log("Label: ", points[0].label, " Value: ", points[0].value);
+  // };
 
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {

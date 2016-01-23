@@ -21,14 +21,15 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   transactionService.getAllUserTransactions(userRef._id).then(function (res) {
     console.log(res);
     $scope.transactions = res;
-  });
+    transactionService.getAllUserUntagged(userRef._id).then(function(transactions){
+      var obj = {
+        transactions: transactions.data,
+        category: 'Untagged'
+      }
+      $scope.currentUser.budget.subbudgets.push(obj);
+      })
+    })
 
-  // $scope.updateUser = function (args) {
-  //   //stuff
-  //   userService.getUserFromDb().then(function (res) {
-  //     $scope.currentUser = res.data;
-  //   })
-  // };
 
   $scope.$on('logout', function () {
     console.log('REALLY TRYING TO LOGOUT NOW');

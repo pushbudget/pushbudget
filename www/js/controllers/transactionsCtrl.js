@@ -5,19 +5,10 @@ angular.module('pushbudget').controller('transCtrl', function ($scope, transacti
     console.log(userRef);
     console.log(userRef.budget);
     $scope.budget = userRef.budget;
-    $scope.allTrans = $scope.transactions
-
-
-    $scope.getUntagged = function(){
-      transactionService.getAllUserUntagged(userRef._id).then(function(transactions){
-        var obj = {
-          transactions: transactions.data,
-          category: 'Untagged'
-        }
-        $scope.budget.subbudgets.unshift(obj);
-        $scope.selectedSub = $scope.budget.subbudgets[0];
-      })
+    $scope.allTrans = $scope.transactions;
+    $scope.setOption = function(){
+      $scope.selectedSub = $scope.currentUser.budget.subbudgets[0].category;
     }
-    $scope.getUntagged();
-
+    $scope.setOption();
+    console.log($scope.selectedSub);
 });

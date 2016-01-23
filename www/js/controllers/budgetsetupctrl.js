@@ -195,7 +195,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   });
 
-
+  $scope.$watch('userOptions.animateChart', function(newVal){
+    chartOptions.animation = newVal;
+  });
 
   var findIndex = function(id){
     var arr = $scope.budgetCategories.slice();

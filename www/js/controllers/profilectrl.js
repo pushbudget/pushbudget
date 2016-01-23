@@ -65,7 +65,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
         if (isAnyInstitutionInactive) {
             //alert("found an inactive account");
             $scope.institutionNeedsAttention = true;
-            $scope.institutionAttentionMessage = "You have unlinked accounts!";
+            $scope.institutionAttentionMessage = "You have unlinked accounts";
 
             //$ionicLoading.show({ template: 'One or more of your accounts need attention!', duration: 2500});
         }
@@ -325,6 +325,31 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
     }
 
 
+    $scope.userOptions.animateChart = false;
 
+    $ionicModal.fromTemplateUrl('templates/profile-editoptions.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+    //Cleanup the modal when we're done with it!
+      $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+    });
+    // Execute action on hide modal
+      $scope.$on('modal.hidden', function() {
+    // Execute action
+    });
+    // Execute action on remove modal
+      $scope.$on('modal.removed', function() {
+    // Execute action
+    });
 
 });

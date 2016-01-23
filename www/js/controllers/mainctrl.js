@@ -20,8 +20,6 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   $scope.userEmail = userRef.email;
 
 
-
-
   transactionService.getAllUserTransactions(userRef._id).then(function (res) {
     $scope.transactions = res;
   });

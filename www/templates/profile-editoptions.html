@@ -1,0 +1,22 @@
+<ion-modal-view>
+  <ion-header-bar  >
+      <h1 class="title">Options</h1>
+      <div class="buttons">
+        <button class="button button-icon icon ion-chevron-down icon-right"  ng-click=" closeModal()">Close
+        </button>
+      </div>
+      </ion-header-bar>
+  <ion-content>
+
+    <div class="list">
+      <div class="item item-divider">
+        Appearance
+      </div>
+      <ion-toggle ng-model="userOptions.animateChart">
+        Chart Animations
+      </ion-toggle>
+    </div>
+
+
+  </ion-content>
+</ion-modal-view>

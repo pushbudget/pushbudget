@@ -1,12 +1,15 @@
 <!--ion-view view-title="pushbudgetuser@somewhere.com"-->
 <ion-view view-title="Profile">
-  
+  <ion-nav-buttons side="right">
+      <button class="button button-icon icon ion-settings" ng-click="openModal()">
+      </button>
+   </ion-nav-buttons>
 <!--div class="bar bar-header">
   <h1 class="title">Header</h1>
 </div-->
-<div class="bar bar-subheader" ng-if=institutionNeedsAttention>
-  <!--p class="title">...One or more of your institutions need attention!{{institutionAttentionMessage}}</p-->
-  <center><h6 class="institutionAttentionMessage">{{institutionAttentionMessage}}</h6></center>
+<div class="bar bar-subheader bar-assertive" ng-if="institutionNeedsAttention">
+  <h2 class="title">
+  {{institutionAttentionMessage}}</h2>
 </div>
 
 
@@ -34,7 +37,7 @@
       <!--div ng-if=!institution.Active class="item item-divider account-attention">
         <marquee>This "{{institution.InstitutionName}}" account is inactive, please refresh...</marquee>
       </div-->
-      
+
       <div class="item item-divider">
         <div class="row no-padding" >
           <img src={{institution.InstitutionLogoURL}}>&nbsp;
@@ -52,7 +55,7 @@
 
       <div class="item item-text-wrap">
         <ul>
-          <li ng-repeat = "account in institution.Accounts">{{account}}</li>          
+          <li ng-repeat = "account in institution.Accounts">{{account}}</li>
         </ul>
       </div>
     </div>
@@ -72,7 +75,7 @@
       </div>
       <div class="item item-text-wrap">
         <ul>
-          <li>You currently do not have any of your bank accounts linked with pushbudget. Please click the "Add account" button below to begin linking your accounts...</li>          
+          <li>You currently do not have any of your bank accounts linked with pushbudget. Please click the "Add account" button below to begin linking your accounts...</li>
         </ul>
       </div>
     </div>

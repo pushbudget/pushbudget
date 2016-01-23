@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $location, userService, userRef, transactionService, untaggedRef) {
+angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $location, userService, userRef, transactionService, untaggedRef, calcService) {
 
   //replace this later with a ref to the user which will be aquired during initial splash screen load
   // userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function (res) {
@@ -7,17 +7,39 @@ angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $l
   // });
   $scope.currentUser = userRef;
   $scope.userUntagged = untaggedRef;
+  console.log(untaggedRef);
   console.log('userRef:',userRef);
   var budget = userRef.budget;
+  budget.savings = 0; //change this;
   $scope.totalUserBudget = parseFloat(budget.amount).toFixed(2);
-  $scope.totalUserSpent = 0; //budget.spent; **********change this once its implemented on the backend!!
-  $scope.totalUserSavings = 0;
-  $scope.totalUserRemain = parseFloat($scope.totalUserBudget - $scope.totalUserSpent).toFixed(2);
-  $scope.userSubBudgets = budget.subbudgets;
+  $scope.useableBudget = parseFloat(budget.amount - budget.savings).toFixed(2);
+  console.log(budget);
+
+
+
   $scope.userOptions = {};
   $scope.userOptions.animateChart = false;
 
   $scope.userEmail = userRef.email;
+
+  //calculate sums:
+  $scope.calcuateSubBudgetSums = function(budgets){
+    return calcService.calcSums(budgets);
+  };
+  $scope.calculateUntaggedSum = function(arr){
+    return calcService.calcUntaggedSum(arr);
+  };
+
+  //get the sums:
+  var sumObj = calcService.calcSums(budget.subbudgets);
+  var untaggedSum = calcService.calcUntaggedSum(untaggedRef);
+  $scope.totalUntagged = untaggedSum;
+  $scope.userSubBudgets = sumObj.subbudgets;
+  $scope.totalUserSpent = sumObj.totalSum + untaggedSum;
+  $scope.totalUserSavings = budget.savings;
+  console.log($scope.useableBudget, $scope.totalUserSpent);
+  $scope.totalUserRemain = parseFloat(parseFloat($scope.useableBudget) - parseFloat($scope.totalUserSpent)).toFixed(2);
+
 
 
   transactionService.getAllUserTransactions(userRef._id).then(function (res) {

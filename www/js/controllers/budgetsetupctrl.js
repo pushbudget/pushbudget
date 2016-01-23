@@ -45,7 +45,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.chart.colors = [];
   $scope.chart.labels = [];
   $scope.chart.values = [];
-  chartOptions = {
+  var chartOptions = {
     //String - Template string for single tooltips
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
@@ -103,7 +103,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.chart.values = chartValues.slice();
     $scope.chart.labels = chartLabels.slice();
     $scope.chart.colors = chartColors.slice();
-
 
     //console.log('chart values:', chartValues);
   };

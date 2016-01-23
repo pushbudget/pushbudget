@@ -3,15 +3,49 @@
 
     <pb-budgetbar  total="totalUserBudget" spent="totalUserSpent"></pb-budgetbar>
 
+    <label class="item item-input" id="budget-remainingLabel">
+      <div class="row no-padding">
+        <div class="col no-padding">
+          <span class="input-label">Budget Remaining</span>
+        </div>
+      </div>
+        <div class="col no-padding text-right">
+          <span id="budget-infoNumber">${{totalUserRemain}}</span>
+        </div>
+    </label>
+
+    <label class="item item-input" id="budget-savingsLabel">
+      <div class="row no-padding">
+        <div class="col no-padding">
+          <span class="input-label">Savings Goal</span>
+        </div>
+      </div>
+        <div class="col no-padding text-right">
+          <span id="budget-infoNumber">${{totalUserSavings}}</span>
+        </div>
+    </label>
+
+    <label class="item item-input" id="budget-untaggedLabel" ng-if="totalUntagged > 0">
+      <div class="row no-padding">
+        <div class="col no-padding">
+          <span class="input-label">Untagged Transactions</span>
+        </div>
+      </div>
+        <div class="col no-padding text-right">
+          <span id="budget-infoNumber">${{totalUntagged}}</span>
+        </div>
+    </label>
+
+
     <div class="list" >
       <a ui-sref="main.budgetSetup" id="home-transLink">
         <div class="item item-divider">
-          Budget Breakdown
+          Spending Breakdown
         </div>
       </a>
       <br />
-      <canvas id="pie" class="chart chart-pie" chart-click="onClick"
-          chart-data="data" chart-labels="labels">
+      <canvas  id="pie" class="chart chart-pie" chart-click="onClick"
+          chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
     </div>
 
@@ -27,57 +61,44 @@
           </div>
         </div>
         <div id="home-budgetBox">
-          <div class="item item-divider" id="home-budgetBoxHeader">
-            Budgets
-          </div>
-          <div class="row" id="home-budgetBoxItem" ng-repeat="subbudget in currentUser.budget.subbudgets"> <!-- ng-repeat here -->
-            <div class="col col-50" id="home-budgetBoxName">
-              {{subbudget.category}}
-            </div>
-            <div class="col col-50">
-              <div id="home-budgetBoxBar">
-                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(subbudget)">
+
+          <div class="row" id="home-budgetBoxItem" style="border-left: 10px solid {{item.color}}" ng-repeat="item in userSubBudgets">
+            <div class="col col-50 col-center" id="budget-subBudgetLabels">
+              <div class="row no-padding" id="budget-catRows" >
+                <div class="col no-padding" id="budget-catName">
+                  {{item.category}}
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col no-padding" id="budget-subBudgetSum">
+                  (${{getDecimals(item.sum)}})
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col no-padding" id="budget-subBudgetPct">
+                  %{{getPctSpent(item.sum, item.allocated)}}
                 </div>
               </div>
             </div>
-          </div> <!-- /end ng-repeat -->
+            <div class="col col-50 no-padding col-center">
+              <div id="home-budgetBoxBar">
 
-        <!-- simulated ng-repeat here -->
-        <!-- <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Groceries
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 33%">
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) > 20">
+                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                </div>
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 20 && getPctRemain(item.sum, item.allocated) >10" style="background-color: #f0b840">
+                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                </div>
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 10" style="background-color: #ef4e3a">
+                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                </div>
               </div>
+
             </div>
           </div>
-        </div>
 
-        <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Gas
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%">
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Groceries
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 45%">
-              </div>
-            </div>
-          </div>
-        </div> -->
+
 
       </div>
   </ion-content>

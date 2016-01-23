@@ -1,27 +1,98 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope) {
+  console.log('go');
+  var totalBudget = $scope.totalUserBudget;
+  $scope.totalUserSavings = parseFloat($scope.totalUserSavings).toFixed(2);
+  var savings = $scope.totalUserSavings;
+  var budgets = $scope.userSubBudgets;
+  var spent = $scope.totalUserSpent;
+  //$scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
+  var untagged = $scope.totalUntagged;
+  $scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
+  var remaining = $scope.totalUserRemain;
+  if (remaining < 0){
+    remaining = 0;
+  }
 
-  $scope.labels = ["Entertainment", "Groceries", "Gas", "Rent", "Student Loan", "Water", "Electricity"];
-  $scope.data = [300, 500, 100, 1500, 230, 56, 678];
+  $scope.chart = {};
 
-  $scope.onClick = function (points, evt) {
-    console.log("evt:", evt);
-    console.log("points:", points);
-    console.log("Label: ", points[0].label, " Value: ", points[0].value);
-    //var activePoints = myRadar.getElementsAtEvent(evt);
+  var chartOptions = {
+    //String - Template string for single tooltips
+    tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
+    //String - Template string for multiple tooltips
+    //multiTooltipTemplate: "<%= value + ' %' %>"
+    animation: $scope.userOptions.animateChart,
+  };
+  $scope.chart.options = chartOptions;
+
+  $scope.$watch('userOptions.animateChart', function(newVal){
+    chartOptions.animation = newVal;
+  });
+
+  var initGroup = [
+    {
+      category: 'Savings',
+      allocated: savings,
+      color: '#97BBCD'
+    },
+    {
+      category: 'Remaining',
+      allocated: remaining,
+      color: '#DCDCDC'
+    },
+    {
+      category: 'Untagged Transactions',
+      allocated: untagged,
+      color: '#666666'
+    },
+
+  ];
+
+  var chartUpdate = function(){
+    var chartValues = [];
+    var chartLabels = [];
+    var chartColors = [];
+
+    for (var i = 0; i < initGroup.length; i++ ){
+      chartValues.push(parseFloat(initGroup[i].allocated));
+      chartLabels.push(initGroup[i].category);
+      chartColors.push(initGroup[i].color);
+    }
+    for (i = 0; i < budgets.length; i++){
+      chartValues.push(parseFloat(budgets[i].sum));
+      chartLabels.push(budgets[i].category);
+      chartColors.push(budgets[i].color);
+    }
+
+    $scope.chart.values = chartValues.slice();
+    $scope.chart.labels = chartLabels.slice();
+    $scope.chart.colors = chartColors.slice();
+  };
+
+
+  $scope.getDecimals = function(int){
+    return parseFloat(int).toFixed(2);
+  };
+
+  $scope.getDifference = function(spent, total){
+    return parseFloat(total - spent).toFixed(2);
+  };
+
+  $scope.getPctSpent = function(spent, total){
+    return parseFloat(((spent/total)*100)).toFixed(2);
+  };
+
+  $scope.getPctRemain = function(spent, total){
+    return parseFloat(((1-spent/total)*100)).toFixed(2);
   };
 
   $scope.setWidth = function(subbudget){
-    // console.log(subbudget);
-    var totalSpent = 0;
-    for(var i = 0; i < subbudget.transactions.length; i++){
-      totalSpent += subbudget.transactions[i].amount;
-    }
-    if(totalSpent>subbudget.allocated){
+    var sum = subbudget.sum;
+
+    if(sum  >subbudget.allocated){
       return {width: '0%'};
     }
-    var pct = ((1 - totalSpent/subbudget.allocated)*100).toString() + '%';
-    console.log(pct);
+    var pct = ((1 - sum/subbudget.allocated)*100).toString() + '%';
     return {width: pct};
-  }
+   };
 
 });

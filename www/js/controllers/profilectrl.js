@@ -1,5 +1,5 @@
 
-angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPopup, $ionicLoading, userProfile, $ionicModal) {
+angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, $location, authService, $ionicPopup, $ionicLoading, userRef, userProfile, $ionicModal) {
     // this has to be moved to a service
     // var sandboxHandler = Plaid.create({
     //   clientName: 'pushbudget',
@@ -16,16 +16,64 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
     //   sandboxHandler.open();
     // };
 
+    console.log("///////////////////Comes to the User profile screen...with the BIG user object ", userRef);
 
-    var User = {};
+    $scope.email = userRef.email;
+    var userId = userRef._id;
+
+    console.log("///////////////////Comes to the User profile screen...with the BIG user object and UserId ", userId);
+
+
+    var User = [];
+    User.institutions = [];
     var isAnyInstitutionInactive = false;
 
     $scope.institutionNeedsAttention = false;
     $scope.institutionAttentionMessage = "";
 
+    //Build up User.institutions based on the userRef
+
+    for (var i = 0; i < userRef.accounts.length; i++) {
+        console.log("************$$$$$$$$$$ Account name: ", userRef.accounts[i].name);
+        console.log("$$$$$$$$$$ InstitutionType: ", userRef.accounts[i].institution_type);
+        console.log("$$$$$$$$$$ InstitutionLogoURL: ", userRef.accounts[i].institution.logo);
+        console.log("$$$$$$$$$$ AccessToken: ", userRef.accounts[i].access_token);
+        console.log("$$$$$$$$$$ Active: ", userRef.accounts[i].active);
+        console.log("$$$$$$$$$$ InstitutionName: ", userRef.accounts[i].institution.name);
+
+        if (findIndexByKeyValue(User.institutions, "InstitutionType", userRef.accounts[i].institution_type) === null) {
+            User.institutions.push({
+                InstitutionType: userRef.accounts[i].institution_type,
+                InstitutionLogoURL: userRef.accounts[i].institution.logo,
+                AccessToken: userRef.accounts[i].access_token,
+                Active: userRef.accounts[i].active,
+                InstitutionName: userRef.accounts[i].institution.name,
+                Accounts: [userRef.accounts[i].name]
+            });
+        }
+        else {
+            User.institutions[findIndexByKeyValue(User.institutions, "InstitutionType", userRef.accounts[i].institution_type)].Accounts.push(userRef.accounts[i].name);
+        }
+    }
+
+    console.log("$$$$$$$$$$$$$$$$$$$$$4User.institutions", User.institutions);
+
+    function findIndexByKeyValue(arraytosearch, key, valuetosearch) { 
+        for (var i = 0; i < arraytosearch.length; i++) { 
+            if (arraytosearch[i][key] == valuetosearch) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+
+    //End of Build up User.institutions based on the userRef
+/*
+
     User.institutions = [{
         InstitutionType: "bofa",
-        InstitutionLogoURL: "http://placehold.it/25x25",
+        InstitutionLogoURL: "https://lh6.ggpht.com/x8OtRvnO93xdOxzbOHZ5DSSTuk92OgI0koX3nFzl5eAx1onCjZooiCUDvVRfXUeDUQ=w300",
         AccessToken: "User's access token for bofa",
         Active: true,
         InstitutionName: "Bank Of America",
@@ -45,6 +93,8 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
         InstitutionName: "Chase",
         Accounts: ["Credit *2144"]
     }];
+
+*/
 
     //User.institutions = [];  //to check the scenario where the user will not have any linked accounts at the beginning.
 
@@ -90,7 +140,11 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
 
                 onTap: function(e) {
                     console.log("Here purge the user object in the Localstorage and then call the login screen...");
-                    return $scope.data;
+                    authService.logout().then(function (res) {
+                      console.log('trying to logout');
+                      $scope.$emit('logout', "hey man");
+                    });
+                    //return $scope.data;
                 }
             }]
         });
@@ -173,7 +227,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
     $scope.openPlaidLink = function() {
         console.log("Open Plaid Link: This will open up the Plaid link drop in module...");
 
-        var userId = 'testUserID123'; //get userid from scope
+        //var userId = 'testUserID123'; //get userid from scope
 
         var sandboxHandler = Plaid.create({
             clientName: 'pushbudget',
@@ -201,7 +255,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
 
 
 
-        var userId = 'testUserID123'; //get userid from scope
+        //var userId = 'testUserID123'; //get userid from scope
 
         userProfile.refreshInstitution(userId, accessToken).then(function(res) {
 
@@ -253,7 +307,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
 
     $scope.deleteAccount = function(institutionName, accessToken) {
 
-        var userId = 'testUserID123';
+        //var userId = 'testUserID123';
         var serverResponseMessage = "";
 
 
@@ -325,6 +379,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
     }
 
 
+
     $scope.userOptions.animateChart = false;
 
     $ionicModal.fromTemplateUrl('templates/profile-editoptions.html', {
@@ -351,5 +406,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $ionicPo
       $scope.$on('modal.removed', function() {
     // Execute action
     });
+
+
 
 });

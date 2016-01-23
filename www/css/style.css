@@ -134,17 +134,18 @@ div {
 }
 
 #home-budgetBoxBar {
-  height: 20px;
+  height: 35px;
   padding: 0px;
   background-color: #B3B3B3;
   width: 100%;
-  right: 30px;
+  /**/
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
+  position: relative;
 }
 
 #home-budgetBoxBarFill {
-  height: 20px;
+  height: 35px;
   border-radius: 3px;
   box-shadow: 1px 1px 0px #8B8B8B;
 }
@@ -163,6 +164,14 @@ div {
 
 #home-untaggedName {
   font-size: 20px;
+}
+
+#home-budgetBoxBarRemain {
+  position: absolute;
+  left: 4px;
+  bottom: 8px;
+  text-shadow: 1px 1px 1px #7C7C7C;
+  font-size: 17px;
 }
 
 /*transactions*/
@@ -225,7 +234,7 @@ div {
 #profile-bankName {
 }
 
-/*budget setup */
+/*budget views*/
 #budget-savingsLabel {
   border-left: 10px #97BBCD solid;
   border-right: none;
@@ -293,6 +302,29 @@ div {
   margin-right: 8px;
 }
 
+#budget-remainingLabel {
+  border-left: 10px #DCDCDC solid;
+  border-right: none;
+  padding-right: 8px;
+}
+
+#budget-untaggedLabel {
+  border-left: 10px #666666 solid;
+  border-right: none;
+  padding-right: 8px;
+}
+
+#budget-infoNumber {
+  text-align: right;
+}
+
+#budget-subBudgetSum {
+  padding-bottom:px !important;
+}
+
+#budget-catRows {
+}
+
 /*accordian*/
 .item-accordion {
   line-height: 38px;
@@ -310,7 +342,7 @@ div {
 }
 
 /*.account-attention {
-  color: red; 
+  color: red;
   width: 450px;
     margin: 0 auto;
     overflow: hidden;
@@ -348,14 +380,14 @@ div {
   -moz-animation: blink 1s linear infinite;
   animation: blink 1s linear infinite;
 }
-/* End of CSS code to make the refresh button change background color for inactive accounts on user profile */
 
+/* End of CSS code to make the refresh button change background color for inactive accounts on user profile */
 .institutionAttentionMessage {
-    color: red;
+  color: red;
 }
 
-/* The below css code is necessary to render the subheader bar on android platform, else it just shows the  
+/* The below css code is necessary to render the subheader bar on android platform, else it just shows the
 header bar with no content inside of it! */
-.platform-android .bar-subheader  {
-    top: 93px;
+.platform-android .bar-subheader {
+  top: 93px;
 }

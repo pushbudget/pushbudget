@@ -1,5 +1,5 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope) {
-
+  console.log('go');
   var totalBudget = $scope.totalUserBudget;
   $scope.totalUserSavings = parseFloat($scope.totalUserSavings).toFixed(2);
   var savings = $scope.totalUserSavings;
@@ -7,6 +7,7 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
   var spent = $scope.totalUserSpent;
   //$scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
   var untagged = $scope.totalUntagged;
+  $scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
   var remaining = $scope.totalUserRemain;
   if (remaining < 0){
     remaining = 0;
@@ -22,6 +23,10 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
     animation: $scope.userOptions.animateChart,
   };
   $scope.chart.options = chartOptions;
+
+  $scope.$watch('userOptions.animateChart', function(newVal){
+    chartOptions.animation = newVal;
+  });
 
   var initGroup = [
     {
@@ -42,10 +47,10 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
 
   ];
 
-    //used for chart (chart takes two seperate arrays of data that we have to split)
-    var chartValues = [];  //array of values for categories
-    var chartLabels = [];  //array of labels for categories
-    var chartColors = [];  //array of colors for categories
+  var chartUpdate = function(){
+    var chartValues = [];
+    var chartLabels = [];
+    var chartColors = [];
 
     for (var i = 0; i < initGroup.length; i++ ){
       chartValues.push(parseFloat(initGroup[i].allocated));
@@ -61,10 +66,24 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
     $scope.chart.values = chartValues.slice();
     $scope.chart.labels = chartLabels.slice();
     $scope.chart.colors = chartColors.slice();
+  };
 
 
+  $scope.getDecimals = function(int){
+    return parseFloat(int).toFixed(2);
+  };
 
+  $scope.getDifference = function(spent, total){
+    return parseFloat(total - spent).toFixed(2);
+  };
 
+  $scope.getPctSpent = function(spent, total){
+    return parseFloat(((spent/total)*100)).toFixed(2);
+  };
+
+  $scope.getPctRemain = function(spent, total){
+    return parseFloat(((1-spent/total)*100)).toFixed(2);
+  };
 
   $scope.setWidth = function(subbudget){
     var sum = subbudget.sum;

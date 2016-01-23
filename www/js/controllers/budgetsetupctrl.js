@@ -104,7 +104,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     $scope.chart.labels = chartLabels.slice();
     $scope.chart.colors = chartColors.slice();
 
-
     //console.log('chart values:', chartValues);
   };
 

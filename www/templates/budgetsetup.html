@@ -73,7 +73,8 @@
       </div>
       <div class="col text-right" id="budgetSetup-saveButtons">
         <button class="button button-stable" id="budgetSetup-cancel" ng-click="cancel()">Cancel</button>
-        <button class="button button-balanced" id="budgetSetup-save" ng-click="save()">Save</button>
+        <button class="button button-balanced" id="budgetSetup-save" ng-if="goodData" ng-click="save()">Save</button>
+        <button class="button button-light" id="budgetSetup-save" ng-if="!goodData" ng-disabled="true" >Save</button>
       </div>
     </div>
 

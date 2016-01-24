@@ -101,7 +101,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   };
   $scope.isGroupShown = function(group) {
-    console.log('popup!');
     return $scope.shownGroup === group;
   };
 
@@ -196,8 +195,12 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var writeChangesToDb = function(){
     console.log('savings to db?');
-    //code here to do stuff to the database *************************************************
-
+    if($scope.goodData){
+      console.log($scope.inputs.savingsGoal, $scope.inputs.totalBudget);
+      currentSettings.categories = $scope.budgetCategories.slice();
+      currentSettings.budget = parseFloat($scope.inputs.savingsGoal);
+      currentSettings.savings = parseFloat($scope.inputs.totalBudget);
+    }
   };
 
   $scope.save = function(){
@@ -251,9 +254,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var findIndex = function(id){
     var arr = $scope.budgetCategories.slice();
     for (var i = 0; i < arr.length; i++){
-      console.log(arr[i]._id, id);
       if (arr[i]._id === id){
-        console.log(i);
         return i;
       }
     }
@@ -272,7 +273,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.moveItem = function(item, fromIndex, toIndex) {
-    console.log(fromIndex, toIndex);
     $scope.budgetCategories.splice(fromIndex, 1);
     $scope.budgetCategories.splice(toIndex, 0, item);
   };

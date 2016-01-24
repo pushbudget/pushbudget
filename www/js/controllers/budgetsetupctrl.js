@@ -1,26 +1,23 @@
-angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state) {
+angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService) {
 
-  //hook these init values up to the user data from the backend:
-  var initBudget = $scope.totalUserBudget;
-  var initSavings = $scope.totalUserSavings;
-  var initSpent = $scope.totalUserSpent;
-  var initCats = $scope.userSubBudgets;
+  var user = $scope.user;
+
+  var currentSettings = {
+    budget: user.totalBudget,
+    savings: user.savings,
+    categories: user.subbudgetArr.slice(),
+    // totalAllocated: user.totalAllocated,
+  };
 
   $scope.deletedCats = [];
   $scope.inputs= {};
-  $scope.totalSpent = initSpent;
-  $scope.inputs.totalBudget = initBudget;
-  var categories = initCats.slice();
-  $scope.budgetCategories = categories.slice();
-  var savings = initSavings;
-  var budgetSum = 0;
+  $scope.totalSpent = user.totalSpent;
+  $scope.inputs.totalBudget = currentSettings.budget;
+  $scope.inputs.savingsGoal = currentSettings.savings;
+  $scope.budgetCategories = currentSettings.categories.slice();
+  $scope.unallocated = parseFloat(user.unallocated).toFixed(2);
 
-  for (var j = 0; j < categories.length; j++){
-    budgetSum += categories[j].allocated;
-    categories[j].goodData = true; //initialize goodData tracking variable
-  }
-  var unallocated = parseFloat($scope.inputs.totalBudget) - savings - budgetSum;
-  $scope.unallocated = parseFloat(unallocated).toFixed(2);
+  var categories = currentSettings.categories;
 
   var initGroup = [
     {
@@ -34,11 +31,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       color: '#DCDCDC'
     }
   ];
-  var updateInitGroup = function(savings, unallocated){
-    initGroup[0].allocated = savings;
-    initGroup[1].allocated = unallocated;
-  };
-  updateInitGroup(savings, unallocated);
+
 
   $scope.goodData = true;
   $scope.chart = {};
@@ -50,9 +43,12 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
     //multiTooltipTemplate: "<%= value + ' %' %>"
-    animation: $scope.userOptions.animateChart,
+    animation: user.userOptions.animateChart,
   };
+
   $scope.chart.options = chartOptions;
+
+
   var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360']; //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated
   var colorCount = categories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
   var getRandomRGB = function () {
@@ -78,72 +74,20 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   };
 
-  var chartUpdate = function(deficit){
-    //used for chart (chart takes two seperate arrays of data that we have to split)
-    var chartValues = [];  //array of values for categories
-    var chartLabels = [];  //array of labels for categories
-    var chartColors = [];  //array of colors for categories
-
-    if (deficit > 0){
-      chartValues.push(deficit);
-      chartLabels.push('Over Budget');
-      chartColors.push('#ef4e3a');
-    }else{
-      for (var i = 0; i < initGroup.length; i++ ){
-        chartValues.push(parseFloat(initGroup[i].allocated));
-        chartLabels.push(initGroup[i].category);
-        chartColors.push(initGroup[i].color);
-      }
-      for (i = 0; i < categories.length; i++){
-        chartValues.push(parseFloat(categories[i].allocated));
-        chartLabels.push(categories[i].category);
-        chartColors.push(categories[i].color);
-      }
-    }
-    $scope.chart.values = chartValues.slice();
-    $scope.chart.labels = chartLabels.slice();
-    $scope.chart.colors = chartColors.slice();
-
-    //console.log('chart values:', chartValues);
-  };
-
-  var budgetUpdate = function(){
-    $scope.goodData = true;
-    $scope.savingsOverBudget = false;
-    var newSum = 0;
-    for (var i = 0; i < categories.length; i ++){
-      newSum += parseFloat(categories[i].allocated);
-    }
-    var currentTotal = parseFloat($scope.inputs.totalBudget);
-    if (isNaN(currentTotal) || currentTotal <=0){
-      currentTotal = 0;
-    }
-    var currentSavings = parseFloat($scope.inputs.savingsGoal);
-    if (isNaN(currentSavings) || currentSavings < 0){
-      currentSavings = 0;
-    }
-    var deficit = 0;
-    if (newSum + currentSavings > currentTotal){
-      $scope.goodData = false;
-      deficit = (currentTotal - (newSum + currentSavings))*-1;
-      var overBudgetSavings = currentSavings;
-      currentSavings = currentTotal - newSum;
-      $scope.savingsOverBudget = true;
-      $scope.overBudgetAmt = parseFloat(overBudgetSavings - currentSavings).toFixed(2);
-    }
-
-    var newUnallocated = currentTotal - currentSavings - newSum;
-    $scope.unallocated = parseFloat(newUnallocated).toFixed(2);
-    if (newUnallocated < 0){
-      $scope.goodData = false;
-      newUnallocated = 0; //the graph uses absolute values, so a negative value causes many problems
-    }
-    updateInitGroup(currentSavings, newUnallocated);
-    chartUpdate(deficit);
+  var updateChart = function(dataObj){
+    $scope.chart.values = dataObj.values;
+    $scope.chart.labels = dataObj.labels;
+    $scope.chart.colors = dataObj.colors;
   };
 
   $scope.$watch('budgetCategories', function(newValue, oldValue){
-    budgetUpdate();
+    var updated = chartService.budgetUpdate(newValue, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+    console.log('updatedobj:', updated);
+    updateChart(updated.chart);
+    $scope.goodData = updated.goodData;
+    $scope.savingsOverBudget = updated.savingsOverBudget;
+    $scope.overBudgetAmt = updated.overBudgetAmt; //parse float?
+    $scope.unallocated = updated.unallocated;
   }, true);
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
@@ -154,7 +98,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       if (parseFloat(res[0]) > 0){
         $scope.noBudget = false;
       }else $scope.noBudget = true;
-      budgetUpdate();
+    //  budgetUpdate();
     }
   });
 
@@ -318,6 +262,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     if (!item.new){
       $scope.deletedCats.push(item);
     }
+    console.log(categories);
+    console.log($scope.budgetCategories);
+    console.log(idx);
     categories.splice(idx,1);
     $scope.budgetCategories.splice(idx,1);
   };

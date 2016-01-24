@@ -302,6 +302,10 @@ div {
   margin-right: 8px;
 }
 
+#budgetSetup-editUnallocated {
+  color: #8D8D8D;
+}
+
 #budget-remainingLabel {
   border-left: 10px #DCDCDC solid;
   border-right: none;

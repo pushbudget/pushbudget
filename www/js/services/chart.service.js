@@ -16,6 +16,23 @@ angular.module('pushbudget').service('chartService', function () {
     return color;
   };
 
+  this.inputValidate = function(inputArr){
+    var total = parseFloat(inputArr[0]);
+    var savings = parseFloat(inputArr[1]);
+    var savingsAmt = savings;
+    var noBudget = true;
+    if (isNaN(savings) || savings < 0){
+      savingsAmt = 0;
+    }
+    if (parseFloat(total) > 0){
+      noBudget = false;
+    }
+    return {
+      savingsAmt: savingsAmt,
+      noBudget: noBudget
+    };
+  };
+
   this.budgetUpdate = function(categoriesArr, totalBudget, savingsGoal){
     currentTotal = parseFloat(totalBudget);
     currentSavings = parseFloat(savingsGoal);

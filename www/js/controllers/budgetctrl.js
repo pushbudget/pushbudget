@@ -1,5 +1,7 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope) {
   console.log('go');
+
+  var user = $scope.user;
   var totalBudget = $scope.totalUserBudget;
   $scope.totalUserSavings = parseFloat($scope.totalUserSavings).toFixed(2);
   var savings = $scope.totalUserSavings;
@@ -20,7 +22,7 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
     tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
     //String - Template string for multiple tooltips
     //multiTooltipTemplate: "<%= value + ' %' %>"
-    animation: $scope.userOptions.animateChart,
+    animation: user.userOptions.animateChart,
   };
   $scope.chart.options = chartOptions;
 

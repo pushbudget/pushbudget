@@ -1,18 +1,16 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService) {
-
-  var user = $scope.user;
-
-  var currentSettings = {
-    budget: user.totalBudget,
-    savings: user.savings,
-    categories: user.subbudgetArr.slice(),
-    // totalAllocated: user.totalAllocated,
-  };
-
+  var user;
+  var currentSettings = {};
   var initGroup;
   var chartOptions;
   var colorCount;
   var initialize = function(){
+    user = _.cloneDeep($scope.user);
+    currentSettings = {
+      budget: user.totalBudget,
+      savings: user.savings,
+      categories: user.subbudgetArr.slice(),
+    };
     $scope.deletedCats = [];
     $scope.inputs= {};
     $scope.totalSpent = user.totalSpent;
@@ -91,7 +89,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.$watch('userOptions.animateChart', function(newVal){
     chartOptions.animation = newVal;
   });
-
 
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
@@ -196,10 +193,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var writeChangesToDb = function(){
     console.log('savings to db?');
     if($scope.goodData){
-      console.log($scope.inputs.savingsGoal, $scope.inputs.totalBudget);
       currentSettings.categories = $scope.budgetCategories.slice();
       currentSettings.budget = parseFloat($scope.inputs.savingsGoal);
       currentSettings.savings = parseFloat($scope.inputs.totalBudget);
+      console.log(currentSettings);
     }
   };
 
@@ -214,11 +211,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.cancel = function(){
     //reset all values to initial states:
-    currentSettings = {
-      budget: user.totalBudget,
-      savings: user.savings,
-      categories: user.subbudgetArr.slice(),
-    };
     initialize();
     $state.go('main.budgets');
   };

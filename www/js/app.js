@@ -8,7 +8,7 @@
 angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.controllers', 'chart.js', 'ionic.service.push', 'ui.router'])
 
 .constant("absoluteUrl", {
-    "url": 'http://localhost:3001/'
+    "url": 'https://warm-inlet-29190.herokuapp.com/'
   })
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -52,12 +52,12 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
           return res.data;
         });
       },
-      untaggedRef: function(authService, transactionService){
+      untaggedRef: function (authService, transactionService) {
         var id = authService.getCurrentUser()._id;
         return transactionService.getAllUserUntagged(id)
-        .then(function(transactions){
-          return transactions.data;
-        });
+          .then(function (transactions) {
+            return transactions.data;
+          });
       }
     },
   })

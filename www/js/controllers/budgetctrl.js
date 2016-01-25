@@ -1,6 +1,13 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope) {
   console.log('go');
 
+  $scope.remaining = parseFloat($scope.user.remaining).toFixed(2);
+  $scope.savings = parseFloat($scope.user.savings).toFixed(2);
+  $scope.untaggedSum = parseFloat($scope.user.untaggedSum).toFixed(2);
+
+
+
+  //  this needs refactoring
   var user = $scope.user;
   var totalBudget = $scope.totalUserBudget;
   $scope.totalUserSavings = parseFloat($scope.totalUserSavings).toFixed(2);

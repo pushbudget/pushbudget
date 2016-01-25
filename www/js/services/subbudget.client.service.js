@@ -2,7 +2,21 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q, ab
 
   console.log('we are in the subbudget service');
 
-  // Bucket endpoints.  Buckets === subbudget: analagous. 
+  // Bucket endpoints.  Buckets === subbudget: analagous.
+
+  this.getAllBuckets = function(userId){
+    var dfd = $q.defer();
+    $http({
+        method: 'GET',
+        url: absoluteUrl.url + 'api/user/subbudget/' + userId
+      }).then(function (res) {
+        dfd.resolve(res);
+      })
+      .catch(function (err) {
+        dfd.reject(err);
+      });
+    return dfd.promise;
+  };
 
   // get a particular bucket, tied to a user
   this.getBucket = function (bucketId) {
@@ -52,13 +66,13 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q, ab
     return dfd.promise;
   }
 
-  // need to pass the budgetID on the bucketObj in order to 
+  // need to pass the budgetID on the bucketObj in order to
   // do some work on the backend, adding bucket to budget
   this.createBucket = function (bucketObj) {
     var dfd = $q.defer();
     $http({
         method: 'POST',
-        url: absoluteUrl.url + 'api/subbudget/' + bucketObj._id,
+        url: absoluteUrl.url + 'api/subbudget/' + bucketObj.budget,
         data: bucketObj
       }).then(function (res) {
         dfd.resolve(res);

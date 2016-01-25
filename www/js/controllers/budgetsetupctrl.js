@@ -9,6 +9,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var chartOptions;
   var colorCount;
   var totalAllocated;
+  var deletedCats;
   var initialize = function(){
     user = _.cloneDeep($scope.user);
     currentSettings = {
@@ -16,6 +17,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
     };
+    deletedCats = [];
     $scope.deletedCats = [];
     $scope.inputs= {};
     $scope.totalSpent = user.totalSpent;
@@ -154,7 +156,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var saveConfirmPopup = function() {
     $scope.data = {};
-
+    $scope.deletedCats = deletedCats.slice();
     var myPopup = $ionicPopup.show({
       template: '<div ng-repeat="category in deletedCats" style="text-align: center; width:100%">{{category.category}}</div>',
       title: 'Save Changes?',
@@ -179,67 +181,92 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     myPopup.then(function(res) {
       //if the user did not press cancel:
       if (res){
-        writeChangesToDb();
+        writeChangesToDb(deletedCats);
         $state.go('main.budgets');
       }
     });
   };
 
-  var writeChangesToDb = function(){
-    console.log('im not working yet');
-    // console.log('savings to db?');
-    // if($scope.goodData){
-    //   var newCatsArr = [];
-    //
-    //   currentSettings.categories = $scope.budgetCategories.slice();
-    //   currentSettings.budget = parseFloat($scope.inputs.totalBudget);
-    //   currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
-    //   console.log(currentSettings);
-    //
-    //   //get new categories:
-    //   for (var i =0; i< currentSettings.categories.length; i++){
-    //     if (currentSettings.categories[i].new){
-    //       newCatsArr.push({
-    //         idx: i,
-    //         obj: {
-    //             category: currentSettings.categories[i].category,
-    //             allocated: parseFloat(currentSettings.categories[i].allocated),
-    //             color: currentSettings.categories[i].color,
-    //         },
-    //       });
-    //     }
-    //   }
-    //   // for (i = 0; i < newCatsArr.length; i++){
-    //   //   budgetTransaction.postBudget(newCatsArr[i].obj).then(function(result));
-    //   // }
-    //   var arrayLoop = function(idx){
-    //     if (idx < newCatsArr.length){
-    //       budgetTransaction.postBudget(newCatsArr[i].obj)
-    //       .then(function(result){
-    //         arrayLoop(idx+1);
-    //       });
-    //     }
-    //   };
-    //   arrayLoop(0);
-    //
-    //
-    //   var output ={
-    //     amount: currentSettings.savings,
-    //     savings: currentSettings.savings,
-    //     sum: totalAllocated,
-    //     //subbudgets: subbudgetArr
-    //   };
+  var writeChangesToDb = function(deleteArr){
+    console.log('savings to db?');
+    if($scope.goodData){
 
+      currentSettings.categories = $scope.budgetCategories.slice();
+      currentSettings.budget = parseFloat($scope.inputs.totalBudget);
+      currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
 
-      //budgetTransaction.editBudget(output);
-  //  }
+      //delete the deleted categories from the db:
+      var deleteLoop = function(idx){
+        if (idx < deleteArr.length){
+          subbudgetService.deleteBucket(deleteArr[idx]._id, user.budgetId)
+          .then(function(){
+            deleteLoop(idx+1);
+          }).catch(function(err){
+            console.log(err);
+            return;
+          });
+        }
+      };
+      deleteLoop(0);
+
+      //update the budget array on the db:
+      var updateDbBudgetArr = function(idx){
+        //create new categories on db:
+        if (idx < currentSettings.categories.length){
+          if(currentSettings.categories[idx].new){
+            var newCategory = {
+              budget: user.budgetId,
+              category: currentSettings.categories[idx].category,
+              allocated: parseFloat(currentSettings.categories[idx].allocated),
+              color: currentSettings.categories[idx].color,
+            };
+            subbudgetService.createBucket(newCategory)
+            .then(function(res){
+              currentSettings.categories.splice(idx,1,res.data);
+              updateDbBudgetArr(idx+1);
+            }).catch(function(err){
+              console.log(err);
+              return;
+            });
+          }else{ //if it is not new, update its new value:
+            subbudgetService.editBucket(currentSettings.categories[idx]._id, currentSettings.categories[idx])
+            .then(function(res){
+              console.log('edited:', idx, res);
+              updateDbBudgetArr(idx+1);
+            }).catch(function(err){
+              console.log(err);
+              return;
+            });
+          }
+        }else{
+          var output ={
+            _id: user.budgetId,
+            amount: currentSettings.budget,
+            savings: currentSettings.savings,
+            sum: totalAllocated,
+            subbudgets: currentSettings.categories
+          };
+          console.log('output',output);
+          budgetTransaction.editBudget(output).then(function(res){
+            console.log(res);
+          }).catch(function(err){
+            console.log(err);
+          });
+        }
+      };
+      updateDbBudgetArr(0);
+      subbudgetService.getAllBuckets(user.userId).then(function(result){
+        console.log(result);
+      });
+    }
   };
 
+
   $scope.save = function(){
-    if ($scope.deletedCats.length > 0){
+    if (deletedCats.length > 0){
       saveConfirmPopup();
     }else{
-      writeChangesToDb();
+      writeChangesToDb(deletedCats);
       $state.go('main.budgets');
     }
   };
@@ -282,7 +309,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     var idx;
     if (!item.new){
       idx = chartService.findIndex($scope.budgetCategories, item._id);
-      $scope.deletedCats.push(item);
+      deletedCats.push(item);
     }else{
       idx = chartService.findIndex($scope.budgetCategories, item.tempId);
     }

@@ -1,6 +1,7 @@
 angular.module('pushbudget').service('userDataService', function () {
 
   this.getUserData = function(userRef, untaggedRef){
+    console.log('userRef:', userRef);
     var calcSums = function(budgetArr){
       var totalSum = 0;
       var totalAllocated = 0;
@@ -36,6 +37,7 @@ angular.module('pushbudget').service('userDataService', function () {
     var untaggedSum = calcUntaggedSum(untaggedRef);
 
     var userObj = {
+      budgetId: userRef.budget._id,
       untaggedSum: untaggedSum,
       totalSpent: sumObj.totalSum + untaggedSum,
       totalBudget: userRef.budget.amount,

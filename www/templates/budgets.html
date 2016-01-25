@@ -1,7 +1,7 @@
 <ion-view view-title="Budgets">
   <ion-content>
 
-    <pb-budgetbar  total="totalUserBudget" spent="totalUserSpent"></pb-budgetbar>
+    <pb-budgetbar total="user.totalBudget" spent="user.totalSpent"></pb-budgetbar>
 
     <label class="item item-input" id="budget-remainingLabel">
       <div class="row no-padding">
@@ -10,7 +10,7 @@
         </div>
       </div>
         <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{totalUserRemain}}</span>
+          <span id="budget-infoNumber">${{remaining}}</span>
         </div>
     </label>
 
@@ -21,18 +21,18 @@
         </div>
       </div>
         <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{totalUserSavings}}</span>
+          <span id="budget-infoNumber">${{savings}}</span>
         </div>
     </label>
 
-    <label class="item item-input" id="budget-untaggedLabel" ng-if="totalUntagged > 0">
+    <label class="item item-input" id="budget-untaggedLabel" ng-if="untaggedSum > 0">
       <div class="row no-padding">
         <div class="col no-padding">
           <span class="input-label">Untagged Transactions</span>
         </div>
       </div>
         <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{totalUntagged}}</span>
+          <span id="budget-infoNumber">${{untaggedSum}}</span>
         </div>
     </label>
 
@@ -62,7 +62,7 @@
         </div>
         <div id="home-budgetBox">
 
-          <div class="row" id="home-budgetBoxItem" style="border-left: 10px solid {{item.color}}" ng-repeat="item in userSubBudgets">
+          <div class="row" id="home-budgetBoxItem" style="border-left: 10px solid {{item.color}}" ng-repeat="item in user.subbudgetArr">
             <div class="col col-50 col-center" id="budget-subBudgetLabels">
               <div class="row no-padding" id="budget-catRows" >
                 <div class="col no-padding" id="budget-catName">

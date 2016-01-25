@@ -1,5 +1,5 @@
 angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $location, userRef, transactionService, untaggedRef, userDataService) {
-
+  console.log('userRef from main:', userRef);
   $scope.user = userDataService.getUserData(userRef, untaggedRef);
   console.log('scope.user', $scope.user);
   $scope.updateUser = function(){

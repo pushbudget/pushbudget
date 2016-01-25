@@ -1,5 +1,7 @@
 angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, transactionService) {
 
+  $scope.remaining = parseFloat($scope.user.remaining).toFixed(2);
+
   $scope.getUntagged = function(){
     transactionService.getAllUserUntagged(userRef._id).then(function(transactions){
       console.log(transactions);

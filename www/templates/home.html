@@ -1,10 +1,10 @@
 <ion-view view-title="Push Budget">
   <ion-content >
     <a ui-sref="main.budgets" id="budgetBarLink">
-      <pb-budgetbar total="totalUserBudget" spent="totalUserSpent"></pb-budgetbar>
+      <pb-budgetbar total="user.totalBudget" spent="user.totalSpent"></pb-budgetbar>
     </a>
     <div class="item item-divider" id="home-budgetBoxInfo">
-      You have ${{totalUserRemain}} remaining
+      You have ${{remaining}} remaining
     </div>
     <div id="home-transLink">
       <div class="item item-divider">
@@ -43,7 +43,7 @@
         <div class="item item-divider" id="home-budgetBoxHeader">
           Budgets
         </div>
-        <div class="row" id="home-budgetBoxItem" ng-repeat="subbudget in currentUser.budget.subbudgets"> <!-- ng-repeat here -->
+        <div class="row" id="home-budgetBoxItem" ng-repeat="subbudget in user.subbudgetArr"> <!-- ng-repeat here -->
           <div class="col col-50" id="home-budgetBoxName">
             {{subbudget.category}}
           </div>

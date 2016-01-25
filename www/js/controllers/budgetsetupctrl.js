@@ -1,9 +1,14 @@
-angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService) {
+angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
+
+  //pre-defined colors for the chart. New categories will be assigned a color from this array in order, afterwhich random colors will be generated. Add more colors here if you want specific ones to show up before random colors are used:
+  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
+
   var user;
   var currentSettings = {};
   var initGroup;
   var chartOptions;
   var colorCount;
+  var totalAllocated;
   var initialize = function(){
     user = _.cloneDeep($scope.user);
     currentSettings = {
@@ -47,9 +52,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
   initialize();
 
-  //pre-defined colors for the chart. Add more here if you want specific ones to show up before random colors are generated:
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
-
   var getColor = function(){
     if (colorCount <= chartColorsArr.length-1){
       return chartColorsArr[colorCount];
@@ -66,6 +68,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var budgetUpdate = function(categories, total, savings){
     var updated = chartService.budgetUpdate(categories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+    totalAllocated = updated.totalAllocated;
     updateChart(updated.chart);
     $scope.goodData = updated.goodData;
     $scope.savingsOverBudget = updated.savingsOverBudget;
@@ -80,6 +83,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
     if(res) {
       var inputData = chartService.inputValidate(res);
+      $scope.parsedBudget = parseFloat($scope.inputs.totalBudget);
       $scope.savingsAmt = inputData.savingsAmt;
       $scope.noBudget = inputData.noBudget;
       budgetUpdate($scope.budgetCategories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
@@ -103,15 +107,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.addCatPopup = function() {
     $scope.data = {};
-
-    var isEmpty = function(obj) {
-      for(var prop in obj) {
-        if(obj.hasOwnProperty(prop)){
-          return false;
-        }
-      }
-      return true;
-    };
 
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/budgetsetup-addcat.html',
@@ -193,10 +188,49 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var writeChangesToDb = function(){
     console.log('savings to db?');
     if($scope.goodData){
+      var newCatsArr = [];
+
       currentSettings.categories = $scope.budgetCategories.slice();
-      currentSettings.budget = parseFloat($scope.inputs.savingsGoal);
-      currentSettings.savings = parseFloat($scope.inputs.totalBudget);
+      currentSettings.budget = parseFloat($scope.inputs.totalBudget);
+      currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
       console.log(currentSettings);
+
+      //get new categories:
+      for (var i =0; i< currentSettings.categories.length; i++){
+        if (currentSettings.categories[i].new){
+          newCatsArr.push({
+            idx: i,
+            obj: {
+                category: currentSettings.categories[i].category,
+                allocated: parseFloat(currentSettings.categories[i].allocated),
+                color: currentSettings.categories[i].color,
+            },
+          });
+        }
+      }
+      // for (i = 0; i < newCatsArr.length; i++){
+      //   budgetTransaction.postBudget(newCatsArr[i].obj).then(function(result));
+      // }
+      var arrayLoop = function(idx){
+        if (idx < newCatsArr.length){
+          budgetTransaction.postBudget(newCatsArr[i].obj)
+          .then(function(result){
+            arrayLoop(idx+1);
+          });
+        }
+      };
+      arrayLoop(0);
+
+
+      var output ={
+        amount: currentSettings.savings,
+        savings: currentSettings.savings,
+        sum: totalAllocated,
+        //subbudgets: subbudgetArr
+      };
+
+
+      //budgetTransaction.editBudget(output);
     }
   };
 
@@ -243,23 +277,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     }
   };
 
-  var findIndex = function(id){
-    var arr = $scope.budgetCategories.slice();
-    for (var i = 0; i < arr.length; i++){
-      if (arr[i]._id === id){
-        return i;
-      }
-    }
-    return false; //something is broken
-  };
-
   $scope.deleteCategory = function(item){
     var idx;
     if (!item.new){
-      idx = findIndex(item._id);
+      idx = chartService.findIndex($scope.budgetCategories, item._id);
       $scope.deletedCats.push(item);
     }else{
-      idx = findIndex(item.tempId);
+      idx = chartService.findIndex($scope.budgetCategories, item.tempId);
     }
     $scope.budgetCategories.splice(idx,1);
   };

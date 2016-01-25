@@ -16,6 +16,15 @@ angular.module('pushbudget').service('chartService', function () {
     return color;
   };
 
+  this.findIndex = function(arr, id){
+    for (var i = 0; i < arr.length; i++){
+      if (arr[i]._id === id){
+        return i;
+      }
+    }
+    return false; //something is broken
+  };
+
   this.inputValidate = function(inputArr){
     var total = parseFloat(inputArr[0]);
     var savings = parseFloat(inputArr[1]);
@@ -109,6 +118,7 @@ angular.module('pushbudget').service('chartService', function () {
         labels: chartLabels.slice(),
         colors: chartColors.slice(),
       },
+      totalAllocated: newSum,
       goodData: goodData,
       savingsOverBudget: savingsOverBudget,
       overBudgetAmt: overBudgetAmt,

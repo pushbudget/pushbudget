@@ -37,6 +37,7 @@ angular.module('pushbudget').service('userDataService', function () {
     var untaggedSum = calcUntaggedSum(untaggedRef);
 
     var userObj = {
+      userId: userRef._id,
       budgetId: userRef.budget._id,
       untaggedSum: untaggedSum,
       totalSpent: sumObj.totalSum + untaggedSum,

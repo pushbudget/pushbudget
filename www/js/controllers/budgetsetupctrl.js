@@ -186,53 +186,68 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var writeChangesToDb = function(){
-    console.log('im not working yet');
-    // console.log('savings to db?');
-    // if($scope.goodData){
-    //   var newCatsArr = [];
-    //
-    //   currentSettings.categories = $scope.budgetCategories.slice();
-    //   currentSettings.budget = parseFloat($scope.inputs.totalBudget);
-    //   currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
-    //   console.log(currentSettings);
-    //
-    //   //get new categories:
-    //   for (var i =0; i< currentSettings.categories.length; i++){
-    //     if (currentSettings.categories[i].new){
-    //       newCatsArr.push({
-    //         idx: i,
-    //         obj: {
-    //             category: currentSettings.categories[i].category,
-    //             allocated: parseFloat(currentSettings.categories[i].allocated),
-    //             color: currentSettings.categories[i].color,
-    //         },
-    //       });
-    //     }
-    //   }
-    //   // for (i = 0; i < newCatsArr.length; i++){
-    //   //   budgetTransaction.postBudget(newCatsArr[i].obj).then(function(result));
-    //   // }
-    //   var arrayLoop = function(idx){
-    //     if (idx < newCatsArr.length){
-    //       budgetTransaction.postBudget(newCatsArr[i].obj)
-    //       .then(function(result){
-    //         arrayLoop(idx+1);
-    //       });
-    //     }
-    //   };
-    //   arrayLoop(0);
-    //
-    //
-    //   var output ={
-    //     amount: currentSettings.savings,
-    //     savings: currentSettings.savings,
-    //     sum: totalAllocated,
-    //     //subbudgets: subbudgetArr
-    //   };
+    console.log('savings to db?');
+    if($scope.goodData){
+      var newCatsArr = [];
+      var returnedCatsArr = [];
 
+      currentSettings.categories = $scope.budgetCategories.slice();
+      currentSettings.budget = parseFloat($scope.inputs.totalBudget);
+      currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
+      console.log(currentSettings);
 
-      //budgetTransaction.editBudget(output);
-  //  }
+      var buildOutput = function(subbudgetArr)
+      {
+        var output ={
+          amount: currentSettings.savings,
+          savings: currentSettings.savings,
+          sum: totalAllocated,
+          subbudgets: subbudgetArr
+        };
+
+        //budgetTransaction.editBudget(output);
+      };
+
+      //get new categories:
+      for (var i =0; i< currentSettings.categories.length; i++){
+        if (currentSettings.categories[i].new){
+          newCatsArr.push({
+            idx: i,
+            obj: {
+                category: currentSettings.categories[i].category,
+                allocated: parseFloat(currentSettings.categories[i].allocated),
+                color: currentSettings.categories[i].color,
+            },
+          });
+        }
+      }
+      var newCatsArrLength = newCatsArr.length;
+      if (newCatsArrLength > 0){
+        var arrayLoop = function(idx){
+          if (idx < newCatsArrLength.length){
+            budgetTransaction.postBudget(newCatsArr[i].obj)
+            .then(function(result){
+              //if this could return the _id of the new bucket, then we could put that on the new cats arr at [i] and maybe match it that way after?
+              arrayLoop(idx+1);
+            });
+          }
+          //now get the new categories back from the db:
+          subbudgetService.getAllBuckets(user.userId).then(function(res){
+            var start = res.length - newCatsArrLength;
+            var idx = 0; //this will match to the position in newCatsArr
+            for (var i = start; i < res.length; i++){
+              newCatsArr[idx].obj=res[i];
+              idx++;
+            }
+              //get the new budgets back from db, insert them in the correct spots back into the array, then proceed to build output
+              buildOutput(something); //**********
+          });
+        };
+        arrayLoop(0);
+      }else{
+        buildOutput(currentSettings.categories);
+      }
+    }
   };
 
   $scope.save = function(){

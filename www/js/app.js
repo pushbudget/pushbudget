@@ -65,6 +65,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   // Each tab has its own nav history stack:
 
   .state('main.home', {
+    cache: false,
     url: '/home',
     views: {
       'home': {
@@ -75,6 +76,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   })
 
   .state('main.toTrans', {
+    cache: false,
     url: '/toTrans/:id',
     views: {
       'home': {
@@ -94,6 +96,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   })
 
   .state('main.trans', {
+    cache: false,
     url: '/trans',
     views: {
       'transactions': {
@@ -105,6 +108,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   })
 
   .state('main.newTrans', {
+    cache: false,
     url: '/newtrans/:id',
     views: {
       'transactions': {
@@ -124,6 +128,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
   })
 
   .state('main.budgets', {
+      cache: false,
       url: '/budgets',
       views: {
         'budgets': {
@@ -133,6 +138,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       }
     })
     .state('main.budgetSetup', {
+      cache: false,
       url: '/budgetsetup',
       views: {
         'budgets': {
@@ -142,6 +148,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       }
     })
     .state('main.budgetSetupEdit', {
+      cache: false,
       url: '/budgetsetupedit',
       views: {
         'budgets': {
@@ -151,6 +158,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       }
     })
     .state('main.profile', {
+      cache: false,
       url: '/profile',
       views: {
         'profile': {

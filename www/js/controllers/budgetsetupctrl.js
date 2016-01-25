@@ -186,52 +186,53 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var writeChangesToDb = function(){
-    console.log('savings to db?');
-    if($scope.goodData){
-      var newCatsArr = [];
-
-      currentSettings.categories = $scope.budgetCategories.slice();
-      currentSettings.budget = parseFloat($scope.inputs.totalBudget);
-      currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
-      console.log(currentSettings);
-
-      //get new categories:
-      for (var i =0; i< currentSettings.categories.length; i++){
-        if (currentSettings.categories[i].new){
-          newCatsArr.push({
-            idx: i,
-            obj: {
-                category: currentSettings.categories[i].category,
-                allocated: parseFloat(currentSettings.categories[i].allocated),
-                color: currentSettings.categories[i].color,
-            },
-          });
-        }
-      }
-      // for (i = 0; i < newCatsArr.length; i++){
-      //   budgetTransaction.postBudget(newCatsArr[i].obj).then(function(result));
-      // }
-      var arrayLoop = function(idx){
-        if (idx < newCatsArr.length){
-          budgetTransaction.postBudget(newCatsArr[i].obj)
-          .then(function(result){
-            arrayLoop(idx+1);
-          });
-        }
-      };
-      arrayLoop(0);
-
-
-      var output ={
-        amount: currentSettings.savings,
-        savings: currentSettings.savings,
-        sum: totalAllocated,
-        //subbudgets: subbudgetArr
-      };
+    console.log('im not working yet');
+    // console.log('savings to db?');
+    // if($scope.goodData){
+    //   var newCatsArr = [];
+    //
+    //   currentSettings.categories = $scope.budgetCategories.slice();
+    //   currentSettings.budget = parseFloat($scope.inputs.totalBudget);
+    //   currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
+    //   console.log(currentSettings);
+    //
+    //   //get new categories:
+    //   for (var i =0; i< currentSettings.categories.length; i++){
+    //     if (currentSettings.categories[i].new){
+    //       newCatsArr.push({
+    //         idx: i,
+    //         obj: {
+    //             category: currentSettings.categories[i].category,
+    //             allocated: parseFloat(currentSettings.categories[i].allocated),
+    //             color: currentSettings.categories[i].color,
+    //         },
+    //       });
+    //     }
+    //   }
+    //   // for (i = 0; i < newCatsArr.length; i++){
+    //   //   budgetTransaction.postBudget(newCatsArr[i].obj).then(function(result));
+    //   // }
+    //   var arrayLoop = function(idx){
+    //     if (idx < newCatsArr.length){
+    //       budgetTransaction.postBudget(newCatsArr[i].obj)
+    //       .then(function(result){
+    //         arrayLoop(idx+1);
+    //       });
+    //     }
+    //   };
+    //   arrayLoop(0);
+    //
+    //
+    //   var output ={
+    //     amount: currentSettings.savings,
+    //     savings: currentSettings.savings,
+    //     sum: totalAllocated,
+    //     //subbudgets: subbudgetArr
+    //   };
 
 
       //budgetTransaction.editBudget(output);
-    }
+  //  }
   };
 
   $scope.save = function(){

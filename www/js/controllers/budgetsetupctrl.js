@@ -188,67 +188,133 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var writeChangesToDb = function(){
     console.log('savings to db?');
     if($scope.goodData){
-      var newCatsArr = [];
-      var returnedCatsArr = [];
 
       currentSettings.categories = $scope.budgetCategories.slice();
       currentSettings.budget = parseFloat($scope.inputs.totalBudget);
       currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
-      console.log(currentSettings);
-
-      var buildOutput = function(subbudgetArr)
-      {
-        var output ={
-          amount: currentSettings.savings,
-          savings: currentSettings.savings,
-          sum: totalAllocated,
-          subbudgets: subbudgetArr
-        };
-
-        //budgetTransaction.editBudget(output);
-      };
+      console.log('currentSettings',currentSettings);
 
       //get new categories:
-      for (var i =0; i< currentSettings.categories.length; i++){
-        if (currentSettings.categories[i].new){
-          newCatsArr.push({
-            idx: i,
-            obj: {
-                category: currentSettings.categories[i].category,
-                allocated: parseFloat(currentSettings.categories[i].allocated),
-                color: currentSettings.categories[i].color,
-            },
+      var writeNewCatsToDb = function(idx){
+        if (idx < currentSettings.categories.length){
+          if(currentSettings.categories[idx].new){
+            console.log('posting to db', idx);
+            var newCategory = {
+              budget: user.budgetId,
+              category: currentSettings.categories[idx].category,
+              allocated: parseFloat(currentSettings.categories[idx].allocated),
+              color: currentSettings.categories[idx].color,
+            };
+            subbudgetService.createBucket(newCategory)
+            .then(function(res){
+              currentSettings.categories.splice(idx,1,res.data);
+              writeNewCatsToDb(idx+1);
+            }).catch(function(err){
+              console.log('budgetsetupctrl.writeNewCatsToDb error:', err);
+              return;
+            });
+          }else{
+            console.log(idx,'old');
+            writeNewCatsToDb(idx+1);
+          }
+        }else{
+          var output ={
+            _id: user.budgetId,
+            amount: currentSettings.budget,
+            savings: currentSettings.savings,
+            sum: totalAllocated,
+            subbudgets: currentSettings.categories
+          };
+          console.log('output',output);
+          budgetTransaction.editBudget(output).then(function(res){
+            console.log(res);
+          }).catch(function(err){
+            console.log(err);
           });
         }
-      }
-      var newCatsArrLength = newCatsArr.length;
-      if (newCatsArrLength > 0){
-        var arrayLoop = function(idx){
-          if (idx < newCatsArrLength.length){
-            budgetTransaction.postBudget(newCatsArr[i].obj)
-            .then(function(result){
-              //if this could return the _id of the new bucket, then we could put that on the new cats arr at [i] and maybe match it that way after?
-              arrayLoop(idx+1);
-            });
-          }
-          //now get the new categories back from the db:
-          subbudgetService.getAllBuckets(user.userId).then(function(res){
-            var start = res.length - newCatsArrLength;
-            var idx = 0; //this will match to the position in newCatsArr
-            for (var i = start; i < res.length; i++){
-              newCatsArr[idx].obj=res[i];
-              idx++;
-            }
-              //get the new budgets back from db, insert them in the correct spots back into the array, then proceed to build output
-              buildOutput(something); //**********
-          });
-        };
-        arrayLoop(0);
-      }else{
-        buildOutput(currentSettings.categories);
-      }
+      };
+      writeNewCatsToDb(0);
     }
   };
+
+
+  // var writeChangesToDb = function(){
+  //   console.log('savings to db?');
+  //   if($scope.goodData){
+  //     var newCatsArr = [];
+  //     var returnedCatsArr = [];
+  //
+  //     currentSettings.categories = $scope.budgetCategories.slice();
+  //     currentSettings.budget = parseFloat($scope.inputs.totalBudget);
+  //     currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
+  //     console.log(currentSettings);
+  //
+  //     var buildOutput = function(subbudgetArr)
+  //     {
+  //       var output ={
+  //         amount: currentSettings.savings,
+  //         savings: currentSettings.savings,
+  //         sum: totalAllocated,
+  //         subbudgets: subbudgetArr
+  //       };
+  //
+  //       //budgetTransaction.editBudget(output);
+  //     };
+  //
+  //     //get new categories:
+  //     for (var i =0; i< currentSettings.categories.length; i++){
+  //       if (currentSettings.categories[i].new){
+  //         console.log('making a new item');
+  //         newCatsArr.push({
+  //           idx: i,
+  //           obj: {
+  //               budget: user.budgetId,
+  //               category: currentSettings.categories[i].category,
+  //               allocated: parseFloat(currentSettings.categories[i].allocated),
+  //               color: currentSettings.categories[i].color,
+  //           },
+  //         });
+  //       }
+  //     }
+  //     var newCatsArrLength = newCatsArr.length;
+  //     console.log('newCatsArrLength', newCatsArrLength);
+  //     if (newCatsArrLength > 0){
+  //       var arrayLoop = function(idx){
+  //         if (idx < newCatsArrLength){
+  //           console.log('posting to db', newCatsArr[idx]);
+  //           subbudgetService.createBucket(newCatsArr[idx].obj)
+  //           .then(function(res){
+  //             var result = res.data;
+  //             console.log('result from arrayloop:',res);
+  //             console.log(result._id);
+  //             newCatsArr[idx]
+  //             //if this could return the _id of the new bucket, then we could put that on the new cats arr at [i] and maybe match it that way after?
+  //             arrayLoop(idx+1);
+  //           }).catch(function(err){
+  //             console.log('error',err);
+  //           });
+  //         }
+  //         //now get the new categories back from the db:
+  //         subbudgetService.getAllBuckets(user.userId).then(function(res){
+  //           var start = res.length - newCatsArrLength;
+  //           var idx = 0; //this will match to the position in newCatsArr
+  //           for (var i = start; i < res.length; i++){
+  //             newCatsArr[idx].obj=res[i];
+  //             idx++;
+  //           }
+  //             //get the new budgets back from db, insert them in the correct spots back into the array, then proceed to build output
+  //             //buildOutput(something); //**********
+  //         }).catch(function(err){
+  //           console.log(err);
+  //         });
+  //       };
+  //       console.log('starting arrayLoop');
+  //       arrayLoop(0);
+  //     }else{
+  //       buildOutput(currentSettings.categories);
+  //     }
+  //   }
+  // };
 
   $scope.save = function(){
     if ($scope.deletedCats.length > 0){

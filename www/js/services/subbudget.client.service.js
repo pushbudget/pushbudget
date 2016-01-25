@@ -72,7 +72,7 @@ angular.module('pushbudget').service('subbudgetService', function ($http, $q, ab
     var dfd = $q.defer();
     $http({
         method: 'POST',
-        url: absoluteUrl.url + 'api/subbudget/' + bucketObj._id,
+        url: absoluteUrl.url + 'api/subbudget/' + bucketObj.budget,
         data: bucketObj
       }).then(function (res) {
         dfd.resolve(res);

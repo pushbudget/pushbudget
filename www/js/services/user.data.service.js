@@ -44,7 +44,7 @@ angular.module('pushbudget').service('userDataService', function () {
       totalBudget: userRef.budget.amount,
       totalAllocated: sumObj.totalAllocated,
       unallocated: userRef.budget.amount - userRef.savings - sumObj.totalAllocated,
-      savings: userRef.savings,
+      savings: userRef.budget.savings,
       subbudgetArr: sumObj.subbudgets.slice(),
       untaggedArr: untaggedRef.slice(),
       useableBudget: userRef.budget.amount - userRef.savings,

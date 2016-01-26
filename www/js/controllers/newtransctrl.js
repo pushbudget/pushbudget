@@ -163,12 +163,12 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
     console.log(subIds);
     var splits = [];
     splits.push({
-      amount: $scope.mainAmmount,
+      amount: parseFloat($scope.mainAmmount),
       subbudgetId: $scope.$$childTail.data.categoryOption._id
     })
     for(var i = 0; i < $scope.categoryArr.length; i++){
       var split = {};
-      split.amount = $scope.categoryArr[i].ammount;
+      split.amount = parseFloat($scope.categoryArr[i].ammount);
       for(var j = 0; j < subIds.length; j++){
         if(subIds[j].category === $scope.categoryArr[i].category.category){
           split.subbudgetId = subIds[j].id;

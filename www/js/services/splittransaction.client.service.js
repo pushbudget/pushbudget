@@ -12,11 +12,11 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: absoluteUrl + '/api/split/',
+      url: absoluteUrl.url + 'api/split/',
       data: {
         transaction: {
           transId: transaction._id,
-          subbudgetId: splits[0].subId
+          subbudgetId: splits[0].subbudgetId
         },
         splits: splits
       }

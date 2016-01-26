@@ -16,6 +16,18 @@ angular.module('pushbudget').service('chartService', function () {
     return color;
   };
 
+  this.getColor = function(colorCount){
+    var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
+
+    if (colorCount <= chartColorsArr.length-1){
+      return chartColorsArr[colorCount];
+    }else{
+      return this.getRandomColor(); //if we are out of pre-defined colors, provide a random color
+    }
+  };
+
+
+
   this.findIndex = function(arr, id){
     for (var i = 0; i < arr.length; i++){
       if (arr[i]._id === id){

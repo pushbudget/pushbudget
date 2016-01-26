@@ -63,7 +63,7 @@
 
 
         <div ng-repeat="item in budgetCategories">
-          <pb-budgetcat name="{{item.category}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.allocated" id="{{item.id}}"></pb-budgetcat>
+          <pb-budgetcat name="{{item.category}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.allocated" id="{{item.id}}" total="{{parsedBudget}}" init="{{item.initVal}}"></pb-budgetcat>
         </div>
 
       </div>

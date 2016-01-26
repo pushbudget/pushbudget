@@ -69,14 +69,14 @@
                   {{item.category}}
                 </div>
               </div>
-              <div class="row no-padding">
+              <!-- <div class="row no-padding">
                 <div class="col no-padding" id="budget-subBudgetSum">
                   (${{getDecimals(item.sum)}})
                 </div>
-              </div>
+              </div> -->
               <div class="row no-padding">
                 <div class="col no-padding" id="budget-subBudgetPct">
-                  %{{getPctSpent(item.sum, item.allocated)}}
+                  %{{getPctRemain(item.sum, item.allocated)}}
                 </div>
               </div>
             </div>

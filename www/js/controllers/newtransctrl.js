@@ -1,13 +1,12 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction) {
 
   $scope.transaction = transaction;
   console.log($scope.transaction);
   var totalPrice = transaction.amount;//this is the total ammount of this transaction, need to get it from a ref
   $scope.mainAmmount = parseFloat(totalPrice).toFixed(2);
 
-  var categoryOptions = ['Food', 'Gas', 'Entertainment']; //this will later come from a ref
-  $scope.categoryOptions = categoryOptions;
-  $scope.mainCategory = categoryOptions[0]; //this the existing category. it will later come from a ref
+  $scope.categoryOptions = $scope.user.subbudgetArr;
+  $scope.mainCategory = $scope.categoryOptions[0]; //this the existing category. it will later come from a ref
 
 
   //ionic stuff for lists
@@ -149,8 +148,37 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
   };
 
 
+
   //this is when the user clicks the green checkbox indicating that they wish to submit their changes
   $scope.submit = function(){
+    console.log($scope);
+    var subIds = [];
+    for(var i = 0; i < $scope.user.subbudgetArr.length; i ++){
+      subIds.push({
+        category: $scope.user.subbudgetArr[i].category,
+        id: $scope.user.subbudgetArr[i]._id
+      })
+    }
+    console.log(subIds);
+    var splits = [];
+    splits.push({
+      amount: $scope.mainAmmount,
+      // subId: $scope.
+    })
+    for(var i = 0; i < $scope.categoryArr.length; i++){
+      var split = {};
+      split.amount = $scope.categoryArr[i].ammount;
+      for(var j = 0; j < subIds.length; j++){
+        if(subIds[j].category === $scope.categoryArr[i].category.category){
+          split.subId = subIds[j].id;
+        }
+      }
+      splits.push(split);
+    }
+    console.log(splits);
+    splitTransaction.addSplitTransaction($scope.transaction).then(function(response){
+      console.log(response);
+    });
     //do something to save this to the DB
     console.log('submit clicked!');
   };

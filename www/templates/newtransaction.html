@@ -12,7 +12,7 @@
               {{transaction.name}}
             </div>
             <div id="newtrans-date">
-              {{transaction.created}}
+              {{transaction.created | date: short}}
             </div>
             <div id="newtrans-totalamount">
               ${{transaction.amount}}
@@ -30,7 +30,7 @@
               <span id="newtrans-price" >${{mainAmmount}}</span>
             </div>
             <label >
-              <select id="newtrans-catName" ng-model="data.categoryOption" ng-init="data.categoryOption = mainCategory" ng-options="option for option in categoryOptions">
+              <select id="newtrans-catName" ng-model="data.categoryOption" ng-init="data.categoryOption = mainCategory" ng-options="subbudget as subbudget.category for subbudget in categoryOptions">
               </select>
             </label>
           </label>
@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="col text-right" id="newtrans-newCatName">
-              {{item.category}}
+              {{item.category.category}}
               <i class="icon ion-drag rotate-90" id="newtrans-drag"></i>
             </div>
           </div>

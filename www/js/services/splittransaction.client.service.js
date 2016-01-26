@@ -12,7 +12,7 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
     var dfd = $q.defer();
     $http({
       method: 'POST',
-      url: absoluteUrl + 'api/split/',
+      url: absoluteUrl + '/api/split/',
       data: {
         transaction: {
           transId: transaction._id,
@@ -21,6 +21,7 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
         splits: splits
       }
     }).then(function (bucket) {
+      console.log(bucket);
       dfd.resolve(bucket)
     }).catch(function (err) {
       dfd.reject(err);

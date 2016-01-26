@@ -164,14 +164,14 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
     var splits = [];
     splits.push({
       amount: $scope.mainAmmount,
-      subId: $scope.$$childTail.data.categoryOption._id
+      subbudgetId: $scope.$$childTail.data.categoryOption._id
     })
     for(var i = 0; i < $scope.categoryArr.length; i++){
       var split = {};
       split.amount = $scope.categoryArr[i].ammount;
       for(var j = 0; j < subIds.length; j++){
         if(subIds[j].category === $scope.categoryArr[i].category.category){
-          split.subId = subIds[j].id;
+          split.subbudgetId = subIds[j].id;
         }
       }
       splits.push(split);

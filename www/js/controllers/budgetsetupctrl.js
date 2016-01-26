@@ -1,5 +1,5 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
-
+  console.log('buget setup controller start');
   var user;
   var currentSettings = {};
   var initGroup;
@@ -14,6 +14,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
     };
+    console.log(user.savings, currentSettings.savings, $scope.user.savings);
     deletedCats = [];
     $scope.deletedCats = [];
     $scope.inputs= {};
@@ -230,7 +231,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
               return;
             });
           }
-        }else{
+        }else{ //now update the budget property on the db:
           var output ={
             _id: user.budgetId,
             amount: currentSettings.budget,
@@ -238,15 +239,18 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
             sum: totalAllocated,
             subbudgets: currentSettings.categories
           };
-          budgetTransaction.editBudget(output).then(function(res){
+          budgetTransaction.editBudget(output).then(function(budget){
+            //the db should be updated now
+            $scope.$emit('requestUpdate', {});
+            console.log('did it emit?');
           }).catch(function(err){
             console.log(err);
           });
         }
       };
       updateDbBudgetArr(0);
-      subbudgetService.getAllBuckets(user.userId).then(function(result){
-      });
+      // subbudgetService.getAllBuckets(user.userId).then(function(result){
+      // });
     }
   };
 

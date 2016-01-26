@@ -6,7 +6,6 @@ angular.module('pushbudget').service('userService', function ($http, $q, absolut
       method: 'GET',
       url: absoluteUrl.url + 'user/' + userId + '/populate'
     }).then(function (user) {
-      console.log("up in here");
       dfd.resolve(user);
     }).catch(function (user) {
       dfd.reject(user);
@@ -21,7 +20,6 @@ angular.module('pushbudget').service('userService', function ($http, $q, absolut
       method: 'GET',
       url: absoluteUrl.url + 'user/' + userId + '/populate'
     }).then(function (user) {
-      console.log("up in here");
       dfd.resolve(user);
     }).catch(function (user) {
       dfd.reject(user);

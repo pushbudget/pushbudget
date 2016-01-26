@@ -4,7 +4,6 @@ angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, tr
 
   $scope.getUntagged = function(){
     transactionService.getAllUserUntagged(userRef._id).then(function(transactions){
-      console.log(transactions);
     })
   }
   $scope.getUntagged();
@@ -21,7 +20,6 @@ angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, tr
     // console.log(pct);
     return {width: pct};
   }
-  console.log('im in the home controller');
 
 
 })

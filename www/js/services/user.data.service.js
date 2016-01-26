@@ -1,16 +1,19 @@
-angular.module('pushbudget').service('userDataService', function (userService, transactionService) {
+angular.module('pushbudget').service('userDataService', function (userService, transactionService, $q) {
   var that = this;
   this.updateData = function(userId){
-    var user;
-    userService.getUserFromDb(userId)
-    .then(function(res){
-      user = res.data;
-    }).then(function(){
-      return transactionService.getAllUserUntagged(id);
-    }).then(function(untagged){
-      return that.getUserData(user, untagged.data);
-    }).catch(function(err){
-      console.log(err);
+    return $q(function(resolve, reject){
+      var user;
+      userService.getUserFromDb(userId)
+      .then(function(res){
+        user = res.data;
+      }).then(function(){
+        return transactionService.getAllUserUntagged(userId);
+      }).then(function(untagged){
+        resolve(that.getUserData(user, untagged.data));
+      }).catch(function(err){
+        console.log(err);
+        reject(err);
+      });
     });
   };
 

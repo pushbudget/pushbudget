@@ -40,6 +40,7 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
     .state('main', {
     url: '/main',
     abstract: true,
+    //cache:false,
     templateUrl: 'templates/main.html',
     controller: 'mainCtrl',
     resolve: {

@@ -46,17 +46,25 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
     };
 
     $scope.getPctSpent = function(spent, total){
-      return parseFloat(((spent/total)*100)).toFixed(2);
+      if (total === 0){
+        return parseFloat(0).toFixed(2);
+      }
+      else return parseFloat(((spent/total)*100)).toFixed(2);
+
+      return pct;
     };
 
     $scope.getPctRemain = function(spent, total){
-      return parseFloat(((1-spent/total)*100)).toFixed(2);
+      if (total === 0){
+        return parseFloat(0).toFixed(2);
+      }
+      else return parseFloat(((1-spent/total)*100)).toFixed(2);
     };
 
     $scope.setWidth = function(subbudget){
       var sum = subbudget.sum;
 
-      if(sum  >subbudget.allocated){
+      if(sum  >subbudget.allocated || subbudget.allocated <= 0 || isNaN(sum)){
         return {width: '0%'};
       }
       var pct = ((1 - sum/subbudget.allocated)*100).toString() + '%';

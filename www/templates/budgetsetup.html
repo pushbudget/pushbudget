@@ -60,9 +60,16 @@
 
           </div>
         </div>
+        <div ng-if="!budgetCategories.length">
+          <div class="row">
+            <div class="col center-text col-100">
+              Create a Budget!
+            </div>
+          </div>
+        </div>
 
 
-        <div ng-repeat="item in budgetCategories">
+        <div ng-repeat="item in budgetCategories" ng-if="budgetCategories.length">
           <pb-budgetcat name="{{item.category}}" color="{{item.color}}" unallocated="{{unallocated}}" value="item.allocated" id="{{item.id}}" total="{{parsedBudget}}" init="{{item.initVal}}"></pb-budgetcat>
         </div>
 

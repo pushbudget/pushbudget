@@ -17,6 +17,7 @@ angular.module('pushbudget').service('userDataService', function () {
         budgetArr[i].sum = sum;
         totalSum += sum;
         budgetArr[i].goodData = true;
+        budgetArr[i].initVal = (budgetArr[i].allocated/userRef.budget.amount)*100;
       }
       return {
         subbudgets: budgetArr,

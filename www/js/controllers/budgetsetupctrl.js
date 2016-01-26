@@ -3,6 +3,53 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   //pre-defined colors for the chart. New categories will be assigned a color from this array in order, afterwhich random colors will be generated. Add more colors here if you want specific ones to show up before random colors are used:
   var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
 
+
+  //dummy data for testing:
+  var datas = [
+  {
+    color: '#F7464A',
+    id: 432,
+    category: 'cat 1',
+    allocated: 649,
+  },
+  {
+    color: '#46BFBD',
+    id: 143,
+    category: 'cat 2',
+    allocated: 0,
+  },
+  {
+    color: '#FDB45C',
+    id: 4322,
+    category: 'nachos',
+    allocated: 1
+  },
+  {
+    color: '#949FB1',
+    id: 873,
+    category: 'burgers',
+    allocated: 0,
+  },
+  {
+    color: '#4D5360',
+    id: 461,
+    category: 'falafel',
+    allocated: 0
+  }
+];
+
+var data2 = [
+  {
+  tempId: 87654,
+  allocated: 201,
+  category: 'cat1',
+  color: '#F7464A',
+},
+
+
+
+];
+
   var user;
   var currentSettings = {};
   var initGroup;
@@ -17,6 +64,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
     };
+    console.log(currentSettings.budget, currentSettings.savings);
     deletedCats = [];
     $scope.deletedCats = [];
     $scope.inputs= {};
@@ -139,7 +187,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         res.newPrice = parseFloat(res.newPrice);
         var output = {
           tempId: $scope.catId,
-          allocated: parseFloat(res.newPrice).toFixed(2),
+          allocated: res.newPrice,
           category: res.newName,
           color: getColor(),
           new: true,
@@ -191,9 +239,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     console.log('savings to db?');
     if($scope.goodData){
 
-      currentSettings.categories = $scope.budgetCategories.slice();
+      var inputData = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]);
+      currentSettings.savings = inputData.savingsAmt;
       currentSettings.budget = parseFloat($scope.inputs.totalBudget);
-      currentSettings.savings = parseFloat($scope.inputs.savingsGoal);
+      currentSettings.categories = $scope.budgetCategories.slice();
 
       //delete the deleted categories from the db:
       var deleteLoop = function(idx){
@@ -231,7 +280,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           }else{ //if it is not new, update its new value:
             subbudgetService.editBucket(currentSettings.categories[idx]._id, currentSettings.categories[idx])
             .then(function(res){
-              console.log('edited:', idx, res);
               updateDbBudgetArr(idx+1);
             }).catch(function(err){
               console.log(err);
@@ -246,9 +294,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
             sum: totalAllocated,
             subbudgets: currentSettings.categories
           };
-          console.log('output',output);
           budgetTransaction.editBudget(output).then(function(res){
-            console.log(res);
           }).catch(function(err){
             console.log(err);
           });
@@ -256,7 +302,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       };
       updateDbBudgetArr(0);
       subbudgetService.getAllBuckets(user.userId).then(function(result){
-        console.log(result);
       });
     }
   };

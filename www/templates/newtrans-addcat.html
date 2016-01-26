@@ -7,7 +7,7 @@
 </div>
 <div class="text-center">
   <label >
-    <select ng-model="data.categoryOption" ng-init="data.categoryOption = categoryOptions[0]" ng-options="option for option in categoryOptions">
+    <select ng-model="data.categoryOption" ng-init="data.categoryOption = categoryOptions[0]" ng-options="subbudget as subbudget.category for subbudget in categoryOptions">
     </select>
   </label>
 </div>

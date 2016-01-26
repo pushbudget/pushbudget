@@ -58,8 +58,8 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
     console.log("$$$$$$$$$$$$$$$$$$$$$4User.institutions", User.institutions);
 
-    function findIndexByKeyValue(arraytosearch, key, valuetosearch) { 
-        for (var i = 0; i < arraytosearch.length; i++) { 
+    function findIndexByKeyValue(arraytosearch, key, valuetosearch) {
+        for (var i = 0; i < arraytosearch.length; i++) {
             if (arraytosearch[i][key] == valuetosearch) {
                 return i;
             }
@@ -380,7 +380,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
 
 
-    $scope.userOptions.animateChart = false;
+    $scope.user.userOptions.animateChart = false;
 
     $ionicModal.fromTemplateUrl('templates/profile-editoptions.html', {
     scope: $scope,

@@ -69,7 +69,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
 
     //End of Build up User.institutions based on the userRef
-/*
+
 
     User.institutions = [{
         InstitutionType: "bofa",
@@ -80,21 +80,28 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
         Accounts: ["Checking *1234", "Savings *4563", "Credit *2234"]
     }, {
         InstitutionType: "wells",
-        InstitutionLogoURL: "http://placehold.it/25x25",
+        InstitutionLogoURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wells_Fargo_Bank.svg/2000px-Wells_Fargo_Bank.svg.png",
         AccessToken: "User's access token for wells",
         Active: true,
         InstitutionName: "Wells Fargo",
         Accounts: ["Checking *1234", "Savings *4563"]
     }, {
         InstitutionType: "chase",
-        InstitutionLogoURL: "http://placehold.it/25x25",
+        InstitutionLogoURL: "https://ozgeozva301.files.wordpress.com/2010/10/id_chase_1_0.jpg",
         AccessToken: "test_chase",
         Active: false,
         InstitutionName: "Chase",
         Accounts: ["Credit *2144"]
+    },{
+        InstitutionType: "amex",
+        InstitutionLogoURL: "http://vignette4.wikia.nocookie.net/logopedia/images/c/c2/American_Express_card_logo.png/revision/latest?cb=20120526223909",
+        AccessToken: "test_amex",
+        Active: true,
+        InstitutionName: "American Express",
+        Accounts: ["Credit *10007"]
     }];
 
-*/
+
 
     //User.institutions = [];  //to check the scenario where the user will not have any linked accounts at the beginning.
 
@@ -300,7 +307,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 }
             });
 
-            refreshHandler.open();
+            refreshHandler.open('chase');
 
         });
     }

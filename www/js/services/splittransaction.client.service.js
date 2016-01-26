@@ -6,12 +6,20 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
   // to the subbudget splits array
 
   this.addSplitTransaction = function (transaction, splits) {
-    console.log(555555, transaction);
+    console.log(transaction);
+    console.log('break');
+    console.log(splits);
     var dfd = $q.defer();
     $http({
       method: 'POST',
       url: absoluteUrl + 'api/split/',
-      data: transaction
+      data: {
+        transaction: {
+          transId: transaction._id,
+          subbudgetId: splits[0].subId
+        },
+        splits: splits
+      }
     }).then(function (bucket) {
       dfd.resolve(bucket)
     }).catch(function (err) {

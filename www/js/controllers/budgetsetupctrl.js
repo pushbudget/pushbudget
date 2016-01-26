@@ -1,54 +1,53 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
 
   //pre-defined colors for the chart. New categories will be assigned a color from this array in order, afterwhich random colors will be generated. Add more colors here if you want specific ones to show up before random colors are used:
-  var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
 
 
-  //dummy data for testing:
-  var datas = [
-  {
-    color: '#F7464A',
-    id: 432,
-    category: 'cat 1',
-    allocated: 649,
-  },
-  {
-    color: '#46BFBD',
-    id: 143,
-    category: 'cat 2',
-    allocated: 0,
-  },
-  {
-    color: '#FDB45C',
-    id: 4322,
-    category: 'nachos',
-    allocated: 1
-  },
-  {
-    color: '#949FB1',
-    id: 873,
-    category: 'burgers',
-    allocated: 0,
-  },
-  {
-    color: '#4D5360',
-    id: 461,
-    category: 'falafel',
-    allocated: 0
-  }
-];
-
-var data2 = [
-  {
-  tempId: 87654,
-  allocated: 201,
-  category: 'cat1',
-  color: '#F7464A',
-},
-
-
-
-];
+//   //dummy data for testing:
+//   var datas = [
+//   {
+//     color: '#F7464A',
+//     id: 432,
+//     category: 'cat 1',
+//     allocated: 649,
+//   },
+//   {
+//     color: '#46BFBD',
+//     id: 143,
+//     category: 'cat 2',
+//     allocated: 0,
+//   },
+//   {
+//     color: '#FDB45C',
+//     id: 4322,
+//     category: 'nachos',
+//     allocated: 1
+//   },
+//   {
+//     color: '#949FB1',
+//     id: 873,
+//     category: 'burgers',
+//     allocated: 0,
+//   },
+//   {
+//     color: '#4D5360',
+//     id: 461,
+//     category: 'falafel',
+//     allocated: 0
+//   }
+// ];
+//
+// var data2 = [
+//   {
+//   tempId: 87654,
+//   allocated: 201,
+//   category: 'cat1',
+//   color: '#F7464A',
+// },
+//
+//
+//
+// ];
 
   var user;
   var currentSettings = {};
@@ -102,13 +101,7 @@ var data2 = [
   };
   initialize();
 
-  var getColor = function(){
-    if (colorCount <= chartColorsArr.length-1){
-      return chartColorsArr[colorCount];
-    }else{
-      return chartService.getRandomColor(); //if we are out of pre-defined colors, provide a random color
-    }
-  };
+
 
   var updateChart = function(dataObj){
     $scope.chart.values = dataObj.values;
@@ -189,7 +182,7 @@ var data2 = [
           tempId: $scope.catId,
           allocated: res.newPrice,
           category: res.newName,
-          color: getColor(),
+          color: chartService.getColor(colorCount),
           new: true,
           totalDisplay: String(parseFloat(res.newPrice).toFixed(2)),
           goodData: true,

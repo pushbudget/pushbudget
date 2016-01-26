@@ -1,4 +1,19 @@
-angular.module('pushbudget').service('userDataService', function () {
+angular.module('pushbudget').service('userDataService', function (userService, transactionService) {
+  var that = this;
+  this.updateData = function(userId){
+    var user;
+    userService.getUserFromDb(userId)
+    .then(function(res){
+      user = res.data;
+    }).then(function(){
+      return transactionService.getAllUserUntagged(id);
+    }).then(function(untagged){
+      return that.getUserData(user, untagged.data);
+    }).catch(function(err){
+      console.log(err);
+    });
+  };
+
 
   this.getUserData = function(userRef, untaggedRef){
     console.log('userRef:', userRef);

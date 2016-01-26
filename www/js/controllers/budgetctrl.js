@@ -1,27 +1,18 @@
-angular.module('pushbudget').controller('budgetCtrl', function($scope) {
-  console.log('go');
+angular.module('pushbudget').controller('budgetCtrl', function($scope, chartService, userDataService) {
 
-  $scope.remaining = parseFloat($scope.user.remaining).toFixed(2);
-  $scope.savings = parseFloat($scope.user.savings).toFixed(2);
-  $scope.untaggedSum = parseFloat($scope.user.untaggedSum).toFixed(2);
-
-
-
-  //  this needs refactoring
+  //$scope.user = userDataService.updateData($scope.user._id);
+  //console.log($scope.user);
   var user = $scope.user;
-  var totalBudget = $scope.totalUserBudget;
-  $scope.totalUserSavings = parseFloat($scope.totalUserSavings).toFixed(2);
-  var savings = $scope.totalUserSavings;
-  var budgets = $scope.userSubBudgets;
-  var spent = $scope.totalUserSpent;
-  //$scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
-  var untagged = $scope.totalUntagged;
-  $scope.totalUntagged = parseFloat($scope.totalUntagged).toFixed(2);
-  var remaining = $scope.totalUserRemain;
-  if (remaining < 0){
-    remaining = 0;
-  }
+  console.log('budgetctrl load: user:', user);
 
+  var remaining = parseFloat(user.remaining).toFixed(2);
+  if (remaining < 0){
+    remaining = parseFloat(0).toFixed(2);
+  }
+  $scope.remaining = remaining;
+  $scope.savings = parseFloat(user.savings).toFixed(2);
+  $scope.untaggedSum = parseFloat(user.untaggedSum).toFixed(2);
+  var totalBudget = user.totalBudget;
   $scope.chart = {};
 
   var chartOptions = {
@@ -31,51 +22,16 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope) {
     //multiTooltipTemplate: "<%= value + ' %' %>"
     animation: user.userOptions.animateChart,
   };
-  $scope.chart.options = chartOptions;
 
   $scope.$watch('userOptions.animateChart', function(newVal){
     chartOptions.animation = newVal;
   });
 
-  var initGroup = [
-    {
-      category: 'Savings',
-      allocated: savings,
-      color: '#97BBCD'
-    },
-    {
-      category: 'Remaining',
-      allocated: remaining,
-      color: '#DCDCDC'
-    },
-    {
-      category: 'Untagged Transactions',
-      allocated: untagged,
-      color: '#666666'
-    },
-
-  ];
-
-  var chartUpdate = function(){
-    var chartValues = [];
-    var chartLabels = [];
-    var chartColors = [];
-
-    for (var i = 0; i < initGroup.length; i++ ){
-      chartValues.push(parseFloat(initGroup[i].allocated));
-      chartLabels.push(initGroup[i].category);
-      chartColors.push(initGroup[i].color);
-    }
-    for (i = 0; i < budgets.length; i++){
-      chartValues.push(parseFloat(budgets[i].sum));
-      chartLabels.push(budgets[i].category);
-      chartColors.push(budgets[i].color);
-    }
-
-    $scope.chart.values = chartValues.slice();
-    $scope.chart.labels = chartLabels.slice();
-    $scope.chart.colors = chartColors.slice();
-  };
+  var chart = chartService.spendingChartUpdate(user.subbudgetArr, user.untaggedSum, user.remaining, user.savings);
+  $scope.chart.values = chart.values;
+  $scope.chart.labels = chart.labels;
+  $scope.chart.colors = chart.colors;
+  $scope.chart.options = chartOptions;
 
 
   $scope.getDecimals = function(int){

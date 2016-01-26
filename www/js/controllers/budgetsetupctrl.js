@@ -1,54 +1,5 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
 
-  //pre-defined colors for the chart. New categories will be assigned a color from this array in order, afterwhich random colors will be generated. Add more colors here if you want specific ones to show up before random colors are used:
-
-
-//   //dummy data for testing:
-//   var datas = [
-//   {
-//     color: '#F7464A',
-//     id: 432,
-//     category: 'cat 1',
-//     allocated: 649,
-//   },
-//   {
-//     color: '#46BFBD',
-//     id: 143,
-//     category: 'cat 2',
-//     allocated: 0,
-//   },
-//   {
-//     color: '#FDB45C',
-//     id: 4322,
-//     category: 'nachos',
-//     allocated: 1
-//   },
-//   {
-//     color: '#949FB1',
-//     id: 873,
-//     category: 'burgers',
-//     allocated: 0,
-//   },
-//   {
-//     color: '#4D5360',
-//     id: 461,
-//     category: 'falafel',
-//     allocated: 0
-//   }
-// ];
-//
-// var data2 = [
-//   {
-//   tempId: 87654,
-//   allocated: 201,
-//   category: 'cat1',
-//   color: '#F7464A',
-// },
-//
-//
-//
-// ];
-
   var user;
   var currentSettings = {};
   var initGroup;
@@ -63,7 +14,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
     };
-    console.log(currentSettings.budget, currentSettings.savings);
     deletedCats = [];
     $scope.deletedCats = [];
     $scope.inputs= {};

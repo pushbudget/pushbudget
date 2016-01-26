@@ -1,5 +1,6 @@
 angular.module('pushbudget').service('chartService', function () {
 
+  var that = this;
   var getRandomRGB = function () {
     var rand = Math.floor(Math.random() * (256)).toString(16);
     if (rand.length < 2){
@@ -17,12 +18,13 @@ angular.module('pushbudget').service('chartService', function () {
   };
 
   this.getColor = function(colorCount){
+    //pre-defined colors for the chart. New categories will be assigned a color from this array in order, afterwhich random colors will be generated. Add more colors here if you want specific ones to show up before random colors are used:
     var chartColorsArr = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#86c8a1', '#4D5360'];
 
     if (colorCount <= chartColorsArr.length-1){
       return chartColorsArr[colorCount];
     }else{
-      return this.getRandomColor(); //if we are out of pre-defined colors, provide a random color
+      return that.getRandomColor(); //if we are out of pre-defined colors, provide a random color
     }
   };
 
@@ -135,6 +137,51 @@ angular.module('pushbudget').service('chartService', function () {
       savingsOverBudget: savingsOverBudget,
       overBudgetAmt: overBudgetAmt,
       unallocated: newUnallocated,
+    };
+    return output;
+  };
+
+  this.spendingChartUpdate = function(budgets, untagged, remaining, savings){
+    if (remaining < 0){
+      remaining = 0;
+    }
+    var initGroup = [
+      {
+        category: 'Savings',
+        allocated: savings,
+        color: '#97BBCD'
+      },
+      {
+        category: 'Remaining',
+        allocated: remaining,
+        color: '#DCDCDC'
+      },
+      {
+        category: 'Untagged Transactions',
+        allocated: untagged,
+        color: '#666666'
+      },
+    ];
+
+    var chartValues = [];
+    var chartLabels = [];
+    var chartColors = [];
+
+    for (var i = 0; i < initGroup.length; i++ ){
+      chartValues.push(parseFloat(initGroup[i].allocated));
+      chartLabels.push(initGroup[i].category);
+      chartColors.push(initGroup[i].color);
+    }
+    for (i = 0; i < budgets.length; i++){
+      chartValues.push(parseFloat(budgets[i].sum));
+      chartLabels.push(budgets[i].category);
+      chartColors.push(budgets[i].color);
+    }
+
+    var output = {
+      values: chartValues,
+      labels: chartLabels,
+      colors: chartColors,
     };
     return output;
   };

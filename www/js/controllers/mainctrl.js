@@ -1,6 +1,15 @@
 angular.module('pushbudget').controller('mainCtrl', function ($scope, $state, $location, userRef, transactionService, untaggedRef, userDataService) {
-//  $scope.$on()
-  console.log('I AM MAIN');
+console.log(userRef);
+  $scope.$on('requestUpdate', function(event, args){
+    console.log('there was an emit');
+    userDataService.updateData(userRef._id).then(function(result){
+      console.log('this is new stuff', result);
+      $scope.user = result;
+      $scope.$broadcast('pageRefresh', {});
+    }).catch(function(err){
+      console.log(err);
+    });
+  });
 //  console.log('userRef from main:', userRef);
   $scope.user = userDataService.getUserData(userRef, untaggedRef);
 //  console.log('scope.user', $scope.user);

@@ -1,6 +1,5 @@
 angular.module('pushbudget').service('transactionService', function ($http, $q, absoluteUrl) {
 
-  console.log('hey im in here');
 
   // transaction endpoints
 

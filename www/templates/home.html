@@ -43,58 +43,55 @@
         <div class="item item-divider" id="home-budgetBoxHeader">
           Budgets
         </div>
-        <div class="row" id="home-budgetBoxItem" ng-repeat="subbudget in user.subbudgetArr"> <!-- ng-repeat here -->
+        <div ng-if="!user.subbudgetArr.length">
+          <div class="row">
+            <div class="col center-text col-100">
+              Create a Budget!
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="home-budgetBoxItem"  ng-repeat="item in user.subbudgetArr" ng-if="user.subbudgetArr.length">
+          <div class="col col-50 col-center" id="budget-subBudgetLabels">
+            <div class="row no-padding" id="budget-catRows" >
+              <div class="col no-padding" id="budget-catName">
+                {{item.category}}
+              </div>
+            </div>
+            <div class="row no-padding">
+              <div class="col no-padding" id="budget-subBudgetPct">
+                %{{getPctRemain(item.sum, item.allocated)}}
+              </div>
+            </div>
+          </div>
+          <div class="col col-50 no-padding col-center">
+            <div id="home-budgetBoxBar">
+
+              <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) > 20">
+                <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+              </div>
+              <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 20 && getPctRemain(item.sum, item.allocated) >10" style="background-color: #f0b840">
+                <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+              </div>
+              <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 10" style="background-color: #ef4e3a">
+                <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+              </div>
+            </div>
+
+
+        <!-- <div class="row" id="home-budgetBoxItem" ng-repeat="subbudget in user.subbudgetArr">
           <div class="col col-50" id="home-budgetBoxName">
             {{subbudget.category}}
           </div>
           <div class="col col-50">
             <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(subbudget)"> <!--angular variable here for width length -->
+              <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(subbudget)">
               </div>
             </div>
           </div>
-        </div> <!-- /end ng-repeat -->
-
-        <!-- simulated ng-repeat here -->
-        <!-- <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Groceries
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 33%">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Gas
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 65%">
-            </div>
-          </div>
-        </div>
-
-        <div class="row" id="home-budgetBoxItem">
-          <div class="col col-50" id="home-budgetBoxName">
-          Groceries
-          </div>
-          <div class="col col-50">
-            <div id="home-budgetBoxBar">
-              <div id="home-budgetBoxBarFill" class="positive-bg" style="width: 45%">
-              </div>
-            </div>
-          </div>
-        </div> -->
-
+        </div>  -->
 
       </div>
-
-
 
   </ion-content>
 </ion-view>

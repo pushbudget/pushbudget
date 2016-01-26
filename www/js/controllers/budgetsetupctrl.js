@@ -123,7 +123,7 @@ var data2 = [
     $scope.goodData = updated.goodData;
     $scope.savingsOverBudget = updated.savingsOverBudget;
     $scope.overBudgetAmt = updated.overBudgetAmt; //parse float?
-    $scope.unallocated = updated.unallocated;
+    $scope.unallocated = parseFloat(updated.unallocated).toFixed(2);
   };
 
   $scope.$watch('budgetCategories', function(newValue, oldValue){
@@ -193,6 +193,7 @@ var data2 = [
           new: true,
           totalDisplay: String(parseFloat(res.newPrice).toFixed(2)),
           goodData: true,
+          initVal: (res.newPrice/$scope.parsedBudget)*100,
         };
         $scope.budgetCategories.push(output);
         chartService.budgetUpdate($scope.budgetCategories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);

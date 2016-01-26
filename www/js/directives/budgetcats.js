@@ -14,23 +14,19 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
       input: '='
     },
     link: function($scope, element, attrs) {
+        $scope.$watch('total', function(newVal, oldVal){ //this compensates for a change to the budget so the initial value does not change proportionally to it
+          var factor = oldVal/newVal;
+          $scope.input = parseFloat($scope.input)*factor;
+        });
         $scope.$watchGroup(["unallocated", "input"],function(newValues ,oldValues) {
-          console.log('$scope.value', $scope.value);
           var value = $scope.value;
-          console.log(value);
           var total = parseInt($scope.total);
           var unallocated = newValues[0];
           var input = newValues[1]; //% of the chart
-          console.log('total:', total);
-          console.log('unallocated', unallocated);
-          console.log('input', input);
-
           var valuePct = (value/total);
           var unallocatedPct = (unallocated/total);
           var max = valuePct*100 + unallocatedPct*100;
-
           var output = (input/100)*total;
-          console.log(valuePct, unallocatedPct,max,output);
           $scope.max = max;
           $scope.value = output;
           $scope.displayValue = parseFloat(output).toFixed(2);

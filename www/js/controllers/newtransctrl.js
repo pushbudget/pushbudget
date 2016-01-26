@@ -32,6 +32,7 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
   $scope.showPopup = function() {
     $scope.data = {};
 
+
     var myPopup = $ionicPopup.show({
       templateUrl: 'templates/newtrans-addcat.html',
       title: 'Add New Category',
@@ -151,7 +152,7 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
 
   //this is when the user clicks the green checkbox indicating that they wish to submit their changes
   $scope.submit = function(){
-    console.log($scope);
+    console.log($scope.$$childTail.data.categoryOption);
     var subIds = [];
     for(var i = 0; i < $scope.user.subbudgetArr.length; i ++){
       subIds.push({
@@ -162,21 +163,21 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
     console.log(subIds);
     var splits = [];
     splits.push({
-      amount: $scope.mainAmmount,
-      // subId: $scope.
+      amount: parseFloat($scope.mainAmmount),
+      subbudgetId: $scope.$$childTail.data.categoryOption._id
     })
     for(var i = 0; i < $scope.categoryArr.length; i++){
       var split = {};
-      split.amount = $scope.categoryArr[i].ammount;
+      split.amount = parseFloat($scope.categoryArr[i].ammount);
       for(var j = 0; j < subIds.length; j++){
         if(subIds[j].category === $scope.categoryArr[i].category.category){
-          split.subId = subIds[j].id;
+          split.subbudgetId = subIds[j].id;
         }
       }
       splits.push(split);
     }
-    console.log(splits);
-    splitTransaction.addSplitTransaction($scope.transaction).then(function(response){
+    console.log($scope.transaction);
+    splitTransaction.addSplitTransaction($scope.transaction, splits).then(function(response){
       console.log(response);
     });
     //do something to save this to the DB

@@ -1,28 +1,25 @@
-<ion-view view-title="Create Account">
+<ion-view view-title="Create Account" style="background: linear-gradient( 0deg, rgb(11, 30, 65), #2975e6 );">
   <ion-content class="padding">
     <div class="container">
-      <div>
-
+      <div style="text-align: center; margin-top: 30px;">
+        <img  src="./pushbudgetLogo.svg" style="width: 200px !important; height: auto;" >
       </div>
     </div>
-    <div class="container login-caption">
-      <h4>Push Budget</h4>
-    </div>
     <div class="list">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Email Address</span>
-        <input type="text" placeholder="johndoe@email.com" ng-model="newUser.username" required>
+      <label class="item item-input item-floating-label" style="background-color: white;">
+        <span class="input-label">E-mail Address</span>
+        <input type="text" placeholder="E-Mail" ng-model="newUser.username" required>
       </label>
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-floating-label" style="background-color: white;">
         <span class="input-label">Password</span>
         <input type="password" placeholder="Password" ng-model="newUser.password" required>
       </label>
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-floating-label" style="background-color: white;">
         <span class="input-label">Re-enter Password</span>
-        <input type="password" placeholder="Password" ng-model="check" required>
+        <input type="password" placeholder="Re-enter Password" ng-model="check" required>
       </label>
     </div>
-    <button ng-disabled="check !== newUser.password" class="button button-block button-balanced" ng-click="signup(newUser)">
+    <button ng-disabled="check !== newUser.password" class="button button-block button-positive" ng-click="signup(newUser)">
       Create
     </button>
   </ion-content>

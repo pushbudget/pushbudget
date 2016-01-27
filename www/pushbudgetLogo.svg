@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="790px" height="892px" viewBox="0 0 790 892" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>Slice 1</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Group" sketch:type="MSLayerGroup" transform="translate(409.587262, 330.499238) rotate(-1.000000) translate(-409.587262, -330.499238) translate(198.087262, 14.999238)" stroke="#FFFFFF" stroke-width="19" stroke-linecap="round">
+            <path d="M36.2487179,4.02884615 L211.988889,314.10241" id="Line" sketch:type="MSShapeGroup"></path>
+            <path d="M102.60193,3.40426463 L296.075941,355.95456" id="Line" sketch:type="MSShapeGroup"></path>
+            <path d="M134.012747,282.967687 L305.601262,627.325437" id="Line" sketch:type="MSShapeGroup"></path>
+            <path d="M216.020432,323.689346 L239.702521,368.987623 L376.129931,629.941231" id="Line" sketch:type="MSShapeGroup"></path>
+            <path d="M8.13461538,415.867347 L414.865385,211.132653" id="Line" sketch:type="MSShapeGroup" transform="translate(211.500000, 313.500000) scale(-1, 1) translate(-211.500000, -313.500000) "></path>
+            <path d="M8.13461538,622.867347 L414.865385,418.132653" id="Line" sketch:type="MSShapeGroup"></path>
+            <path d="M8.13461538,206.867347 L414.865385,2.13265306" id="Line" sketch:type="MSShapeGroup"></path>
+        </g>
+        <text id="pushBudget" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Futura" font-size="144" font-style="italic" font-weight="normal">
+            <tspan x="9" y="808" fill="#FEFDFD">pushBudget</tspan>
+        </text>
+    </g>
+</svg>

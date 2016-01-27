@@ -191,7 +191,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var updateUser = function(){
       $scope.user.savings = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt;
-      console.log('user',$scope.user.subbudgetArr, 'budgetcat',$scope.budgetCategories);
       $scope.user.subbudgetArr = $scope.budgetCategories.slice();
       $scope.user.totalAllocated = totalAllocated;
       $scope.user.totalBudget = parseFloat($scope.inputs.totalBudget);
@@ -201,7 +200,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var writeChangesToDb = function(deleteArr){
-    console.log('savings to db?');
     $scope.budgetCategories = userDataService.updateInitVals($scope.budgetCategories, parseFloat($scope.inputs.totalBudget)).slice();
     if($scope.goodData){
       var dataObj = {

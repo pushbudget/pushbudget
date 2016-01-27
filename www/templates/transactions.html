@@ -15,28 +15,38 @@
       </label>
     </div>
 
+
     <div class="list">
-      <div ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
-        <a class="item" ui-sref="main.newTrans({id: transaction._id})">
-          <div class="row no-padding">
-            <div class="col no-padding">
-              <div class="col no-padding" id="home-untaggedName">
-                {{transaction.name}}
-              </div>
-              <div class="col no-padding" id="home-untaggedDate">
-                {{transaction.created}}
-              </div>
-            </div>
-            <div class="col no-padding">
-              <div class="col no-padding text-right" id="home-untaggedAmmount">
-                ${{transaction.amount}}
-              </div>
-              <div class="col no-padding text-right" id="home-untaggedCat">
-                {{transaction.category}}
-              </div>
-            </div>
+      <div ng-if="!selectedSub.transactions.length">
+        <div class="row">
+          <div class="col center-text col-100">
+            No transactions
           </div>
-        </a>
+        </div>
+      </div>
+      <div ng-if="selectedSub.transactions.length">
+        <div ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
+          <a class="item" ui-sref="main.newTrans({id: transaction._id})">
+            <div class="row no-padding">
+              <div class="col no-padding">
+                <div class="col no-padding" id="home-untaggedName">
+                  {{transaction.name}}
+                </div>
+                <div class="col no-padding" id="home-untaggedDate">
+                  {{transaction.created}}
+                </div>
+              </div>
+              <div class="col no-padding">
+                <div class="col no-padding text-right" id="home-untaggedAmmount">
+                  ${{transaction.amount}}
+                </div>
+                <div class="col no-padding text-right" id="home-untaggedCat">
+                  {{transaction.category}}
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
 
     </div>

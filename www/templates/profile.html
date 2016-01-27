@@ -1,13 +1,13 @@
 <!--ion-view view-title="pushbudgetuser@somewhere.com"-->
 <ion-view view-title="Profile">
   <ion-nav-buttons side="right">
-      <button class="button button-icon icon ion-settings" ng-click="openModal()">
+      <button class="button button-icon icon ion-ios-gear" ng-click="openModal()">
       </button>
    </ion-nav-buttons>
 <!--div class="bar bar-header">
   <h1 class="title">Header</h1>
 </div-->
-<div class="bar bar-subheader bar-assertive" ng-if="institutionNeedsAttention">
+<div class="bar bar-subheader bar-positive" ng-if="institutionNeedsAttention">
   <h2 class="title">
   {{institutionAttentionMessage}}</h2>
 </div>
@@ -83,8 +83,14 @@
 
 
     <ion-item>
-      <button class="button button-block button-balanced" id="profile-add-account" ng-click="openPlaidLink()">Add account</button>
+      <button class="button button-block  button-positive" id="profile-add-account" ng-click="openPlaidLink()">Add account</button>
     </ion-item>
+    <div id="home-transLink">
+      <div class="item item-divider" ng-click="aboutPopup()">
+        About Push Budget
+      </div>
+    </div>
+
 
 
   </ion-content>

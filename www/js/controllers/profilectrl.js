@@ -384,6 +384,25 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
     }
 
+    $scope.aboutPopup = function() {
+
+      var myPopup = $ionicPopup.show({
+        templateUrl: 'templates/profile-about.html',
+        title: 'Push Budget',
+        subTitle: '&#169; 2016',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>Ok</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              return;
+            }
+          }
+        ]
+      });
+    };
+
 
 
     $scope.user.userOptions.animateChart = false;

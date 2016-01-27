@@ -260,7 +260,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     var inputNum = parseFloat(item.newTotal).toFixed(2);
     if (item.newTotal !== undefined && item.newTotal !== ''){
       if (!isNaN(inputNum) && (inputNum - item.allocated) <= parseFloat($scope.unallocated)){
-        item.allocated= item.newTotal;
+        item.allocated= parseFloat(item.newTotal);
         item.initVal = (parseFloat(item.newTotal)/parseFloat($scope.inputs.totalBudget))*100;
         console.log(item.initVal);
         item.totalDisplay = String(parseFloat(item.allocated).toFixed(2));

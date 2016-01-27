@@ -20,6 +20,10 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
             $scope.input = parseFloat($scope.input)*factor;
           }
         });
+        $scope.$watch('init',function(newValue){
+          $scope.init = newValue;
+          $scope.input = newValue;
+        });
         $scope.$watchGroup(["unallocated", "input"],function(newValues ,oldValues) {
           if (!$scope.input){
             $scope.input = $scope.init;

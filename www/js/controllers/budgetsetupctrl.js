@@ -181,6 +181,16 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     });
   };
 
+  var updateUser = function(){
+      $scope.user.savings = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt;
+      $scope.user.subbudgetArr = $scope.budgetCategories.slice();
+      $scope.user.totalAllocated = totalAllocated;
+      $scope.user.totalBudget = parseFloat($scope.inputs.totalBudget);
+      $scope.user.unallocated =  parseFloat($scope.unallocated);
+      $scope.user.useableBudget = $scope.user.totalBudget - $scope.user.savings;
+      $scope.user.remaining = parseFloat(user.totalBudget-user.totalSpent-user.savings).toFixed(2);
+  };
+
   var writeChangesToDb = function(deleteArr){
     console.log('savings to db?');
     if($scope.goodData){
@@ -196,12 +206,14 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           budgetId: user.budgetId,
         }
       };
-      userDataService.writeChangesToDb(dataObj)
-      .then(function(res){
-        console.log('changes to db?', res);
-      }).catch(function(err){
-        console.log(err);
-      });
+      updateUser();
+      // userDataService.writeChangesToDb(dataObj)
+      // .then(function(res){
+      //   console.log('changes to db?', res);
+      //   //$scope.$emit('requestUpdate');
+      // }).catch(function(err){
+      //   console.log(err);
+      // });
     }
   };
 

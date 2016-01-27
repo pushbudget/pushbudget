@@ -1,6 +1,6 @@
 angular.module('pushbudget').controller('homeCtrl', function($scope, userRef, transactionService) {
 
-  $scope.remaining = parseFloat($scope.user.remaining).toFixed(2);
+  $scope.remaining = parseFloat($scope.user.totalBudget-$scope.user.totalSpent-$scope.user.savings).toFixed(2);
 
   $scope.getUntagged = function(){
     transactionService.getAllUserUntagged(userRef._id).then(function(transactions){

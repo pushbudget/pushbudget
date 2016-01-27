@@ -6,34 +6,34 @@
     <label class="item item-input" id="budget-remainingLabel">
       <div class="row no-padding">
         <div class="col no-padding">
-          <span class="input-label">Budget Remaining</span>
+          <span class="budget-label">Budget Remaining</span>
+        </div>
+        <div class="col no-padding text-right">
+          <spanclass="budget-label">${{remaining}}</span>
         </div>
       </div>
-        <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{remaining}}</span>
-        </div>
     </label>
 
     <label class="item item-input" id="budget-savingsLabel">
       <div class="row no-padding">
         <div class="col no-padding">
-          <span class="input-label">Savings Goal</span>
+          <span class="budget-label">Savings Goal</span>
+        </div>
+        <div class="col no-padding text-right">
+          <span class="budget-label">${{savings}}</span>
         </div>
       </div>
-        <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{savings}}</span>
-        </div>
     </label>
 
     <label class="item item-input" id="budget-untaggedLabel" ng-if="untaggedSum > 0">
       <div class="row no-padding">
         <div class="col no-padding">
-          <span class="input-label">Untagged Transactions</span>
+          <span class="budget-label">Untagged Transactions</span>
+        </div>
+        <div class="col no-padding text-right">
+          <span class="budget-label">${{untaggedSum}}</span>
         </div>
       </div>
-        <div class="col no-padding text-right">
-          <span id="budget-infoNumber">${{untaggedSum}}</span>
-        </div>
     </label>
 
 
@@ -76,14 +76,9 @@
                   {{item.category}}
                 </div>
               </div>
-              <!-- <div class="row no-padding">
-                <div class="col no-padding" id="budget-subBudgetSum">
-                  (${{getDecimals(item.sum)}})
-                </div>
-              </div> -->
               <div class="row no-padding">
                 <div class="col no-padding" id="budget-subBudgetPct">
-                  %{{getPctSpent(item.sum, item.allocated)}}
+                  {{getPctSpent(item.sum, item.allocated)}}%
                 </div>
               </div>
             </div>

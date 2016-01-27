@@ -1,7 +1,7 @@
 <ion-view view-title="Budgets">
   <ion-content>
 
-    <pb-budgetbar total="barTotal" spent="user.totalSpent"></pb-budgetbar>
+    <pb-budgetbar total="user.totalBudget" spent="user.totalSpent" savings="user.savings"></pb-budgetbar>
 
     <label class="item item-input" id="budget-remainingLabel">
       <div class="row no-padding">
@@ -44,7 +44,7 @@
         </div>
       </a>
       <br />
-      <canvas  id="base" class="chart-base" chart-type="userOptions.chartType" chart-click="onClick" 
+      <canvas  id="base" class="chart-base" chart-type="userOptions.chartType" chart-click="onClick"
           chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
     </div>

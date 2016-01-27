@@ -15,7 +15,17 @@
       <ion-toggle ng-model="userOptions.animateChart">
         Chart Animations
       </ion-toggle>
+      <div class="item item-divider">
+        Chart Type
+      </div>
+      <ion-list>
+        <ion-radio ng-model="userOptions.chartType" ng-value="'Pie'">Pie Chart</ion-radio>
+        <ion-radio ng-model="userOptions.chartType" ng-value="'Doughnut'">Doughnut Chart</ion-radio>
+        <ion-radio ng-model="userOptions.chartType" ng-value="'PolarArea'">Polar Area Chart</ion-radio>
+
+      </ion-list>
     </div>
+
 
 
   </ion-content>

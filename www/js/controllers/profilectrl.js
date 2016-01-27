@@ -105,7 +105,6 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
     //User.institutions = [];  //to check the scenario where the user will not have any linked accounts at the beginning.
 
-    console.log("User:", User);
 
 
 

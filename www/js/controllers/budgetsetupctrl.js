@@ -1,5 +1,4 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
-  console.log('buget setup controller start');
   var user;
   var currentSettings = {};
   var initGroup;
@@ -14,7 +13,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
     };
-    console.log(user.savings, currentSettings.savings, $scope.user.savings);
     deletedCats = [];
     $scope.deletedCats = [];
     $scope.inputs= {};
@@ -45,9 +43,10 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
       tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
       //String - Template string for multiple tooltips
       //multiTooltipTemplate: "<%= value + ' %' %>"
-      animation: user.userOptions.animateChart,
+      animation: false,
     };
     $scope.chart.options = chartOptions;
+    //$scope.chart.type = $scope.userOptions.chartType;
     colorCount =   $scope.budgetCategories.length; // we will incrment this color every time a new budget is added and this will be the index of the chartColorsArr that is passed into the budget directive
   };
   initialize();

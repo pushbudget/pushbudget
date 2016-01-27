@@ -1,14 +1,23 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService, userDataService) {
+  console.log('budget setup',$scope.user.savings, $scope.user.subbudgetArr[0].allocated,  $scope.user.subbudgetArr[0].initVal);
   var user;
   var currentSettings = {};
+  var originalSetings = {};
   var initGroup;
   var chartOptions;
   var colorCount;
   var totalAllocated;
   var deletedCats;
   var initialize = function(){
-    user = _.cloneDeep($scope.user);
+    //user = _.cloneDeep($scope.user);
+    user = $scope.user;
+    //console.log('cloned user:', user);
     currentSettings = {
+      budget: user.totalBudget,
+      savings: user.savings,
+      categories: user.subbudgetArr.slice(),
+    };
+    originalSetings = {
       budget: user.totalBudget,
       savings: user.savings,
       categories: user.subbudgetArr.slice(),
@@ -183,6 +192,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var updateUser = function(){
       $scope.user.savings = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt;
+      console.log('user',$scope.user.subbudgetArr, 'budgetcat',$scope.budgetCategories);
       $scope.user.subbudgetArr = $scope.budgetCategories.slice();
       $scope.user.totalAllocated = totalAllocated;
       $scope.user.totalBudget = parseFloat($scope.inputs.totalBudget);
@@ -193,6 +203,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   var writeChangesToDb = function(deleteArr){
     console.log('savings to db?');
+    $scope.budgetCategories = userDataService.updateInitVals($scope.budgetCategories, parseFloat($scope.inputs.totalBudget)).slice();
     if($scope.goodData){
       var dataObj = {
         deleteArr: deleteArr,
@@ -207,6 +218,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         }
       };
       updateUser();
+      console.log($scope.user);
       // userDataService.writeChangesToDb(dataObj)
       // .then(function(res){
       //   console.log('changes to db?', res);
@@ -229,6 +241,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.cancel = function(){
     //reset all values to initial states:
+    currentSettings = originalSetings;
     initialize();
     $state.go('main.budgets');
   };
@@ -248,6 +261,8 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     if (item.newTotal !== undefined && item.newTotal !== ''){
       if (!isNaN(inputNum) && (inputNum - item.allocated) <= parseFloat($scope.unallocated)){
         item.allocated= item.newTotal;
+        item.initVal = (parseFloat(item.newTotal)/parseFloat($scope.inputs.totalBudget))*100;
+        console.log(item.initVal);
         item.totalDisplay = String(parseFloat(item.allocated).toFixed(2));
         item.newTotal = undefined;
       }else

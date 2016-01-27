@@ -1,11 +1,13 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope, chartService, userDataService, $location, $state) {
+  console.log('budget',$scope.user.savings, $scope.user.subbudgetArr[0].allocated,  $scope.user.subbudgetArr[0].initVal);
+
   $scope.$on('pageRefresh', function(event, args){
     console.log('i (budgetctrl) need to refresh');
     pageLoad();
   });
   var pageLoad = function(){
     var user = $scope.user;
-    console.log('budgetctrl load: user:', user);
+  //  console.log('budgetctrl load: user:', user);
 
     var remaining = parseFloat(user.remaining).toFixed(2);
     if (remaining < 0){
@@ -74,7 +76,7 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
        var sum = subbudget.sum;
 
        if(sum  >subbudget.allocated || subbudget.allocated <= 0 || isNaN(sum)){
-         return {width: '0%'};
+         return {width: '100%'};
        }
        var pct = ((sum/subbudget.allocated)*100).toString() + '%';
        return {width: pct};

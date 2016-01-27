@@ -34,6 +34,13 @@ angular.module('pushbudget').service('userDataService', function (userService, t
 
   };
 
+  this.updateInitVals = function(budgetArr,totalBudget){
+    for (var i = 0; i < budgetArr.length; i++){
+      budgetArr[i].initVal = (budgetArr[i].allocated/totalBudget)*100;
+    }
+    return budgetArr;
+  };
+
   //saves settings to the db, returns a promise with true/false upon completion
   this.writeChangesToDb = function(dataObj){
     var success = false;

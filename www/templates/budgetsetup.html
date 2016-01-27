@@ -4,10 +4,10 @@
 
   <label class="item item-input" id="budget-totalLabel" >
     <span class="input-label">Total Budget</span>
-      <label class="item-input-wrapper input-needed" id="budgetSetup-inputField" ng-if="noBudget">
+      <!-- <label class="item-input-wrapper input-needed" id="budgetSetup-inputField" ng-if="noBudget">
         $<input type="text" placeholder="0.00" ng-model="inputs.totalBudget">
-      </label>
-      <label class="item-input-wrapper" id="budgetSetup-inputField" ng-if="!noBudget">
+      </label> -->
+      <label class="item-input-wrapper" id="budgetSetup-inputField">
         $<input type="text" placeholder="0.00" ng-model="inputs.totalBudget">
       </label>
   </label>
@@ -37,7 +37,7 @@
           ${{overBudgetAmt}} Over Budget
         </div>
       </div>
-      <canvas  id="pie" class="chart chart-pie" chart-click="onClick"
+      <canvas  id="base" class="chart-base" chart-click="onClick" chart-type="userOptions.chartType"
           chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
 
@@ -80,7 +80,7 @@
       </div>
       <div class="col text-right" id="budgetSetup-saveButtons">
         <button class="button button-stable" id="budgetSetup-cancel" ng-click="cancel()">Cancel</button>
-        <button class="button button-balanced" id="budgetSetup-save" ng-if="goodData" ng-click="save()">Save</button>
+        <button class="button button-balanced" id="budgetSetup-save" ng-if="goodData" ng-disabled="!goodData" ng-click="save()">Save</button>
         <button class="button button-light" id="budgetSetup-save" ng-if="!goodData" ng-disabled="true" >Save</button>
       </div>
     </div>

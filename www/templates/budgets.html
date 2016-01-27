@@ -1,7 +1,7 @@
 <ion-view view-title="Budgets">
   <ion-content>
 
-    <pb-budgetbar total="user.totalBudget" spent="user.totalSpent"></pb-budgetbar>
+    <pb-budgetbar total="barTotal" spent="user.totalSpent"></pb-budgetbar>
 
     <label class="item item-input" id="budget-remainingLabel">
       <div class="row no-padding">
@@ -44,7 +44,7 @@
         </div>
       </a>
       <br />
-      <canvas  id="pie" class="chart chart-pie" chart-click="onClick"
+      <canvas  id="base" class="chart-base" chart-type="userOptions.chartType" chart-click="onClick" 
           chart-data="chart.values" chart-labels="chart.labels" chart-colours="chart.colors" chart-options="chart.options">
       </canvas>
     </div>
@@ -83,21 +83,21 @@
               </div> -->
               <div class="row no-padding">
                 <div class="col no-padding" id="budget-subBudgetPct">
-                  %{{getPctRemain(item.sum, item.allocated)}}
+                  %{{getPctSpent(item.sum, item.allocated)}}
                 </div>
               </div>
             </div>
             <div class="col col-50 no-padding col-center">
               <div id="home-budgetBoxBar">
 
-                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) > 20">
-                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidthSpent(item)" ng-if="getPctRemain(item.sum, item.allocated) > 20">
+                  <div id="home-budgetBoxBarRemain">${{getDecimals(item.sum)}}</div>
                 </div>
-                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 20 && getPctRemain(item.sum, item.allocated) >10" style="background-color: #f0b840">
-                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidthSpent(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 20 && getPctRemain(item.sum, item.allocated) >10" style="background-color: #f0b840">
+                  <div id="home-budgetBoxBarRemain">${{getDecimals(item.sum)}}</div>
                 </div>
-                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidth(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 10" style="background-color: #ef4e3a">
-                  <div id="home-budgetBoxBarRemain">${{getDifference(item.sum, item.allocated)}}</div>
+                <div id="home-budgetBoxBarFill" class="positive-bg" ng-style="setWidthSpent(item)" ng-if="getPctRemain(item.sum, item.allocated) <= 10" style="background-color: #ef4e3a">
+                  <div id="home-budgetBoxBarRemain">${{getDecimals(item.sum)}}</div>
                 </div>
               </div>
 

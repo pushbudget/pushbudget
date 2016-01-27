@@ -23,7 +23,7 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
       tooltipTemplate: "<%= label %>: $<%= parseFloat(value).toFixed(2) %>", //"<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
       //String - Template string for multiple tooltips
       //multiTooltipTemplate: "<%= value + ' %' %>"
-      animation: user.userOptions.animateChart,
+      animation: $scope.userOptions.animateChart,
     };
 
     $scope.$watch('userOptions.animateChart', function(newVal){
@@ -70,6 +70,17 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
       var pct = ((1 - sum/subbudget.allocated)*100).toString() + '%';
       return {width: pct};
      };
+
+     $scope.setWidthSpent = function(subbudget){
+       var sum = subbudget.sum;
+
+       if(sum  >subbudget.allocated || subbudget.allocated <= 0 || isNaN(sum)){
+         return {width: '0%'};
+       }
+       var pct = ((sum/subbudget.allocated)*100).toString() + '%';
+       return {width: pct};
+      };
+
   };
   pageLoad();
 

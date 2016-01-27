@@ -17,7 +17,10 @@ console.log(userRef);
     $scope.user = userDataService.getUserData(userRef, untaggedRef);
   };
 
-
+   $scope.barTotal = parseFloat($scope.user.totalBudget) - parseFloat($scope.user.savings);
+   $scope.userOptions = {};
+   $scope.userOptions.animateChart = false;
+   $scope.userOptions.chartType = 'Pie';
   //replace this later with a ref to the user which will be aquired during initial splash screen load
   // userService.getUserFromDb('5696bd87e4b07f04a7491c6b').then(function (res) {
   //   $scope.currentUser = res.data;

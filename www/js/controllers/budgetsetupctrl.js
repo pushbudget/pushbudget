@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService) {
+angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService, userDataService) {
   var user;
   var currentSettings = {};
   var initGroup;
@@ -51,7 +51,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
   initialize();
 
-
+  $scope.showDelete = false;
+  $scope.showReorder = false;
+  $scope.listCanSwipe = true;
 
   var updateChart = function(dataObj){
     $scope.chart.values = dataObj.values;
@@ -182,74 +184,24 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   var writeChangesToDb = function(deleteArr){
     console.log('savings to db?');
     if($scope.goodData){
-
-      var inputData = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]);
-      currentSettings.savings = inputData.savingsAmt;
-      currentSettings.budget = parseFloat($scope.inputs.totalBudget);
-      currentSettings.categories = $scope.budgetCategories.slice();
-
-      //delete the deleted categories from the db:
-      var deleteLoop = function(idx){
-        if (idx < deleteArr.length){
-          subbudgetService.deleteBucket(deleteArr[idx]._id, user.budgetId)
-          .then(function(){
-            deleteLoop(idx+1);
-          }).catch(function(err){
-            console.log(err);
-            return;
-          });
+      var dataObj = {
+        deleteArr: deleteArr,
+        currentSettings:{
+          savings: chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt,
+          budget: parseFloat($scope.inputs.totalBudget),
+          categories: $scope.budgetCategories.slice(),
+        },
+        totalAllocated: totalAllocated,
+        user:{
+          budgetId: user.budgetId,
         }
       };
-      deleteLoop(0);
-
-      //update the budget array on the db:
-      var updateDbBudgetArr = function(idx){
-        //create new categories on db:
-        if (idx < currentSettings.categories.length){
-          if(currentSettings.categories[idx].new){
-            var newCategory = {
-              budget: user.budgetId,
-              category: currentSettings.categories[idx].category,
-              allocated: parseFloat(currentSettings.categories[idx].allocated),
-              color: currentSettings.categories[idx].color,
-            };
-            subbudgetService.createBucket(newCategory)
-            .then(function(res){
-              currentSettings.categories.splice(idx,1,res.data);
-              updateDbBudgetArr(idx+1);
-            }).catch(function(err){
-              console.log(err);
-              return;
-            });
-          }else{ //if it is not new, update its new value:
-            subbudgetService.editBucket(currentSettings.categories[idx]._id, currentSettings.categories[idx])
-            .then(function(res){
-              updateDbBudgetArr(idx+1);
-            }).catch(function(err){
-              console.log(err);
-              return;
-            });
-          }
-        }else{ //now update the budget property on the db:
-          var output ={
-            _id: user.budgetId,
-            amount: currentSettings.budget,
-            savings: currentSettings.savings,
-            sum: totalAllocated,
-            subbudgets: currentSettings.categories
-          };
-          budgetTransaction.editBudget(output).then(function(budget){
-            //the db should be updated now
-            $scope.$emit('requestUpdate', {});
-            console.log('did it emit?');
-          }).catch(function(err){
-            console.log(err);
-          });
-        }
-      };
-      updateDbBudgetArr(0);
-      // subbudgetService.getAllBuckets(user.userId).then(function(result){
-      // });
+      userDataService.writeChangesToDb(dataObj)
+      .then(function(res){
+        console.log('changes to db?', res);
+      }).catch(function(err){
+        console.log(err);
+      });
     }
   };
 
@@ -268,10 +220,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     initialize();
     $state.go('main.budgets');
   };
-
-  $scope.showDelete = false;
-  $scope.showReorder = false;
-  $scope.listCanSwipe = true;
 
   $scope.changeColor = function(item){
     item.newColor = chartService.getRandomColor();
@@ -321,7 +269,6 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   });
   $scope.openModal = function() {
     for (var i = 0; i <   $scope.budgetCategories.length; i ++){
-        //$scope.budgetCategories[i].newTotal = parseFloat(  $scope.budgetCategories[i].allocated).toFixed(2);
         $scope.budgetCategories[i].totalDisplay = String(parseFloat(  $scope.budgetCategories[i].allocated).toFixed(2));
     }
     $scope.modal.show();

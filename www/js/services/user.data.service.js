@@ -1,4 +1,4 @@
-angular.module('pushbudget').service('userDataService', function (userService, transactionService, $q) {
+angular.module('pushbudget').service('userDataService', function (userService, transactionService, subbudgetService, budgetTransaction, $q) {
   var that = this;
   this.updateData = function(userId){
     return $q(function(resolve, reject){
@@ -17,6 +17,74 @@ angular.module('pushbudget').service('userDataService', function (userService, t
     });
   };
 
+  this.writeChangesToDb = function(dataObj){
+    var success = false;
+    return $q(function(resolve,reject){
+      //delete the deleted categories from the db:
+      var deleteLoop = function(idx){
+        if (idx < dataObj.deleteArr.length){
+          subbudgetService.deleteBucket(dataObj.deleteArr[idx]._id, dataObj.user.budgetId)
+          .then(function(){
+            deleteLoop(idx+1);
+          }).catch(function(err){
+            console.log(err);
+            return;
+          });
+        }
+      };
+      deleteLoop(0);
+
+      //update the budget array on the db:
+      var updateDbBudgetArr = function(idx){
+        //create new categories on db:
+        if (idx < dataObj.currentSettings.categories.length){
+          if(dataObj.currentSettings.categories[idx].new){
+            var newCategory = {
+              budget: dataObj.user.budgetId,
+              category: dataObj.currentSettings.categories[idx].category,
+              allocated: parseFloat(dataObj.currentSettings.categories[idx].allocated),
+              color: dataObj.currentSettings.categories[idx].color,
+            };
+            subbudgetService.createBucket(newCategory)
+            .then(function(res){
+              dataObj.currentSettings.categories.splice(idx,1,res.data);
+              updateDbBudgetArr(idx+1);
+            }).catch(function(err){
+              console.log(err);
+              return;
+            });
+          }else{ //if it is not new, update its new value:
+            subbudgetService.editBucket(dataObj.currentSettings.categories[idx]._id, dataObj.currentSettings.categories[idx])
+            .then(function(res){
+              updateDbBudgetArr(idx+1);
+            }).catch(function(err){
+              console.log(err);
+              return;
+            });
+          }
+        }else{ //now update the budget property on the db:
+          var output ={
+            _id: dataObj.user.budgetId,
+            amount: dataObj.currentSettings.budget,
+            savings: dataObj.currentSettings.savings,
+            sum: dataObj.totalAllocated,
+            subbudgets: dataObj.currentSettings.categories
+          };
+          budgetTransaction.editBudget(output).then(function(budget){
+            //the db should be updated now
+            success = true;
+            resolve(success);
+          }).catch(function(err){
+            console.log(err);
+            reject(success);
+          });
+        }
+      };
+      updateDbBudgetArr(0);
+      // subbudgetService.getAllBuckets(user.userId).then(function(result){
+      // });
+    });
+  };
 
   this.getUserData = function(userRef, untaggedRef){
     console.log('userRef:', userRef);

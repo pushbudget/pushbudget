@@ -1,5 +1,4 @@
 angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ionicPopup, $ionicModal, $state, chartService, budgetTransaction, subbudgetService, userDataService) {
-  console.log('budget setup',$scope.user.savings, $scope.user.subbudgetArr[0].allocated,  $scope.user.subbudgetArr[0].initVal);
   var user;
   var currentSettings = {};
   var originalSetings = {};
@@ -218,14 +217,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
         }
       };
       updateUser();
-      console.log($scope.user);
-      // userDataService.writeChangesToDb(dataObj)
-      // .then(function(res){
-      //   console.log('changes to db?', res);
-      //   //$scope.$emit('requestUpdate');
-      // }).catch(function(err){
-      //   console.log(err);
-      // });
+      userDataService.writeChangesToDb(dataObj)
+      .then(function(res){
+        console.log('wrote to db:', res);
+        //$scope.$emit('requestUpdate');
+      }).catch(function(err){
+        console.log(err);
+      });
     }
   };
 

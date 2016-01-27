@@ -1,5 +1,4 @@
 angular.module('pushbudget').controller('budgetCtrl', function($scope, chartService, userDataService, $location, $state) {
-  console.log('budget',$scope.user.savings, $scope.user.subbudgetArr[0].allocated,  $scope.user.subbudgetArr[0].initVal);
 
   $scope.$on('pageRefresh', function(event, args){
     console.log('i (budgetctrl) need to refresh');

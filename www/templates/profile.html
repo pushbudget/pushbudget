@@ -7,11 +7,12 @@
 <!--div class="bar bar-header">
   <h1 class="title">Header</h1>
 </div-->
-<div class="bar bar-subheader bar-positive" ng-if="institutionNeedsAttention">
+<div class="bar bar-subheader bar-positive " ng-if="institutionNeedsAttention">
+  <i class="icon ion-alert-circled my-icon"></i>
   <h2 class="title">
   {{institutionAttentionMessage}}</h2>
 </div>
-
+ion-alert-circled
 
   <ion-content  ng-class="(institutionNeedsAttention) ? 'has-subheader' : ''">
 
@@ -22,8 +23,8 @@
       </div>
 
       <div class="item" href="#" id="profile-userOptions">
-        <button class="button button-dark" id="profile-changePw" ng-click="changePassword()">Change password</button>
-        <button class="button button-dark" id="profile-logout" ng-click="logout()">logout</button>
+        <button class="button button-dark" id="profile-changePw" ng-click="changePassword()">Change Password</button>
+        <button class="button button-dark" id="profile-logout" ng-click="logout()">Logout</button>
       </div>
 
 

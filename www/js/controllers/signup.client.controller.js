@@ -3,8 +3,11 @@ angular.module("pushbudget").controller('signupCtrl', function ($scope, $state, 
   $scope.signup = function (user) {
     authService.signup(user).then(function (user) {
       device.user = user._id;
-      $scope.registerDevice();
-      $ionicPush.register();
+      try {
+        $scope.registerDevice();
+        $ionicPush.register();
+      }
+      catch(err) {}
       $state.go('main.home');
     });
   };

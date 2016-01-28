@@ -92,7 +92,13 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
           console.log(res.data);
           return res.data[0];
         });
-      }
+      },
+      splitsRef: function($stateParams, splitTransaction){
+        return splitTransaction.getSplitTransactions($stateParams.id)
+        .then(function(res){
+          return res;
+        });
+      },
     }
   })
 
@@ -124,7 +130,13 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
           console.log(res.data);
           return res.data[0];
         });
-      }
+      },
+      splitsRef: function($stateParams, splitTransaction){
+        return splitTransaction.getSplitTransactions($stateParams.id)
+        .then(function(res){
+          return res;
+        });
+      },
     }
   })
 

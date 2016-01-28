@@ -38,14 +38,23 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
 
 
     $scope.getDecimals = function(int){
+      if (!int){
+        int = 0;
+      }
       return parseFloat(int).toFixed(2);
     };
 
     $scope.getDifference = function(spent, total){
+      if (!spent){
+        spent = 0;
+      }
       return parseFloat(total - spent).toFixed(2);
     };
 
     $scope.getPctSpent = function(spent, total){
+      if (!spent){
+        spent = 0;
+      }
       if (total === 0){
         return parseFloat(0).toFixed(2);
       }
@@ -55,6 +64,9 @@ angular.module('pushbudget').controller('budgetCtrl', function($scope, chartServ
     };
 
     $scope.getPctRemain = function(spent, total){
+      if (!spent){
+        spent = 0;
+      }
       if (total === 0){
         return parseFloat(0).toFixed(2);
       }

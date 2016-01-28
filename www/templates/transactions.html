@@ -33,12 +33,12 @@
                   {{transaction.name}}
                 </div>
                 <div class="col no-padding" id="home-untaggedDate">
-                  {{transaction.created}}
+                  {{transaction.posted | date : short}}
                 </div>
               </div>
               <div class="col no-padding">
                 <div class="col no-padding text-right" id="home-untaggedAmmount">
-                  ${{transaction.amount}}
+                  ${{getDecimals(transaction.amount)}}
                 </div>
                 <div class="col no-padding text-right" id="home-untaggedCat">
                   {{transaction.category}}

@@ -5,13 +5,24 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
   // only the child transctions, aka shadow or split, are added
   // to the subbudget splits array
 
+  this.getSplitTransactions = function(transactionId){
+    console.log('service');
+    return $q(function(resolve, reject){
+        $http({
+        method: 'GET',
+        url: absoluteUrl.url + 'api/splits/' +transactionId,
+      }).then(function(res){
+          resolve(res.data);
+      }).catch(function(err){
+        console.log(err);
+        reject(err);
+      });
+    });
+  };
 
-  this.addTransactionToBucket = function (transaction, subbudgetId) {
 
-  }
   this.addSplitTransaction = function (transaction, splits) {
 
-    console.log(555555, transaction);
 
     var dfd = $q.defer();
     $http({

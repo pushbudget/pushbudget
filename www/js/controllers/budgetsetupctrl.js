@@ -85,6 +85,9 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
     if(res) {
+      if (!res[0]){
+        $scope.inputs.totalBudget = 0;
+      }
       var inputData = chartService.inputValidate(res);
       $scope.parsedBudget = parseFloat($scope.inputs.totalBudget);
       $scope.savingsAmt = inputData.savingsAmt;

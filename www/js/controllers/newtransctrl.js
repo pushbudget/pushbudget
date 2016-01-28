@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction, splitsRef) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction, splitsRef, $ionicLoading) {
   console.log('transaction:',transaction);
   console.log('splitsRef', splitsRef);
 
@@ -168,8 +168,6 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
     $scope.categoryArr.splice(idx, 1); //remove that element from the array
   };
 
-
-
   //this is when the user clicks the green checkbox indicating that they wish to submit their changes
   $scope.submit = function(){
     console.log($scope.$$childTail.data.categoryOption);
@@ -178,15 +176,15 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
       subIds.push({
         category: $scope.user.subbudgetArr[i].category,
         id: $scope.user.subbudgetArr[i]._id
-      })
+      });
     }
     console.log(subIds);
     var splits = [];
     splits.push({
       amount: parseFloat($scope.mainAmmount),
       subbudgetId: $scope.$$childTail.data.categoryOption._id
-    })
-    for(var i = 0; i < $scope.categoryArr.length; i++){
+    });
+    for( i = 0; i < $scope.categoryArr.length; i++){
       var split = {};
       split.amount = parseFloat($scope.categoryArr[i].ammount);
       for(var j = 0; j < subIds.length; j++){
@@ -196,9 +194,20 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
       }
       splits.push(split);
     }
-    console.log($scope.transaction);
+    console.log($scope.transaction, splits);
+
+    $ionicLoading.show({
+      content: 'Loading',
+      animation: 'fade-in',
+      showBackdrop: true,
+      maxWidth: 200,
+      showDelay: 0
+    });    
+
     splitTransaction.addSplitTransaction($scope.transaction, splits).then(function(response){
       console.log(response);
+      $ionicLoading.hide();
+      $state.go('main.home');
     });
     //do something to save this to the DB
     console.log('submit clicked!');

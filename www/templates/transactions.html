@@ -33,7 +33,7 @@
                   {{transaction.name}}
                 </div>
                 <div class="col no-padding" id="home-untaggedDate">
-                  {{transaction.created}}
+                  {{transaction.posted | date : short}}
                 </div>
               </div>
               <div class="col no-padding">

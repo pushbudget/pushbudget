@@ -118,13 +118,29 @@ angular.module('pushbudget', ['ionic', 'ionic.service.core', 'pushbudget.control
       }
     },
     resolve: {
-      transaction: function ($stateParams, transactionService) {
+      // transaction: function ($stateParams, transactionService) {
+      //   console.log($stateParams.id);
+      //   return transactionService.getSpecificUserTransaction($stateParams.id).then(function (res) {
+      //     console.log(res.data);
+      //     return res.data[0];
+      //   });
+      // },
+      asdf: function ($stateParams, transactionService) {
         console.log($stateParams.id);
         return transactionService.getSpecificUserTransaction($stateParams.id).then(function (res) {
           console.log(res.data);
           return res.data[0];
         });
-      }
+      },
+      // asdf: function($stateParams){ //splitTransaction){
+      //   return true;
+      //   //return splitTransaction.stuff();
+      //   // console.log('hi');
+      //   // return splitTransaction.getSplitTransactions($stateParams.id)
+      //   // .then(function(res){
+      //   //   return res;
+      //   // });
+      //},
     }
   })
 

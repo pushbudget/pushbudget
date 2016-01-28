@@ -1,4 +1,12 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, asdf){//transaction, splitTransaction) {
+// var splitsRef = '';
+  //console.log('transaction:',transaction, splitsRef);
+  var idArr = []; //array of subbudget ids
+  for (var i = 0; i < $scope.user.subbudgetArr.length; i++){
+    idArr.push($scope.user.subbudgetArr._id);
+
+  }
+
 
   $scope.transaction = transaction;
   console.log($scope.transaction);

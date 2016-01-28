@@ -13,14 +13,14 @@
     </div>
     <ion-scroll direction="y" style="height: 235px">
       <div class="list" style="height: 235px">
-        <div ng-if="!transactions.length">
+        <div ng-if="!user.untaggedArr.length">
           <div class="row">
             <div class="col center-text col-100">
               No Untagged Transactions
             </div>
           </div>
         </div>
-        <div ng-if="transactions.length" ng-repeat="transaction in transactions | limitTo: 50">
+        <div ng-if="user.untaggedArr.length" ng-repeat="transaction in user.untaggedArr | limitTo: 50">
           <a class="item" ui-sref="main.toTrans({id: transaction._id})">
             <div class="row no-padding">
               <div class="col no-padding">
@@ -33,7 +33,7 @@
               </div>
               <div class="col no-padding">
                 <div class="col no-padding text-right" id="home-untaggedAmmount">
-                  ${{transaction.amount}}
+                  ${{getDecimals(transaction.amount)}}
                 </div>
                 <div class="col no-padding text-right" id="home-untaggedCat">
                   {{transaction.category}}

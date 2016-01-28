@@ -115,11 +115,17 @@ angular.module('pushbudget').service('chartService', function () {
       chartColors.push('#ef4e3a');
     }else{
       for (i = 0; i < initGroupArr.length; i++ ){
+        if (!initGroupArr[i].allocated){
+          initGroupArr[i].allocated  = 0;
+        }
         chartValues.push(initGroupArr[i].allocated);
         chartLabels.push(initGroupArr[i].category);
         chartColors.push(initGroupArr[i].color);
       }
       for (i = 0; i < categoriesArr.length; i++){
+        if (!categoriesArr[i].allocated){
+          categoriesArr[i].allocated = 0;
+        }
         chartValues.push(parseFloat(categoriesArr[i].allocated));
         chartLabels.push(categoriesArr[i].category);
         chartColors.push(categoriesArr[i].color);
@@ -168,11 +174,17 @@ angular.module('pushbudget').service('chartService', function () {
     var chartColors = [];
 
     for (var i = 0; i < initGroup.length; i++ ){
+      if (!initGroup[i].allocated){
+        initGroup[i].allocated  = 0;
+      }
       chartValues.push(parseFloat(initGroup[i].allocated));
       chartLabels.push(initGroup[i].category);
       chartColors.push(initGroup[i].color);
     }
     for (i = 0; i < budgets.length; i++){
+      if (!budgets[i].sum){
+        budgets[i].sum = 0;
+      }
       chartValues.push(parseFloat(budgets[i].sum));
       chartLabels.push(budgets[i].category);
       chartColors.push(budgets[i].color);

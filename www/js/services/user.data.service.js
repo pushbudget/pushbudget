@@ -111,6 +111,13 @@ angular.module('pushbudget').service('userDataService', function (userService, t
     });
   };
 
+  this.getDecimals = function(int){
+    if (!int){
+      int = 0;
+    }
+    return parseFloat(int).toFixed(2);
+  };
+
   this.calcSums = function(budgetArr, budgetAmount){
     var totalSum = 0;
     var totalAllocated = 0;
@@ -160,6 +167,7 @@ angular.module('pushbudget').service('userDataService', function (userService, t
       useableBudget: userRef.budget.amount - userRef.savings,
       remaining: (userRef.budget.amount - userRef.savings) - (sumObj.totalSum + untaggedSum),
       email: userRef.email,
+      userName: userRef.userName,
       userOptions: {
         animateChart: false, //need to make this a property on the db schema
       },

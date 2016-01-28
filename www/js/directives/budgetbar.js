@@ -1,4 +1,4 @@
-angular.module('pushbudget').directive('pbBudgetbar', function() {
+angular.module('pushbudget').directive('pbBudgetbar', function(userDataService) {
   return {
     templateUrl: 'js/directives/templates/budgetbar.html',
     restrict: 'E',
@@ -10,6 +10,7 @@ angular.module('pushbudget').directive('pbBudgetbar', function() {
     link: function($scope, element, attrs) {
         $scope.$watchGroup(["total", "spent", "savings"],function(newValues ,oldValues) {
           var total = parseFloat(newValues[0]);
+          total = userDataService.validate(total);
           var spent = parseFloat(newValues[1]);
           var savings = parseFloat(newValues[2]);
           var remain = total - savings - spent;

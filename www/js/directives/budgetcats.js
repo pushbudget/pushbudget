@@ -39,6 +39,9 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
           $scope.max = max;
           $scope.value = output;
           $scope.displayValue = parseFloat(output).toFixed(2);
+          if (!output){
+            $scope.displayValue = parseFloat(0).toFixed(2);
+          }
       });
 
      },

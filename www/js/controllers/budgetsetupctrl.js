@@ -70,7 +70,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var budgetUpdate = function(categories, total, savings){
-    var updated = chartService.budgetUpdate(categories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+    var updated = chartService.budgetUpdate(categories, userDataService.validate($scope.inputs.totalBudget), $scope.inputs.savingsGoal);
     totalAllocated = updated.totalAllocated;
     updateChart(updated.chart);
     $scope.goodData = updated.goodData;
@@ -80,19 +80,22 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   $scope.$watch('budgetCategories', function(newValue, oldValue){
-    budgetUpdate(newValue, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+    if (userDataService.validate($scope.inputs.totalBudget) > 0){
+      $scope.goodData = true;
+      budgetUpdate(newValue, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+    }else $scope.goodData = false;
   }, true);
 
   $scope.$watchGroup(['inputs.totalBudget', 'inputs.savingsGoal'], function(res, prevRes) {
     if(res) {
-      if (!res[0]){
-        $scope.inputs.totalBudget = 0;
-      }
+      if (userDataService.validate($scope.inputs.totalBudget) > 0){
+        $scope.goodData = true;
+      }else $scope.goodData = false;
       var inputData = chartService.inputValidate(res);
-      $scope.parsedBudget = parseFloat($scope.inputs.totalBudget);
+      $scope.parsedBudget = parseFloat(userDataService.validate($scope.inputs.totalBudget));
       $scope.savingsAmt = inputData.savingsAmt;
       $scope.noBudget = inputData.noBudget;
-      budgetUpdate($scope.budgetCategories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+      budgetUpdate($scope.budgetCategories, userDataService.validate($scope.inputs.totalBudget), $scope.inputs.savingsGoal);
     }
   });
 
@@ -152,7 +155,7 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
           initVal: (res.newPrice/$scope.parsedBudget)*100,
         };
         $scope.budgetCategories.push(output);
-        chartService.budgetUpdate($scope.budgetCategories, $scope.inputs.totalBudget, $scope.inputs.savingsGoal);
+        chartService.budgetUpdate($scope.budgetCategories, userDataService.validate($scope.inputs.totalBudget), $scope.inputs.savingsGoal);
         $scope.catId++; //increment the id for the next one
         colorCount++;
       }
@@ -193,23 +196,23 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
   };
 
   var updateUser = function(){
-      $scope.user.savings = chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt;
+      $scope.user.savings = chartService.inputValidate([userDataService.validate($scope.inputs.totalBudget), $scope.inputs.savingsGoal]).savingsAmt;
       $scope.user.subbudgetArr = $scope.budgetCategories.slice();
       $scope.user.totalAllocated = totalAllocated;
-      $scope.user.totalBudget = parseFloat($scope.inputs.totalBudget);
+      $scope.user.totalBudget = userDataService.validate($scope.inputs.totalBudget);
       $scope.user.unallocated =  parseFloat($scope.unallocated);
       $scope.user.useableBudget = $scope.user.totalBudget - $scope.user.savings;
       $scope.user.remaining = parseFloat(user.totalBudget-user.totalSpent-user.savings).toFixed(2);
   };
 
   var writeChangesToDb = function(deleteArr){
-    $scope.budgetCategories = userDataService.updateInitVals($scope.budgetCategories, parseFloat($scope.inputs.totalBudget)).slice();
+    $scope.budgetCategories = userDataService.updateInitVals($scope.budgetCategories, userDataService.validate($scope.inputs.totalBudget)).slice();
     if($scope.goodData){
       var dataObj = {
         deleteArr: deleteArr,
         currentSettings:{
           savings: chartService.inputValidate([$scope.inputs.totalBudget, $scope.inputs.savingsGoal]).savingsAmt,
-          budget: parseFloat($scope.inputs.totalBudget),
+          budget: userDataService.validate($scope.inputs.totalBudget),
           categories: $scope.budgetCategories.slice(),
         },
         totalAllocated: totalAllocated,
@@ -258,10 +261,13 @@ angular.module('pushbudget').controller('budgetSetupCtrl', function($scope, $ion
     item.color = item.newColor;
     var inputNum = parseFloat(item.newTotal).toFixed(2);
     if (item.newTotal !== undefined && item.newTotal !== ''){
-      if (!isNaN(inputNum) && (inputNum - item.allocated) <= parseFloat($scope.unallocated)){
+      if (!isNaN(inputNum) && (inputNum - item.allocated) <= parseFloat($scope.unallocated) && inputNum >0){
         item.allocated= parseFloat(item.newTotal);
-        item.initVal = (parseFloat(item.newTotal)/parseFloat($scope.inputs.totalBudget))*100;
-        console.log(item.initVal);
+        if (userDataService.validate($scope.inputs.totalBudget) === 0){
+          item.initVal = 0;
+        }else{
+          item.initVal = (parseFloat(item.newTotal)/userDataService.validate($scope.inputs.totalBudget))*100;
+        }
         item.totalDisplay = String(parseFloat(item.allocated).toFixed(2));
         item.newTotal = undefined;
       }else

@@ -14,7 +14,7 @@
   <div class="col col-50 no-padding col-center">
     <div class="item range">
 
-      <input type="range" name="{{name}}" value="input" min="0" max="{{max}}" ng-model="input" ng-init="input=init">
+      <input type="range" name="{{name}}" value="input" min="0" max="{{max}}" ng-model="input" ng-init="input=init" ng-disabled="!goodData">
     </div>
     <!-- <div id="home-budgetBoxBar">
       <div id="home-budgetBoxBarFill" class="positive-bg" style="width: {{budgetPct}}%">

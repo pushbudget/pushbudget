@@ -118,6 +118,12 @@ angular.module('pushbudget').service('userDataService', function (userService, t
     return parseFloat(int).toFixed(2);
   };
 
+  this.validate = function(num){
+    if (isNaN(num) || num === undefined || num ==='' || parseInt(num) < 0){
+      return 0;
+    }else return num;
+  };
+
   this.calcSums = function(budgetArr, budgetAmount){
     var totalSum = 0;
     var totalAllocated = 0;

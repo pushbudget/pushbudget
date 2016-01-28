@@ -26,7 +26,8 @@
       </div>
       <div ng-if="selectedSub.transactions.length">
         <div ng-repeat="transaction in selectedSub.transactions | limitTo: 20">
-          <a class="item" ui-sref="main.newTrans({id: transaction._id})">
+          <!-- <a class="item" ui-sref="main.newTrans({id: transaction._id})"> -->
+          <div class="item">
             <div class="row no-padding">
               <div class="col no-padding">
                 <div class="col no-padding" id="home-untaggedName">
@@ -45,7 +46,8 @@
                 </div>
               </div>
             </div>
-          </a>
+          </div>
+          <!-- </a> -->
         </div>
       </div>
 

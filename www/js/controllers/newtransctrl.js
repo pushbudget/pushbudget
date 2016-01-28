@@ -1,12 +1,26 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, asdf){//transaction, splitTransaction) {
-// var splitsRef = '';
-  //console.log('transaction:',transaction, splitsRef);
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction, splitsRef) {
+  console.log('transaction:',transaction);
+  console.log('splitsRef', splitsRef);
+
+
   var idArr = []; //array of subbudget ids
   for (var i = 0; i < $scope.user.subbudgetArr.length; i++){
     idArr.push($scope.user.subbudgetArr._id);
 
   }
 
+  $scope.categoryArr = []; //array of new categories represented by thier catId number
+
+
+  $scope.splitsArr = splitsRef;
+  if (splitsRef.length > 0){
+    $scope.transaction = splitsRef[0];
+  }
+
+
+
+
+  var catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
 
   $scope.transaction = transaction;
   console.log($scope.transaction);
@@ -22,9 +36,7 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
   $scope.shouldShowReorder = false;
   $scope.listCanSwipe = true;
 
-  $scope.categoryArr = []; //array of new categories represented by thier catId number
 
-  var catId = 0; // unique identifier for each new category box, starts at 0 and increments each time a new category is added.
 
   //given a categoryId, return the index of where in the array the object with that id resides
   var findCategory = function(id){

@@ -4,9 +4,6 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
   // if there are splits, the parent transaction is not added and
   // only the child transctions, aka shadow or split, are added
   // to the subbudget splits array
-  this.stuff = function(){
-    return 12345;
-  };
 
   this.getSplitTransactions = function(transactionId){
     console.log('service');

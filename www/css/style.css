@@ -395,3 +395,11 @@ header bar with no content inside of it! */
 .platform-android .bar-subheader {
   top: 93px;
 }
+
+.my-icon:before,
+.my-icon{
+  font-size:30px !important;
+  display:block !important;
+  color: yellow;
+  padding-left: 8px;
+}

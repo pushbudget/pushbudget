@@ -1,27 +1,12 @@
 
 angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, $location, authService, $ionicPopup, $ionicLoading, userRef, userProfile, $ionicModal) {
-    // this has to be moved to a service
-    // var sandboxHandler = Plaid.create({
-    //   clientName: 'pushbudget',
-    //   env: 'tartan',
-    //   product: 'auth',
-    //   key: 'test_key',
-    //   onSuccess: function(token) {
-    //     window.location = '/accounts.html?public_token=' + token;
-    //   }
-    // });
-    //
-    // $scope.openLink = function() {
-    //   console.log('open the link modal');
-    //   sandboxHandler.open();
-    // };
-
-    console.log("///////////////////Comes to the User profile screen...with the BIG user object ", userRef);
+    
+    //console.log("///////////////////Comes to the User profile screen...with the BIG user object ", userRef);
 
     $scope.email = userRef.email;
     var userId = userRef._id;
 
-    console.log("///////////////////Comes to the User profile screen...with the BIG user object and UserId ", userId);
+    //console.log("///////////////////Comes to the User profile screen...with the BIG user object and UserId ", userId);
 
 
     var User = [];
@@ -34,12 +19,12 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
     //Build up User.institutions based on the userRef
 
     for (var i = 0; i < userRef.accounts.length; i++) {
-        console.log("************$$$$$$$$$$ Account name: ", userRef.accounts[i].name);
-        console.log("$$$$$$$$$$ InstitutionType: ", userRef.accounts[i].institution_type);
-        console.log("$$$$$$$$$$ InstitutionLogoURL: ", userRef.accounts[i].institution.logo);
-        console.log("$$$$$$$$$$ AccessToken: ", userRef.accounts[i].access_token);
-        console.log("$$$$$$$$$$ Active: ", userRef.accounts[i].active);
-        console.log("$$$$$$$$$$ InstitutionName: ", userRef.accounts[i].institution.name);
+        //console.log("************$$$$$$$$$$ Account name: ", userRef.accounts[i].name);
+        //console.log("$$$$$$$$$$ InstitutionType: ", userRef.accounts[i].institution_type);
+        //console.log("$$$$$$$$$$ InstitutionLogoURL: ", userRef.accounts[i].institution.logo);
+        //console.log("$$$$$$$$$$ AccessToken: ", userRef.accounts[i].access_token);
+        //console.log("$$$$$$$$$$ Active: ", userRef.accounts[i].active);
+        //console.log("$$$$$$$$$$ InstitutionName: ", userRef.accounts[i].institution.name);
 
         if (findIndexByKeyValue(User.institutions, "InstitutionType", userRef.accounts[i].institution_type) === null) {
             User.institutions.push({
@@ -56,7 +41,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
         }
     }
 
-    console.log("$$$$$$$$$$$$$$$$$$$$$4User.institutions", User.institutions);
+    //console.log("$$$$$$$$$$$$$$$$$$$$$4User.institutions", User.institutions);
 
     function findIndexByKeyValue(arraytosearch, key, valuetosearch) {
         for (var i = 0; i < arraytosearch.length; i++) {
@@ -69,7 +54,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
 
     //End of Build up User.institutions based on the userRef
-
+if (userRef.email === 'demo.user@pushbudget.com') {
 
     User.institutions = [{
         InstitutionType: "bofa",
@@ -86,10 +71,17 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
         InstitutionName: "Wells Fargo",
         Accounts: ["Checking *1234", "Savings *4563"]
     }, {
+        InstitutionType: "citi",
+        InstitutionLogoURL: "http://assets.fontsinuse.com/static/use-media-items/16/15728/full-800x494/56702b75/citi-logo.jpeg?resolution=0",
+        AccessToken: "test_citi",
+        Active: false,
+        InstitutionName: "Citi",
+        Accounts: ["Credit *2144"]
+    }, {
         InstitutionType: "chase",
         InstitutionLogoURL: "https://ozgeozva301.files.wordpress.com/2010/10/id_chase_1_0.jpg",
         AccessToken: "test_chase",
-        Active: false,
+        Active: true,
         InstitutionName: "Chase",
         Accounts: ["Credit *2144"]
     },{
@@ -101,7 +93,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
         Accounts: ["Credit *10007"]
     }];
 
-
+}
 
     //User.institutions = [];  //to check the scenario where the user will not have any linked accounts at the beginning.
 
@@ -130,7 +122,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
     $scope.institutions = User.institutions;
 
     $scope.logout = function() {
-        console.log("Logout: Purge the user object in the LocalStorage...");
+        //console.log("Logout: Purge the user object in the LocalStorage...");
 
         $scope.data = {};
         var myPopup = $ionicPopup.show({
@@ -145,9 +137,9 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 text: '<b>Logout</b>',
 
                 onTap: function(e) {
-                    console.log("Here purge the user object in the Localstorage and then call the login screen...");
+                    //console.log("Here purge the user object in the Localstorage and then call the login screen...");
                     authService.logout().then(function (res) {
-                      console.log('trying to logout');
+                      //console.log('trying to logout');
                       $scope.$emit('logout', "hey man");
                     });
                     //return $scope.data;
@@ -160,7 +152,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
     }
 
     $scope.changePassword = function() {
-        console.log("Change Password: Bring up the change password dialog box...");
+        //console.log("Change Password: Bring up the change password dialog box...");
 
         $scope.profile = {};
         var myPopup = $ionicPopup.show({
@@ -174,9 +166,9 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 text: '<b>Change Password</b>',
                 type: 'button-positive',
                 onTap: function(e) {
-                    console.log("Current password: ", $scope.profile.currentPassword);
-                    console.log("New password: ", $scope.profile.newPassword);
-                    console.log("Confirm password: ", $scope.profile.confirmNewPassword);
+                    //console.log("Current password: ", $scope.profile.currentPassword);
+                    //console.log("New password: ", $scope.profile.newPassword);
+                    //console.log("Confirm password: ", $scope.profile.confirmNewPassword);
                     if (!$scope.profile.currentPassword || !$scope.profile.newPassword || !$scope.profile.confirmNewPassword) {
                         $ionicLoading.show({
                             template: 'Please enter all the fields!',
@@ -219,7 +211,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                         })
                         e.preventDefault();
                     }
-                    console.log("Here call the api to update password and pass on the user id, current password and the new password. On .then of the API call, trap any errors if the current password is incorrect and such...");
+                    //console.log("Here call the api to update password and pass on the user id, current password and the new password. On .then of the API call, trap any errors if the current password is incorrect and such...");
                     return $scope.profile;
                 }
             }]
@@ -231,7 +223,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
     }
 
     $scope.openPlaidLink = function() {
-        console.log("Open Plaid Link: This will open up the Plaid link drop in module...");
+        //console.log("Open Plaid Link: This will open up the Plaid link drop in module...");
 
         //var userId = 'testUserID123'; //get userid from scope
 
@@ -244,7 +236,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 //window.location = '/accounts.html?public_token=' + token;
                 //sandboxHandler.open();
                 userProfile.addInstitution(userId, publicToken);
-                console.log("Plaid create successful with token: ", publicToken);
+                //console.log("Plaid create successful with token: ", publicToken);
             }
         });
 
@@ -257,7 +249,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
     }
 
     $scope.refreshAccount = function(accessToken) {
-        console.log("Refresh Account: Process to refresh account for access token:", accessToken);
+        //console.log("Refresh Account: Process to refresh account for access token:", accessToken);
 
 
 
@@ -270,16 +262,16 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 env: 'tartan',
                 product: 'connect',
                 key: 'test_key',
-                token: res.data.public_token,
+                //token: res.data.public_token,
                 onSuccess: function(newPublicToken, metadata) {
 
-                    console.log("metadata:", metadata);
+                    //console.log("metadata:", metadata);
                     //userProfile.addInstitution(userId, publicToken);
-                    console.log("Plaid create successful with new public token for the user which is : ", metadata.public_token);
+                    //console.log("Plaid create successful with new public token for the user which is : ", metadata.public_token);
 
                     //call our server endpoint to update the user's record with the new publicToken
                     userProfile.updateUserPublicTokenUponRefresh(userId, accessToken, metadata.public_token).then(function(res) {
-                        console.log("Result from controller userprofile.updateUserPublicTokenUponRefresh", res);
+                        //console.log("Result from controller userprofile.updateUserPublicTokenUponRefresh", res);
 
                         //update the institution status to 'Active' for this access token
                         for (var i = 0; i < User.institutions.length; i++) {
@@ -306,7 +298,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 }
             });
 
-            refreshHandler.open('chase');
+            refreshHandler.open('citi');
 
         });
     }
@@ -319,7 +311,7 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
 
 
 
-        console.log("Delete Account: Process to delete account for access token:", accessToken);
+        //console.log("Delete Account: Process to delete account for access token:", accessToken);
 
 
 
@@ -337,12 +329,12 @@ angular.module('pushbudget').controller('ProfileCtrl', function($scope, $state, 
                 text: '<b>Delete</b>',
 
                 onTap: function(e) {
-                    console.log("Call the process to delete account for access token:", accessToken);
-                    console.log("Only delete it from here once we get a success from Plaid on deregistration:", accessToken);
+                    //console.log("Call the process to delete account for access token:", accessToken);
+                    //console.log("Only delete it from here once we get a success from Plaid on deregistration:", accessToken);
 
                     userProfile.deleteInstitution(userId, accessToken).then(function(res) {
                         serverResponseMessage = res.data.message;
-                        console.log("From deleteAccount, server returned the message: ", res);
+                       // console.log("From deleteAccount, server returned the message: ", res);
 
                         if (serverResponseMessage.toUpperCase() === "SUCCESS") {
 

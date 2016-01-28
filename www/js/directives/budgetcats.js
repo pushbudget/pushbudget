@@ -57,7 +57,7 @@ angular.module('pushbudget').directive('pbBudgetcat', function() {
     //   });
     //
     //  },
-    controller: function($scope) {
-    }
+    // controller: function($scope) {
+    // }
   };
 });

@@ -38,7 +38,7 @@
               </div>
               <div class="col no-padding">
                 <div class="col no-padding text-right" id="home-untaggedAmmount">
-                  ${{transaction.amount}}
+                  ${{getDecimals(transaction.amount)}}
                 </div>
                 <div class="col no-padding text-right" id="home-untaggedCat">
                   {{transaction.category}}

@@ -17,7 +17,21 @@ angular.module('pushbudget').service('budgetTransaction', function ($http, $q, a
       dfd.reject(err);
     });
     return dfd.promise;
-  }
+  };
+
+  this.getPopBudget = function (userId) {
+    var dfd = $q.defer();
+    $http({
+      method: 'GET',
+      url: absoluteUrl.url + 'api/budget/' + userId +'/populate'
+    }).then(function (budget) {
+      dfd.resolve(budget);
+    }).catch(function (err) {
+      dfd.reject(err);
+    });
+    return dfd.promise;
+  };
+
 
   this.editBudget = function (budget) {
     var dfd = $q.defer();

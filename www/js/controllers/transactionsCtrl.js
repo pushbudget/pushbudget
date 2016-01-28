@@ -1,11 +1,17 @@
-angular.module('pushbudget').controller('transCtrl', function ($scope) {
+angular.module('pushbudget').controller('transCtrl', function ($scope, userDataService) {
 
+  $scope.getDecimals = function(int){
+    return userDataService.getDecimals(int);
+  };
 
   var allCategories = [{
     transactions: $scope.user.untaggedArr,
     category: 'Untagged'
   }];
   for (var i = 0; i < $scope.user.subbudgetArr.length; i++){
+    console.log($scope.user.subbudgetArr[i].transactions);
+    console.log(typeof $scope.user.subbudgetArr[i].transactions);
+
     var combinedArr =  $scope.user.subbudgetArr[i].transactions.slice();
     for (var j = 0 ; j < $scope.user.subbudgetArr[i].splits.length; j++){
       var splitObj = {

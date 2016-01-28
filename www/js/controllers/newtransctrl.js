@@ -1,4 +1,4 @@
-angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction, splitsRef, $ionicLoading) {
+angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicPopup, transaction, splitTransaction, splitsRef, $ionicLoading, userDataService, $state, budgetTransaction) {
   console.log('transaction:',transaction);
   console.log('splitsRef', splitsRef);
 
@@ -202,15 +202,52 @@ angular.module('pushbudget').controller('newtransctrl', function($scope, $ionicP
       showBackdrop: true,
       maxWidth: 200,
       showDelay: 0
-    });    
-
-    splitTransaction.addSplitTransaction($scope.transaction, splits).then(function(response){
-      console.log(response);
-      $ionicLoading.hide();
-      $state.go('main.home');
     });
-    //do something to save this to the DB
-    console.log('submit clicked!');
+    // var = transId
+    // subBudgetArray.map(function(budge, inx){
+    //   budget.transactions.map(function(transaction,inx){
+    //     transaction._id === transId ? inx : -1
+    //   }).filter(function(transaction){
+    //     return transaction > -1
+    //   })[0]
+    // })
+    // sub
+    console.log(transaction._id);
+    if (transaction._id === $scope.user.untaggedArr[0]._id){
+      console.log('yes');
+    }else console.log('no');
+    console.log($scope.user.untaggedArr);
+        console.log($scope.user.untaggedArr[0]._id);
+
+    var findIdx = function(id){
+      var res = $scope.user.untaggedArr.map(function(el, idx){
+       return   el._id === id ? idx : -1;
+      }).filter(function(el){
+        return el > -1;
+      });
+    return res[0];
+    };
+    console.log(findIdx());
+
+
+    splitTransaction.addSplitTransaction($scope.transaction, splits)
+    .then(function(res){
+      //console.log('this is the response',res);
+      }).then(function(){
+        $scope.user.untaggedArr.splice(findIdx(transaction._id),1);
+        return budgetTransaction.getPopBudget($scope.user.userId);
+      }).then(function(res){
+        console.log('response',res);
+        var calcObj = userDataService.calcSums(res.data.subbudgets, $scope.user.totalUserBudget);
+        console.log('calc obj',calcObj);
+        $scope.user.subbudgetArr = calcObj.subbudgets.slice();
+        console.log($scope.user);
+        $ionicLoading.hide();
+        $state.go('main.home');
+      }).catch(function(err){
+        $ionicLoading.hide();
+        console.log(err);
+    });
   };
 
 });

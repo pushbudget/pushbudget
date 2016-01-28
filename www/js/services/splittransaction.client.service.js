@@ -20,12 +20,9 @@ angular.module('pushbudget').service('splitTransaction', function ($http, $q, ab
     });
   };
 
-  this.addTransactionToBucket = function (transaction, subbudgetId) {
 
-  }
   this.addSplitTransaction = function (transaction, splits) {
 
-    console.log(555555, transaction);
 
     var dfd = $q.defer();
     $http({

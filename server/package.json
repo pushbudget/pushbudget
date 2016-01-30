@@ -1,0 +1,30 @@
+{
+  "name": "plaid-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular-plaid-link": "^1.0.0",
+    "apn": "^1.7.5",
+    "bcrypt": "^0.8.5",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.14.2",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.3.4",
+    "mongoose-deep-populate": "^2.0.3",
+    "node-gcm": "^0.13.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "plaid": "^1.0.8",
+    "q": "^1.4.1"
+  }
+}
